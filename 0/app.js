@@ -1,29 +1,36 @@
-/*
- * BAE Node.js application demo
+/**
+ * Module dependencies.
  */
 
-/* Port which provided by BAE platform */
-var port = process.env.APP_PORT;
-
-/*
- * Create an HTTP server
- * which is as similar as http://nodejs.org/api/http.html mentioned
- */
-
+var express = require('express');
+var routes = require('./routes');
+var user = require('./routes/user');
 var http = require('http');
+var path = require('path');
 
-var server = http.createServer(function(req, res) {
-    res.writeHead(200, {
-        'Content-Type': 'text/html'
-    });
+var app = express();
 
-    var body = '<html>' + '<body>' +
-               '<h1>Welcome to Baidu Cloud!</h1>' +
-               '</body>' + '</html>';
+// all environments
+app.set('port', process.env.APP_PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(express.cookieParser('your secret here'));
+app.use(express.session());
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
 
-    res.end(body);
+// development only
+if ('development' == app.get('env')) {
+  app.use(express.errorHandler());
+}
+
+app.get('/', routes.index);
+app.get('/users', user.list);
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
 });
-
-server.listen(port);
-
-/* Enjoy it! */
