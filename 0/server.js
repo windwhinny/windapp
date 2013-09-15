@@ -5,7 +5,6 @@ var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
     logger = require('mean-logger');
-
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
@@ -17,7 +16,6 @@ var env = process.env.NODE_ENV || 'development',
     config = require('./config/config')[env],
     auth = require('./config/middlewares/authorization'),
     mongoose = require('mongoose');
-
 //Bootstrap db connection
 var db = mongoose.connect(config.db);
 

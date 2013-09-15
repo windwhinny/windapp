@@ -27,21 +27,6 @@ module.exports = function(grunt) {
         jshint: {
             all: ['gruntfile.js']
         },
-        compass: { //Task
-            dist: { //Target
-                options: { //Target options
-                    sassDir: 'public/sass',
-                    cssDir: 'public/css',
-                    environment: 'production'
-                }
-            },
-            dev: { //Another target
-                options: {
-                    sassDir: 'public/sass',
-                    cssDir: 'public/css'
-                }
-            }
-        },
         nodemon: {
             dev: {
                 options: {
@@ -85,5 +70,5 @@ module.exports = function(grunt) {
     grunt.option('force', true);
 
     //Default task(s).
-    grunt.registerTask('default', ['jshint', 'compass', 'concurrent:target']);
+    grunt.registerTask('default', ['jshint', 'concurrent:target']);
 };

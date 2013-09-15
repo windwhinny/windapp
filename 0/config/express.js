@@ -4,8 +4,10 @@
 var express = require('express'),
     mongoStore = require('connect-mongo')(express),
     flash = require('connect-flash'),
-    helpers = require('view-helpers');
+    helpers = require('view-helpers'),
+    url = require('url');
 
+var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
 module.exports = function(app, config, passport) {
     app.set('showStackError', true);
 
@@ -17,10 +19,17 @@ module.exports = function(app, config, passport) {
         level: 9
     }));
 
-    //Setting the fav icon and static folder
+    //Setting the fav icon
     app.use(express.favicon());
-    app.use(express.static(config.root + '/public'));
-    app.use('/lib',express.static(config.root + '/bower_components'));
+    //handle static file
+    var staticFileHandler=express.static(config.root+'/public');
+    app.use(function(req,res,next) {
+        if(staticFileExtReg.test(req.url)){
+          staticFileHandler(req,res,next); 
+        }else{
+          next();
+        }
+    });
 
     //Don't use logger for test env
     if (process.env.NODE_ENV !== 'test') {
@@ -61,6 +70,27 @@ module.exports = function(app, config, passport) {
         app.use(passport.initialize());
         app.use(passport.session());
 
+        //detected the request type
+        app.use(function(req,res,next) {
+            req.acceptType = function(type){
+                var accept=req.headers.accept;
+                if(!accept){
+                    accept='text/html';
+                };
+				var accepts=accept.split(',');
+				for ( var i = 0;i<accepts.length;i++) {
+					var accept=accepts[i];
+					if (accept === '*/*') {
+						return true;	
+					}else if(accept.match(type)){
+						return true;
+					}
+				}
+				return false;
+            }
+            next();
+        });
+        
         //routes should be at the last
         app.use(app.router);
 
@@ -74,17 +104,19 @@ module.exports = function(app, config, passport) {
 
             //Error page
             res.status(500).render('500', {
-                error: err.stack
+                message: err.message,
+                stack: err.stack
             });
         });
 
         //Assume 404 since no middleware responded
         app.use(function(req, res, next) {
-            res.status(404).render('404', {
-                url: req.originalUrl,
-                error: 'Not found'
-            });
+            //res.status(404).render('404', {
+            //    url: req.originalUrl,
+            //    error: 'Not found'
+            //});
+            var index = require('../app/controllers/index');
+            index.render(req,res,next);
         });
-
     });
 };
