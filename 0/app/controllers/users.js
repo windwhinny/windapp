@@ -76,7 +76,10 @@ UserEntrices.signin = function(passport) {
 				return res.json(400,info);
 			}
             console.log(req.user);
-			return res.json(user)
+            req.login(user, function(err) {
+                if(err)next(err); 
+                return res.json(user)
+            });
 		})(req,res,next);
 	}
 
