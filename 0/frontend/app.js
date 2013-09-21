@@ -1,5 +1,4 @@
 window.app = angular.module('MEAN', 
-	['ngCookies', 
-	'ngResource', 
+	['ngResource', 
 	'ui.bootstrap',
 	'ui.router']);

@@ -4,21 +4,40 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         folders: {
             frontend: {
-                src: 'frontend/src',
-                lib: 'frontend/lib',
-                build: 'public/js'
+                src: 'frontend',
+                lib: 'public/js/lib',
+                build: 'public/js',
+                files: '<%= folders.frontend.src %>/**/*.js'
+            },
+            backend: {
+                src: 'app',
+                files: '<%= folders.backend.src %>/**/*.js'
+            },
+            test: {
+                src: 'test',
+                files: '<%= folders.test.src %>/**/*.js',
+                karmaConfig: '<%= folders.test.src %>/karma.config.js'
             }
         },
         watch: {
-            js: {
-                files: ['<%= folders.frontend.src %>'],
-                options: {
-                    tasks: ['concat']
-                },
+            frontjs: {
+                files: ['<%= folders.frontend.files %>'],
+                tasks: ['concat','karma:unit:run']
+            },
+            backendjs: {
+                files: ['<%= folders.backend.files %>'],
+                tasks: ['test']
+            },
+            test: {
+                files: ['test/**/*.js'],
+                tasks: ['test'] //NOTE the :run flag
+            },
+            options: {
+                spawn: false
             }
         },
         jshint: {
-            files: ['gruntfile.js', 'app/**/*.js']
+            files: ['gruntfile.js', '<%= folders.backend.files %>']
         },
         nodemon: {
             dev: {
@@ -31,7 +50,7 @@ module.exports = function(grunt) {
                     debug: true,
                     delayTime: 1,
                     env: {
-                        PORT: 3000
+                        APP_PORT: 3000
                     },
                     cwd: __dirname
                 }
@@ -55,18 +74,19 @@ module.exports = function(grunt) {
                 reporter: 'spec'
             },
             src: ['test/**/*.js']
-
+        },
+        karma: {
+          unit: {
+            configFile: '<%= folders.test.karmaConfig %>',
+            browsers: ['Chrome'],
+            background: true,
+            files: ['<%= folders.test.files %>']
+          }
         },
         uglify: {
             src: {
                 files: {
                     '<%= folders.frontend.build %>/build.mini.js': '<%= concat.src.dest %>'
-                }
-            },
-            lib: {
-                build: 'public/js/lib.mini.js',
-                files: {
-   //                 '<%= folders.frontend.build %>/lib.js': '<%= concat.lib.dest %>'
                 }
             },
             options: {
@@ -80,13 +100,9 @@ module.exports = function(grunt) {
                 stripBanners: true
             },
             src: {
-                src: ['<%= folders.frontend.src %>/**/*.js'],
+                src: ['<%= folders.frontend.files %>'],
                 dest: '<%= folders.frontend.build %>/build.js'
             },
-            lib: {
-                src: ['<%= folders.frontend.lib %>/**/*.js'],
-                dest: '<%= folders.frontend.build %>/lib.js'
-            }
         },
         bower: {
             install:{
@@ -109,13 +125,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-karma');
 
-    //Making grunt default to force in order not to break the project.
-    grunt.option('force', true);
-
-    //Default task(s).
-    grunt.registerTask('default', ['jshint', 'concurrent:target']);
+    //task(s).
+    grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('mini', ['concat', 'uglify']);
-//    grunt.registerTask('install', ['bower', 'mini', 'test']);
+    grunt.registerTask('install', ['bower', 'mini', 'test']);
 };

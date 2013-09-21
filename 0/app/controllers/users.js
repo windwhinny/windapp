@@ -10,7 +10,7 @@ module.exports = function(ps) {
 	if(!ps)throw new Error('passport must be set');
 	passport=ps;
 	return UserEntrices;
-}
+};
 
 function defineRequestMethod (handlers){
 	var req,res,next;
@@ -53,7 +53,7 @@ function defineRequestMethod (handlers){
 			}	
 		});
 		
-	}
+	};
 }
 
 /**
@@ -66,22 +66,23 @@ UserEntrices.authCallback = function(req, res, next) {
 /**
  * Show login form
  */
+
 UserEntrices.signin = function(passport) {
 	var handle = function(req,res,next) {
-		 passport.authenticate('local',function(err, user, info) {
+		passport.authenticate('local',function(err, user, info) {
 			if (err) {
 				return res.json(400,err);
-			};
+			}
 			if (!user) {
 				return res.json(400,info);
 			}
-            console.log(req.user);
+            
             req.login(user, function(err) {
                 if(err)next(err); 
-                return res.json(user)
+                return res.json(user);
             });
 		})(req,res,next);
-	}
+	};
 
 	return defineRequestMethod([
 			{
@@ -90,9 +91,7 @@ UserEntrices.signin = function(passport) {
 				handle: handle
 			}
 		]);
-}
-
-;
+};
 
 /**
  * Show sign up form
