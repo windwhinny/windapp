@@ -4,8 +4,8 @@
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
-    logger = require('mean-logger'),
-    database = require('config/database');
+    logger = require('mean-logger');
+    
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
@@ -16,8 +16,8 @@ var express = require('express'),
 var env = process.env.NODE_ENV || 'development',
     config = require('./config/config')[env],
     auth = require('./config/middlewares/authorization'),
-    mongoose = require('mongoose');
-
+    mongoose = require('mongoose'),
+    database = require('config/database')(env);
 //Bootstrap models
 var models_path = __dirname + '/app/models';
 fs.readdirSync(models_path).forEach(function(file) {

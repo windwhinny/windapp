@@ -1,5 +1,5 @@
 var 
-	app=require('../../server'),
+	app=require('../server'),
 	request=require('supertest');
 
 describe('Request', function(){
