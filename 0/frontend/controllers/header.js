@@ -1,16 +1,4 @@
-function HeaderController($scope, $location, $resource, Global) {
-    $scope.global = Global;
-	var User = $resource('/user/:userId',{
-		id:'@_id'	
-	},{
-		auth:{
-			method: 'POST',
-			responseType: 'json',
-			url: '/signin'
-		}
-	});
-	$scope.user = new User();
-	$scope.user.isAuthed=false;
+window.app.controller('HeaderController', ['$scope', '$location', function($scope,$location) {
     $scope.menu = [{
         "title": "Articles",
         "link": "articles"
@@ -18,24 +6,9 @@ function HeaderController($scope, $location, $resource, Global) {
         "title": "Create New Article",
         "link": "articles/create"
     }];
-
-    $scope.init = function() {
-
-    };
-
-    $scope.isSelected = function(item) {        
+    $scope.isSelected = function(item) {
         if ($location.path() == "/"+item.link) {
             return "active"
         } else return ""
     }
-	$scope.submit = function() {
-		$scope.user.$auth(
-			function() {
-				$scope.user.isAuthed=true;		
-			},
-			function() {
-				$scope.user.isAuthed=false;		
-			}
-		);
-	}
-}
+}]);

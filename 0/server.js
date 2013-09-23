@@ -13,11 +13,10 @@ var express = require('express'),
 
 //Load configurations
 //if test env, load example file
-var env = process.env.NODE_ENV || 'development',
-    config = require('./config/config')[env],
+var config = require('./config/config'),
     auth = require('./config/middlewares/authorization'),
     mongoose = require('mongoose'),
-    database = require('config/database')(env);
+    database = require('./config/database');
 //Bootstrap models
 var models_path = __dirname + '/app/models';
 fs.readdirSync(models_path).forEach(function(file) {

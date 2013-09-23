@@ -56,6 +56,20 @@ window.app.config(['$stateProvider' , '$urlRouterProvider' ,
 			url:'/',
 			templateUrl: '/views/index.html'
 		})
+		.state('signin', {
+			url:'/signin',
+			templateUrl:'/views/signin.html'
+		})
+		.state('signup', {
+			url:'/signup',
+			templateUrl:'/views/signup.html'
+		})
+		.state('signout', {
+			url: '/signout',
+			onEnter: ['authService', function(auth){
+				auth.signout();
+			}]
+		})
 		.state('articles',{
 			url:'/articles',	
 			abstract:true,

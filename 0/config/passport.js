@@ -19,12 +19,12 @@ module.exports = function(passport, config) {
 
     //Use local strategy
     passport.use(new LocalStrategy({
-            usernameField: 'email',
+            usernameField: 'account',
             passwordField: 'password'
         },
-        function(email, password, done) {
+        function(account, password, done) {
             User.findOne({
-                email: email
+                account: account
             }, function(err, user) {
                 if (err) {
                     return done(err);

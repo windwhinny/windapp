@@ -27,14 +27,15 @@ module.exports = function(app, passport, auth) {
     //handle get html request
     [
       ['/users/me',users.me],
-      ['/signout',users.signout],
-      ['/signup',users.signup],
+      
       ['/users/:userId',users.show],
     ].forEach(function(v) {
       handleRequest('get','html',v[0],v[1]);       
     });
 
-	handleRequest('all','json','/signin',users.signin(passport));
+	app.post('/signin',users.signin(passport));
+    app.put('/signup',users.singup());
+    app.post('/signout',users.signout());
     //handle post json request
     [
         ['/users',users.create],

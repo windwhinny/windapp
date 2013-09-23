@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         folders: {
             frontend: {
                 src: 'frontend',
-                lib: 'public/js/lib',
+                lib: 'public/lib',
                 build: 'public/js',
                 files: '<%= folders.frontend.src %>/**/*.js'
             },
@@ -50,7 +50,8 @@ module.exports = function(grunt) {
                     debug: true,
                     delayTime: 1,
                     env: {
-                        APP_PORT: 3000
+                        APP_PORT: 3000,
+                        NODE_ENV: 'development'
                     },
                     cwd: __dirname
                 }
@@ -108,8 +109,9 @@ module.exports = function(grunt) {
             install:{
                 options: {
                     targetDir: '<%= folders.frontend.lib %>',
-                    layout: 'byType',
-                    cleanTargetDir:true
+                    clean: true,
+                    layout: 'byComponent',
+                    verbose: true
                 }
             }
         }

@@ -92,23 +92,45 @@ UserEntrices.signin = function(passport) {
 			}
 		]);
 };
-
 /**
- * Show sign up form
+ * Create user
  */
-UserEntrices.signup = function(req, res) {
-    res.render('users/signup', {
-        title: 'Sign up',
-        user: new User()
-    });
+UserEntrices.singup = function() {
+    function handle (req,res) {
+    	var user = new User(req.body);
+	    user.provider = 'local';
+	    user.save(function(err) {
+	        if (err) {
+	            return res.json(err);
+	        }
+	        req.logIn(user, function(err) {
+	            if (err) return next(err);
+	            res.json(user);
+	        });
+	    });
+    }
+    return defineRequestMethod([
+			{
+				method: 'put',
+				type: 'json',
+				handle: handle
+			}
+		]);
 };
-
 /**
  * Logout
  */
-UserEntrices.signout = function(req, res) {
-    req.logout();
-    res.redirect('/');
+UserEntrices.signout = function() {
+    return defineRequestMethod([
+		{
+			method: 'post',
+			type: 'json',
+			handle: function(req,res) {
+				req.logout();
+				res.json({});
+			}
+		}
+	]);
 };
 
 /**
@@ -118,26 +140,7 @@ UserEntrices.session = function(req, res) {
     res.redirect('/');
 };
 
-/**
- * Create user
- */
-UserEntrices.create = function(req, res) {
-    var user = new User(req.body);
 
-    user.provider = 'local';
-    user.save(function(err) {
-        if (err) {
-            return res.render('users/signup', {
-                errors: err.errors,
-                user: user
-            });
-        }
-        req.logIn(user, function(err) {
-            if (err) return next(err);
-            return res.redirect('/');
-        });
-    });
-};
 
 /**
  *  Show profile

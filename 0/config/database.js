@@ -3,6 +3,4 @@ var mongoose = require('mongoose'),
 	
 //Bootstrap db connection
 
-module.exports = function(env){
-    return mongoose.connect(config[env].db);
-};
+module.exports = mongoose.connect(config.db);

@@ -1,0 +1,16 @@
+<form class='signup form' ng-controller='AuthController' ng-submit='user.$signup()'>
+  <h2>Sign up</h2>
+  <div class='control-group'>
+    <div class="controls">
+      <input id='userAccount' type='text' name='account' placeholder='Account' ng-model='user.account'>
+    </div>
+    
+  </div>
+  <div class='control-group'>
+    <div class="controls">
+      <input id='userPassword' type='password' name='pasword' placeholder='Password' ng-model='user.password'>
+    </div>
+  </div>
+  
+  <button class='btn brn-primary' type='submit'>Sign up</button> | or <a href='/signin'>Sign in</a>
+</form>
