@@ -1,0 +1,51 @@
+{
+    "name": "windApp",
+    "description": "A SPA build for manage products",
+    "version": "1.0.0",
+    "private": false,
+    "author": "windwhinny <windwhinny@gmail.com>",
+    "engines": {
+        "node": "0.10.x",
+        "npm": "1.2.x"
+    },
+    "main":"server.js",
+    "scripts": {
+        "start": "node node_modules/grunt-cli/bin/grunt",
+        "test": "node node_modules/grunt-cli/bin/grunt test",
+        "postinstall": "grunt install"
+    },
+    "dependencies": {
+        "express": "latest",
+        "jade": "latest",
+        "mongoose": "latest",
+        "connect-mongo": "latest",
+        "connect-flash": "latest",
+        "passport": "latest",
+        "passport-local": "latest",
+        "underscore": "latest",
+        "async": "latest",
+        "view-helpers": "latest",
+        "mean-logger": "latest",
+        "bower": "latest",
+        "forever": "latest"
+    },
+    "devDependencies": {
+        "supertest": "latest",
+        "should": "latest",
+        "grunt": "~0.4.1",
+        "grunt-contrib-watch": "~0.4.4",
+        "grunt-contrib-jshint": "~0.6.0",
+        "grunt-nodemon": "0.0.8",
+        "grunt-concurrent": "~0.3.0",
+        "grunt-mocha-test":"latest",
+        "grunt-contrib-uglify": "latest",
+        "grunt-contrib-concat": "latest",
+        "grunt-bower-task": "latest",
+        "grunt-contrib-cssmin ": "latest",
+        "karma": "latest",
+        "karma-chrome-launcher": "latest",
+        "karma-ng-scenario": "latest",
+        "karma-mocha": "latest",
+        "grunt-karma": "latest"
+    }
+}
