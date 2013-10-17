@@ -1,0 +1,79 @@
+.navbar .nav>li>a.brand{
+	padding-left:20px;
+	margin-left:0;
+	}
+.content{
+	margin-top:50px;
+	}
+footer{
+	position:fixed;
+	left:0px;
+	bottom:0px;
+	height:30px;
+	width:100%;
+	background:#ddd;
+	-webkit-box-shadow:0 8px 6px 6px black;
+	-moz-box-shadow:0 8px 6px 6px black;
+	box-shadow:0 8px 6px 6px black;
+}
+footer p{
+	padding:5px 0 12px 10px
+}
+form.signup,form.signin{
+
+	margin: 100px auto;
+	max-width: 220px;
+}
+div.products{
+	margin:auto;
+}
+.products .list .id{
+	width:40px;
+}
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    height: 635px;
+}
+.ng-enter, .ng-leave,
+ {
+  -webkit-transition:all linner 0.5s;
+  -moz-transition:all linner 0.5s;
+  -o-transition:all linner 0.5s;
+  transition:all linner 0.5s;
+}
+.refresh{
+	overflow: auto;
+}
+.refresh .btn{
+	float:right;
+}
+.ng-enter,
+.ng-leave.ng-leave-active,
+ {
+  opacity:0;
+}
+
+.ng-enter.ng-enter-active,
+
+.page-leave {
+  opacity:1;
+}
+form .value{
+	display: block;
+	margin-top: 5px;
+}
+.catalog{
+	text-transform: capitalize;
+}
+.catalog label{
+	display: inline-block;
+}
+.combobox{
+	position: relative;
+}
+table tr:hover {
+cursor: pointer;
+}
+.tab-content{
+padding-bottom:10em;
+};
