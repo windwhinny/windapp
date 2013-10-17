@@ -34,7 +34,8 @@ var defaultConfig = {
     root: rootPath,
     app: {
         name: 'WindApp'
-    }
+    },
+    port:process.env.APP_PORT||3000;
 };
 
 module.exports = function(a,b){

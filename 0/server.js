@@ -4,7 +4,8 @@
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
-    logger = require('mean-logger');
+    logger = require('mean-logger'),
+    config = require('config/config')
     
 /**
  * Main application entry file.
@@ -35,9 +36,9 @@ require('./config/express')(app, config, passport);
 require('./config/routes')(app, passport, auth);
 
 //Start the app by listening on <port>
-var port = process.env.APP_PORT || 3000;
-app.listen(port);
-console.log('Express app started on port ' + port);
+
+app.listen(config.port);
+console.log('Express app started on port ' + config.port);
 
 //Initializing logger 
 logger.init(app, passport, mongoose);
