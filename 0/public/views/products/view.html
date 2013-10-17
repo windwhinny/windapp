@@ -1,0 +1,73 @@
+<div ng-controller="ProductItemController">
+	<div class='control-group'>
+		<h2>{{'Number' |i18n}}
+			<span ng-if="!edit">{{product.number}}</span>
+			<input ng-if="edit" type="{{getInputType(schema.number.type)}}" ng-model="product.number" >
+		</h2>
+	</div>
+
+	<div class='control-group catalog'>
+		<small ng-if="!edit">{{product.catalog}}</small>
+		<form class='form-horizontal' ng-if="edit">
+			<label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
+			<div  class='controls combobox'>
+				<input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
+				 <ul class="dropdown-menu">
+				    <li ng-repeat="cg in catalogs">
+				      <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
+				    </li>
+				  </ul>
+			</div>
+		</form>
+	</div>
+
+	<errors></errors>
+
+
+	<div class='pull-right'>
+		<button ng-click="toggleEditModel()" class="{{edit?'btn btn-primary':'btn btn-success'}}">
+			<div ng-switch on="edit">
+				<div ng-switch-when="true">{{"Save" | i18n}}</div>
+	          	<div ng-switch-when="false">{{"Edit" |i18n}}</div>
+	          	<div ng-switch-default="false">{{"Edit" |i18n}}</div>
+			</div>
+		</button>
+	</div>
+
+	<tabset  class='nav-pills nav-stacked' direction ="left" >
+		<tab heading="{{'Property' | i18n}}">
+			<form class="form-horizontal">
+				<div class='control-group' ng-repeat='field in schema.property.default'>
+				    <label class="control-label" for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+					<div class="controls">
+						<span class='value' ng-if="!edit" name="field.name">{{product.property.default[field.name]}}</span>
+						<input ng-if="edit" type="{{getInputType(field.type)}}" name="field.name" ng-model="product.property.default[field.name]" >
+					</div>
+				</div>
+			</form>
+
+			<form class="form-horizontal">
+				<div class='control-group' ng-repeat='field in product.property.custom'>
+				    <label ng-if="!edit" class="control-label" for="inputEmail">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+				    <div class='combobox' ng-style="{float:'left'}" >
+					    <input class='control-label dropdown-toggle' ng-if="edit" type="text" ng-model="field.name" ng-focus='getProperties()'>
+
+					    <ul class="dropdown-menu">
+						    <li ng-repeat="pro in properties">
+						      <a ng-click="field.name = pro.name">{{pro.name}}</a>
+						    </li>
+						  </ul>
+					</div>
+					<div class="controls">
+						<span class='value' ng-if="!edit" name="field.value">{{field.value}}</span>
+						<input ng-if="edit" type="{{getInputType(field.type)}}" name="field.name" ng-model="field.value" >
+						<button ng-if='edit' class='btn btn-warning' ng-click='product.property.custom.splice($index,1)'>&minus;</button>
+					</div>
+				</div>
+
+				<button class='btn btn-primary' ng-if="edit" ng-click="product.property.custom.push({})">&plus;</button>
+			</form>
+		</tab>
+		<tab heading="{{'Pictures' | i18n}}">Vertical content 2</tab>
+	</tabset>
+</div>
