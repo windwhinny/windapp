@@ -69,7 +69,9 @@ UserEntrices.authCallback = function(req, res, next) {
 
 UserEntrices.signin = function(passport) {
 	var handle = function(req,res,next) {
-		passport.authenticate('local',function(err, user, info) {
+		passport.authenticate('local',{
+			badRequestMessage:'Account and Password cannot be blank'
+		},function(err, user, info) {
 			if (err) {
 				return res.json(400,err);
 			}
@@ -100,9 +102,7 @@ UserEntrices.singup = function() {
     	var user = new User(req.body);
 	    user.provider = 'local';
 	    user.save(function(err) {
-	        if (err) {
-	            return res.json(err);
-	        }
+	        if (err) return next(err);
 	        req.logIn(user, function(err) {
 	            if (err) return next(err);
 	            res.json(user);

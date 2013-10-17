@@ -80,9 +80,7 @@ module.exports = function(app, config, passport) {
 				var accepts=accept.split(',');
 				for ( var i = 0;i<accepts.length;i++) {
 					var accept=accepts[i];
-					if (accept === '*/*') {
-						return true;	
-					}else if(accept.match(type)){
+                    if(accept.match(type)){
 						return true;
 					}
 				}
@@ -103,20 +101,24 @@ module.exports = function(app, config, passport) {
             console.error(err.stack);
 
             //Error page
-            res.status(500).render('500', {
-                message: err.message,
-                stack: err.stack
+            res.status(err.status||500).json({
+                message: err.message
             });
         });
 
         //Assume 404 since no middleware responded
         app.use(function(req, res, next) {
-            //res.status(404).render('404', {
-            //    url: req.originalUrl,
-            //    error: 'Not found'
-            //});
-            var index = require('../app/controllers/index');
-            index.render(req,res,next);
+            var err={
+                    message: 'Can not handle this request'
+                }
+            if(req.acceptType('html')){
+                var index = require('../app/controllers/index');
+                index.render(req,res,next);
+            }else if(req.acceptType('json')){
+                res.status(400).json(err);
+            }else{
+                res.status(400).end(err.message)
+            }
         });
     });
 };

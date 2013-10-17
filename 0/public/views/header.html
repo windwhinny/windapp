@@ -1,33 +1,23 @@
-<div class="navbar-inner" ng-controller="HeaderController" ng-init="init()">
+<div class="navbar-inner" ng-controller="HeaderController" ng-init="init()" >
 	<div class="container" >
 		<button class="btn btn-navbar" ng-click="isNavCollapse = !isNavCollapse">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="brand" href="/">Marktop</a>
+		<a class="brand" ui-sref="home">Marktop</a>
 		<div class="nav-collapse" collapse="!isNavCollapse">
-			<ul class="nav">
-				<li ng-repeat="item in menu" ng-show="global.user" ng-class="isSelected(item)"><a href="/{{item.link}}">{{item.title}}</a></li>
+			<ul class="nav" ng-if="user.isAuthed()">
+				<li ng-repeat="item in menu"  ng-class="isSelected(item)"><a ui-sref="{{item.state}}">{{item.title | i18n}}</a></li>
 			</ul>
-			<div ng-controller='AuthController'>
-				<ul class="nav pull-right" ng-hide="user.uid">
-					<li>
-						<form class='navbar-form'  ng-submit='user.$signin()'>
-							<input class='span3' name='account' type='text' placeholder='Account' ng-model='user.account'>
-							<input class='span3' name='password' type='password' placeholder='Password' ng-model='user.password'>
-							<input class='btn btn-primary' type='submit' value='Signin'>
-						</form>
-					</li>
-					<li><a href="/signup">Signup</a></li>
-				</ul>
-				<ul class="nav pull-right" ng-show="user.uid">
+			<div>
+				<ul class="nav pull-right" ng-show="user.isAuthed()">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" toggle="dropdown">
+						<a class="dropdown-toggle" toggle="dropdown">
 							{{user.account}} <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
-							<li ><a href="/signout">Signout</a></li>
+							<li ><a ui-sref="signout">{{'Signout' | i18n}}</a></li>
 						</ul>
 					</li>
 				</ul>

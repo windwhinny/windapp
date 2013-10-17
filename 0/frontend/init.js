@@ -1,5 +1,6 @@
 window.bootstrap = function() {
-    angular.bootstrap(document, ['MEAN']);
+    angular.bootstrap(document, ['windapp']);
+    document.body.setAttribute('ng-app', 'windapp');
 }
 window.init = function() {
     window.bootstrap();

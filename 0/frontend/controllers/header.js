@@ -1,14 +1,13 @@
-window.app.controller('HeaderController', ['$scope', '$location', function($scope,$location) {
+window.app.controller('HeaderController', 
+    [       '$scope', '$location', '$state',
+    function($scope,   $location,   $state) {
     $scope.menu = [{
-        "title": "Articles",
-        "link": "articles"
-    }, {
-        "title": "Create New Article",
-        "link": "articles/create"
+        "title": "Products",
+        "state": "products.list"
     }];
     $scope.isSelected = function(item) {
-        if ($location.path() == "/"+item.link) {
+        if ($state.is(item.state)) {
             return "active"
         } else return ""
-    }
+    };
 }]);

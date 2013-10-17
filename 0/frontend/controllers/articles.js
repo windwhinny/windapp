@@ -1,4 +1,4 @@
-function ArticlesController($scope, $routeParams, $location, Global, Articles) {
+function ArticlesController($scope, $state, $location, Global, Articles) {
     $scope.global = Global;
 
     $scope.create = function() {
@@ -44,7 +44,7 @@ function ArticlesController($scope, $routeParams, $location, Global, Articles) {
 
     $scope.findOne = function() {
         Articles.get({
-            articleId: $routeParams.articleId
+            articleId: $state.params.articleId
         }, function(article) {
             $scope.article = article;
         });

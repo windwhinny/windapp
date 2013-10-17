@@ -1,6 +1,4 @@
 extends layouts/default
 
 block content
-  div.row-fluid(ui-view)
-  script(type="text/javascript").
-    window.user = !{user};
+  div.row-fluid(ui-view,ng-animate="'page'")

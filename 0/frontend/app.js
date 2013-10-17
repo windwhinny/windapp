@@ -1,4 +1,5 @@
-window.app = angular.module('MEAN', 
+window.app = angular.module('windapp', 
 	['ngResource', 
 	'ui.bootstrap',
-	'ui.router']);
+	'ui.router',
+	'ngAnimate']);

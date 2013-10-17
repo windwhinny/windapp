@@ -43,8 +43,8 @@
         "grunt-contrib-cssmin ": "latest",
         "karma": "latest",
         "karma-chrome-launcher": "latest",
+        "karma-ng-scenario": "latest",
         "karma-mocha": "latest",
         "grunt-karma": "latest"
-
     }
 }

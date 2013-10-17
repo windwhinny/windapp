@@ -1,0 +1,22 @@
+<form class='{{type}} form' ng-submit='{{type}}()' >
+	<div class='{{type}}'>
+	  <h2>{{title | i18n}}</h2>
+		<div class='control-group'>
+	    <div class="controls">
+	      <input class='account' name='account' type='text' placeholder='{{"Account" | i18n}}' ng-model='user.account'>
+	    </div>
+	  </div>
+	  <div class='control-group'>
+	    <div class="controls">
+	      <input class='password' type='password' name='pasword' placeholder='{{"Password" | i18n}}' ng-model='user.password'>
+	    </div>
+	  </div>
+	  <div class='control-group'>
+	    <div class="controls">
+	      <button class='btn brn-primary' type='submit'>{{'Submit' | i18n}}</button>
+	    </div>
+	  </div>
+
+	   <errors></errors>
+	</div>
+</form>

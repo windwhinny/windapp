@@ -16,7 +16,7 @@ module.exports = function(app, passport, auth) {
     var index = require('../app/controllers/index');
     var users = require('../app/controllers/users')(passport);
     var articles = require('../app/controllers/articles');
-    
+    var productsEntry = require('../app/entries/products');
     //handle get json request
     [
       ['/articles',articles.all],
@@ -36,6 +36,8 @@ module.exports = function(app, passport, auth) {
 	app.post('/signin',users.signin(passport));
     app.put('/signup',users.singup());
     app.post('/signout',users.signout());
+
+    productsEntry('/products',app);
     //handle post json request
     [
         ['/users',users.create],

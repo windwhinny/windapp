@@ -15,22 +15,37 @@ module.exports = function(grunt) {
             },
             test: {
                 src: 'test',
-                files: '<%= folders.test.src %>/**/*.js',
-                karmaConfig: '<%= folders.test.src %>/karma.config.js'
+                //files: '<%= folders.test.src %>/**/*.js',
+                frontendConfig: '<%= folders.config.src %>/karma.unit.config.js',
+                e2eConfig: '<%= folders.config.src %>/karma.e2e.config.js',
+                backendFiles: '<%= folders.test.src %>/backend/**/*.js',
+                frontendFiles: '<%= folders.test.src %>/frontend/**/*.js',
+                e2eFiles: '<%= folders.test.src %>/e2e/**/*.js'
+            },
+            config: {
+                src: 'config'
             }
         },
         watch: {
             frontjs: {
-                files: ['<%= folders.frontend.files %>'],
-                tasks: ['concat','karma:unit:run']
+                 files: ['<%= folders.frontend.files %>'],
+                 tasks: ['concat','karma:e2e:run'/*,'karma:unit:run'*/]
             },
             backendjs: {
                 files: ['<%= folders.backend.files %>'],
                 tasks: ['test']
             },
-            test: {
-                files: ['test/**/*.js'],
-                tasks: ['test'] //NOTE the :run flag
+            backendTest: {
+                files: ['<%= folders.test.backendFiles %>'],
+                tasks: ['test']
+            },
+            e2eTest: {
+                files:['<%= folders.test.e2eFiles %>'],
+                tasks: ['karma:e2e:run']
+            },
+            frontendTest: {
+                files: ['<%= folders.test.frontendFiles %>'],
+                tasks: ['concat','karma:unit:run']
             },
             options: {
                 spawn: false
@@ -55,34 +70,37 @@ module.exports = function(grunt) {
                     },
                     cwd: __dirname
                 }
-            },
-            exec: {
-                options: {
-                    exec: 'less'
-                }
             }
         },
         concurrent: {
+            options: {
+                logConcurrentOutput: true
+            },
             target: {
-                tasks: ['nodemon', 'watch'],
-                options: {
-                    logConcurrentOutput: true
-                }
+                tasks: ['nodemon','karma','watch']
+            },
+            noTest: {
+                tasks: ['nodemon','watch']
             }
         },
         mochaTest:{
             options: {
                 reporter: 'spec'
             },
-            src: ['test/**/*.js']
+            src: ['<%= folders.test.backendFiles %>']
         },
         karma: {
-          unit: {
-            configFile: '<%= folders.test.karmaConfig %>',
-            browsers: ['Chrome'],
-            background: true,
-            files: ['<%= folders.test.files %>']
-          }
+            options: {
+                urlRoot: '/_karma_/'
+            },
+            unit: {
+                configFile: '<%= folders.test.frontendConfig %>',
+                background: true
+            },
+            e2e: {
+                configFile: '<%= folders.test.e2eConfig %>'
+
+            }
         },
         uglify: {
             src: {
@@ -131,6 +149,7 @@ module.exports = function(grunt) {
 
     //task(s).
     grunt.registerTask('default', ['concurrent:target']);
+    grunt.registerTask('noTest', ['concurrent:noTest']);
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('mini', ['concat', 'uglify']);
     grunt.registerTask('install', ['bower', 'mini', 'test']);
