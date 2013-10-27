@@ -9,7 +9,9 @@ var express = require('express'),
 
 var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
 module.exports = function(app, config, passport) {
+  var i=1;
     app.set('showStackError', true);
+console.log(i++);
 
     //Should be placed before express.static
     app.use(express.compress({
@@ -18,11 +20,15 @@ module.exports = function(app, config, passport) {
         },
         level: 9
     }));
+console.log(i++);
 
     //Setting the fav icon
     app.use(express.favicon());
     //handle static file
     var staticFileHandler=express.static(config.root+'/public');
+  
+  console.log(i++);
+
     app.use(function(req,res,next) {
         if(staticFileExtReg.test(req.url)){
           staticFileHandler(req,res,next); 
@@ -30,18 +36,22 @@ module.exports = function(app, config, passport) {
           next();
         }
     });
+console.log(i++);
 
     //Don't use logger for test env
     if (process.env.NODE_ENV !== 'test') {
         app.use(express.logger('dev'));
     }
+console.log(i++);
 
     //Set views path, template engine and default layout
     app.set('views', config.root + '/app/views');
     app.set('view engine', 'jade');
+console.log(i++);
 
     //Enable jsonp
     app.enable("jsonp callback");
+console.log(i++);
 
     app.configure(function() {
         //cookieParser should be above session
