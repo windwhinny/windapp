@@ -53,7 +53,6 @@ module.exports = function(app, config, passport) {
         app.use(express.methodOverride());
 
         //express/mongo session storage
-      	console.log(mongoose.connection);
         app.use(express.session({
             secret: 'MEAN',
             store: new mongoStore({
