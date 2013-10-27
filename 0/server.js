@@ -5,6 +5,7 @@
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
+    path=require('path'),
     logger = require('mean-logger');
 console.log(path.resolve('.'));
 if (process.env.BAE_ENV_APPID) {
