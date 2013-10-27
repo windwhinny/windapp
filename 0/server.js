@@ -8,8 +8,6 @@ var express = require('express'),
     path=require('path'),
     logger = require('mean-logger');
 
-var files=fs.readdirSync('./app/config');
-console.log(files);
 if (process.env.BAE_ENV_APPID) {
  	config = require('./config/config.js');
  }else{

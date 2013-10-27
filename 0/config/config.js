@@ -22,7 +22,7 @@ var config = {
         },
     },
     production: {
-        db: 'mongodb://'+username+':'+paddword+'@'+db_host+':'+db_port+'/'+db_name,
+        db: 'mongodb://'+username+':'+password+'@'+db_host+':'+db_port+'/'+db_name,
         app: {
             name: 'WindApp'
         },
@@ -35,7 +35,7 @@ var defaultConfig = {
     app: {
         name: 'WindApp'
     },
-    port:process.env.APP_PORT||3000;
+    port:process.env.APP_PORT||3000
 };
 
 module.exports = function(a,b){
