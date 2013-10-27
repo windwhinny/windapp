@@ -25,13 +25,9 @@ var auth = require(config.root+'/config/middlewares/authorization'),
     mongoose = require('mongoose'),
     database = require(config.root+'/config/database');
 
-
-var serverIsRunning=false;
 function runServer(){
+  	console.log('Running server');
 	//Bootstrap models
-
-	if(serverIsRunning)return;
-
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
 	    require(models_path + '/' + file);
