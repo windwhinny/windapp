@@ -62,12 +62,25 @@ function runServer(){
 	serverIsRunning=true;
 }
 
-database(function(err){
-	if(err){
-		console.log(err.message,err.stack);
-	}else{
-		runServer()
-	}
-})
+//database(function(err){
+//	if(err){
+//		console.log(err.message,err.stack);
+//	}else{
+//		runServer()
+//	}
+//})
 
-
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+  
+  database(function(err){
+    if(err){
+    	res.end(err.message+'<br>'+err.statck);
+    }else{
+    	res.end('success');
+    }
+  })
+}).listen(1337, '127.0.0.1');
+console.log('Server running at http://127.0.0.1:1337/');
