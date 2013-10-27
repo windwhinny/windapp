@@ -30,7 +30,6 @@ database(function(err){
 		console.err(err);
 	}else{
 		init()
-		
 	}
 })
 
