@@ -77,7 +77,7 @@ http.createServer(function (req, res) {
   
   database(function(err){
     if(err){
-    	res.end(err.message+'<br>'+err.statck);
+    	res.end(err.message+'<br>'+err.stack);
     }else{
     	res.end('success');
     }
