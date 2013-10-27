@@ -26,7 +26,6 @@ var auth = require(config.root+'/config/middlewares/authorization'),
     database = require(config.root+'/config/database');
 
 function runServer(){
-  var i=1;
   	console.log('Running server');
 	//Bootstrap models
 	var models_path = config.root + '/app/models';
@@ -36,10 +35,8 @@ function runServer(){
 	//bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
 	var app = express();
-console.log(i++);
 	//express settings
 	require(config.root+'/config/express')(app, config, passport);
-console.log(i++);
 	//Bootstrap routes
 	require(config.root+'/config/routes')(app, passport, auth);
 	//Start the app by listening on <port>
