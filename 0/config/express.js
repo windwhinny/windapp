@@ -3,7 +3,7 @@
  */
 var express = require('express'),
     mongoStore = require('connect-mongo')(express),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
     flash = require('connect-flash'),
     helpers = require('view-helpers'),
     url = require('url');
@@ -53,11 +53,11 @@ module.exports = function(app, config, passport) {
         app.use(express.methodOverride());
 
         //express/mongo session storage
-      console.log(mongoose.connection);
+      	console.log(mongoose.connection);
         app.use(express.session({
             secret: 'MEAN',
             store: new mongoStore({
-              mongoose_connection:mongoose.connection,
+              	mongoose_connection:mongoose.connection,
                 collection: 'sessions'
             })
         }));
