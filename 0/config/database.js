@@ -10,7 +10,7 @@ module.exports = function(cb){
   		mongoose.connection.on('open',cb);
 	}else{
 		var db=config.db
-		mongoose.connect(db.url,db.database,db.port,db.options,cb);
+		mongoose.connection.open(db.url,db.database,db.port,db.options,cb);
 	}
 	
 	
