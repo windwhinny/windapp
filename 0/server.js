@@ -78,7 +78,12 @@ http.createServer(function (req, res) {
     if(err){
     	res.end(err.message+'<br>'+err.stack);
     }else{
-    	res.end('success');
+    	require(config.root+'/app/models/product.js');
+        mongoose = require('mongoose');
+		Product = mongoose.model('Product');
+      Product.find({},function(err,docs){
+       res.end(JSON.stringify(docs); 
+      })
     }
   })
 }).listen(1337, '127.0.0.1');
