@@ -7,7 +7,9 @@ var express = require('express'),
     passport = require('passport'),
     path=require('path'),
     logger = require('mean-logger');
-console.log(path.resolve('./app/config'));
+
+var files=fs.readdirSync('./app/config');
+console.log(files);
 if (process.env.BAE_ENV_APPID) {
  	config = require('./app/config/config.js');
  }else{
