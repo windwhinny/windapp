@@ -23,7 +23,16 @@ var config = {
         },
     },
     production: {
-        db: 'mongodb://'+username+':'+password+'@'+db_host+':'+db_port+'/'+db_name,
+        db: {
+            url:'mongodb://'+db_host+':'+db_port,
+            database:'zqZCsprmOaNetxiSoMcy',
+            port:process.env.BAE_ENV_ADDR_MONGO_PORT,
+            options:{
+                user:username,
+                pass:password
+            }
+        },
+        //'mongodb://'+username+':'+password+'@'+db_host+':'+db_port+'/'+db_name,
         app: {
             name: 'WindApp'
         },
