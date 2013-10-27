@@ -23,8 +23,7 @@ var config = {
         },
     },
     production: {
-        //db: 'mongodb://'+username+':'+password+'@'+db_host+':'+db_port+'/'+db_name,
-        db: 'mongodb://wind:5487@ds043388.mongolab.com:43388/windapp',
+        db: 'mongodb://'+username+':'+password+'@'+db_host+':'+db_port+'/'+db_name,
         app: {
             name: 'WindApp'
         },
