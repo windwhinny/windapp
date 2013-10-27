@@ -60,7 +60,7 @@ function runServer(){
 
 database(function(err){
 	if(err){
-		console.log(err.message,err.stack);
+		console.error(err.message,err.stack);
 	}else{
 		runServer()
 	}
