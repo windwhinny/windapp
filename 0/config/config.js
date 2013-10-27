@@ -28,7 +28,7 @@ var config = {
         },
     }
 };
-
+console.log(config.production.db);
 var defaultConfig = {
     db: 'mongodb://localhost/mean',
     root: rootPath,
