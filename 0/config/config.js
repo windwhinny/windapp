@@ -10,10 +10,11 @@ var path = require('path'),
 
 var config = {
     development: {
-        db: 'mongodb://localhost/mean-dev',
+        db: 'mongodb://wind:5487@ds043388.mongolab.com:43388/windapp',
         app: {
             name: 'WindApp - Development'
         },
+        port:8080
     },
     test: {
         db: 'mongodb://localhost/mean-test',
@@ -28,7 +29,7 @@ var config = {
         },
     }
 };
-console.log(config.production.db);
+    
 var defaultConfig = {
     db: 'mongodb://localhost/mean',
     root: rootPath,

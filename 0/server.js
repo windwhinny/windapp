@@ -25,17 +25,13 @@ var auth = require(config.root+'/config/middlewares/authorization'),
     mongoose = require('mongoose'),
     database = require(config.root+'/config/database');
 
-database(function(err){
-	if(err){
-		console.err(err);
-	}else{
-		init()
-	}
-})
 
-function init(){
-
+var serverIsRunning=false;
+function runServer(){
 	//Bootstrap models
+
+	if(serverIsRunning)return;
+
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
 	    require(models_path + '/' + file);
@@ -62,5 +58,14 @@ function init(){
 
 	//expose app
 	exports = module.exports = app;
+
+	serverIsRunning=true;
 }
 
+database(function(err){
+	if(err){
+		console.error(err);
+	}else{
+		runServer()
+	}
+})
