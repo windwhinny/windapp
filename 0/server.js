@@ -1,12 +1,18 @@
 /**
  * Module dependencies.
  */
+ 
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
-    logger = require('mean-logger'),
-    config = require('config/config')
-    
+    logger = require('mean-logger');
+
+if (process.env.BAE_ENV_APPID) {
+ 	config = require('./app/config/config');
+ }else{
+ 	config = require('./config/config');
+ }
+
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
@@ -14,26 +20,25 @@ var express = require('express'),
 
 //Load configurations
 //if test env, load example file
-var config = require('./config/config'),
-    auth = require('./config/middlewares/authorization'),
+var auth = require(config.root+'/config/middlewares/authorization'),
     mongoose = require('mongoose'),
-    database = require('./config/database');
+    database = require(config.root+'/config/database');
 //Bootstrap models
-var models_path = __dirname + '/app/models';
+var models_path = config.root + '/app/models';
 fs.readdirSync(models_path).forEach(function(file) {
     require(models_path + '/' + file);
 });
 
 //bootstrap passport config
-require('./config/passport')(passport, config);
+require(config.root+'/config/passport')(passport, config);
 
 var app = express();
 
 //express settings
-require('./config/express')(app, config, passport);
+require(config.root+'/config/express')(app, config, passport);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth);
+require(config.root+'/config/routes')(app, passport, auth);
 
 //Start the app by listening on <port>
 
