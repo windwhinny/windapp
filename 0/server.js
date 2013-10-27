@@ -82,7 +82,7 @@ http.createServer(function (req, res) {
         mongoose = require('mongoose');
 		Product = mongoose.model('Product');
       Product.find({},function(err,docs){
-       res.end(JSON.stringify(docs); 
+       res.end(JSON.stringify(docs)); 
       })
     }
   })
