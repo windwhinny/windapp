@@ -37,7 +37,6 @@ module.exports = function(app, config, passport) {
     }
 
     //Set views path, template engine and default layout
-  console.log(config.root+'/app/views/');
     app.set('views', config.root + '/app/views');
     app.set('view engine', 'jade');
 

@@ -24,30 +24,44 @@ if (process.env.BAE_ENV_APPID) {
 var auth = require(config.root+'/config/middlewares/authorization'),
     mongoose = require('mongoose'),
     database = require(config.root+'/config/database');
-//Bootstrap models
-var models_path = config.root + '/app/models';
-fs.readdirSync(models_path).forEach(function(file) {
-    require(models_path + '/' + file);
-});
 
-//bootstrap passport config
-require(config.root+'/config/passport')(passport, config);
+database(function(err){
+	if(err){
+		console.err(err);
+	}else{
+		init()
+		
+	}
+})
 
-var app = express();
+function init(){
 
-//express settings
-require(config.root+'/config/express')(app, config, passport);
+	//Bootstrap models
+	var models_path = config.root + '/app/models';
+	fs.readdirSync(models_path).forEach(function(file) {
+	    require(models_path + '/' + file);
+	});
 
-//Bootstrap routes
-require(config.root+'/config/routes')(app, passport, auth);
+	//bootstrap passport config
+	require(config.root+'/config/passport')(passport, config);
 
-//Start the app by listening on <port>
+	var app = express();
 
-app.listen(config.port);
-console.log('Express app started on port ' + config.port);
+	//express settings
+	require(config.root+'/config/express')(app, config, passport);
 
-//Initializing logger 
-logger.init(app, passport, mongoose);
+	//Bootstrap routes
+	require(config.root+'/config/routes')(app, passport, auth);
 
-//expose app
-exports = module.exports = app;
+	//Start the app by listening on <port>
+
+	app.listen(config.port);
+	console.log('Express app started on port ' + config.port);
+
+	//Initializing logger 
+	logger.init(app, passport, mongoose);
+
+	//expose app
+	exports = module.exports = app;
+}
+
