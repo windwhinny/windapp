@@ -26,36 +26,37 @@ var auth = require(config.root+'/config/middlewares/authorization'),
     database = require(config.root+'/config/database');
 
 function runServer(){
+  var i=1;
   	console.log('Running server');
 	//Bootstrap models
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
 	    require(models_path + '/' + file);
 	});
-
+	console.log(i++);
 	//bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
-
+console.log(i++);
 	var app = express();
-
+console.log(i++);
 	//express settings
 	require(config.root+'/config/express')(app, config, passport);
-
+console.log(i++);
 	//Bootstrap routes
 	require(config.root+'/config/routes')(app, passport, auth);
-
+console.log(i++);
 	//Start the app by listening on <port>
-
+console.log(i++);
 	app.listen(config.port);
 	console.log('Express app started on port ' + config.port);
-
+console.log(i++);
 	//Initializing logger 
 	logger.init(app, passport, mongoose);
-
+console.log(i++);
 	//expose app
 	exports = module.exports = app;
-
-	serverIsRunning=true;
+console.log(i++);
+	
 }
 
 database(function(err){
