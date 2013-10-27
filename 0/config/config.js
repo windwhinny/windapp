@@ -1,8 +1,3 @@
-var db_name = 'zqZCsprmOaNetxiSoMcy';                  // 数据库名，从云平台获取
-var db_host =  process.env.BAE_ENV_ADDR_MONGO_IP;      // 数据库地址
-var db_port =  +process.env.BAE_ENV_ADDR_MONGO_PORT;   // 数据库端口
-var username = process.env.BAE_ENV_AK;                 // 用户名
-var password = process.env.BAE_ENV_SK;                 // 密码
 
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
@@ -24,12 +19,12 @@ var config = {
     },
     production: {
         db: {
-            url:'mongodb://'+db_host,
+            url:process.env.BAE_ENV_ADDR_MONGO_IP,
             database:'zqZCsprmOaNetxiSoMcy',
             port:process.env.BAE_ENV_ADDR_MONGO_PORT,
             options:{
-                user:username,
-                pass:password
+                user:process.env.BAE_ENV_AK,
+                pass:process.env.BAE_ENV_SK
             }
         },
         //'mongodb://'+username+':'+password+'@'+db_host+':'+db_port+'/'+db_name,

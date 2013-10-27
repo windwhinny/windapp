@@ -64,7 +64,7 @@ function runServer(){
 
 database(function(err){
 	if(err){
-		console.error(err);
+		console.log(err.message,err.stack);
 	}else{
 		runServer()
 	}
