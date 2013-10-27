@@ -56,10 +56,12 @@ console.log(i++);
     app.configure(function() {
         //cookieParser should be above session
         app.use(express.cookieParser());
+console.log(i++);
 
         //bodyParser should be above methodOverride
         app.use(express.bodyParser());
         app.use(express.methodOverride());
+console.log(i++);
 
         //express/mongo session storage
         app.use(express.session({
@@ -69,16 +71,20 @@ console.log(i++);
                 collection: 'sessions'
             })
         }));
+console.log(i++);
 
         //connect flash for flash messages
         app.use(flash());
+console.log(i++);
 
         //dynamic helpers
         app.use(helpers(config.app.name));
+console.log(i++);
 
         //use passport session
         app.use(passport.initialize());
         app.use(passport.session());
+console.log(i++);
 
         //detected the request type
         app.use(function(req,res,next) {
@@ -98,9 +104,11 @@ console.log(i++);
             }
             next();
         });
-        
+        console.log(i++);
+
         //routes should be at the last
         app.use(app.router);
+console.log(i++);
 
         //Assume "not found" in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
         app.use(function(err, req, res, next) {
@@ -115,6 +123,7 @@ console.log(i++);
                 message: err.message
             });
         });
+console.log(i++);
 
         //Assume 404 since no middleware responded
         app.use(function(req, res, next) {
