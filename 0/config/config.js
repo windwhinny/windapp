@@ -24,7 +24,7 @@ var config = {
     },
     production: {
         db: {
-            url:'mongodb://'+db_host,
+            url:db_host,
             database:'zqZCsprmOaNetxiSoMcy',
             port:process.env.BAE_ENV_ADDR_MONGO_PORT,
             options:{
