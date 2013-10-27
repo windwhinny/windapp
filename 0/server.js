@@ -6,7 +6,7 @@ var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
     logger = require('mean-logger');
-
+config.log(path.resolve('.'));
 if (process.env.BAE_ENV_APPID) {
  	config = require('./app/config/config');
  }else{
