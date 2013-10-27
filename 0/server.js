@@ -62,29 +62,10 @@ function runServer(){
 	serverIsRunning=true;
 }
 
-//database(function(err){
-//	if(err){
-//		console.log(err.message,err.stack);
-//	}else{
-//		runServer()
-//	}
-//})
-
-var http = require('http');
-http.createServer(function (req, res) {
- 
-  
-  database(function(err){
-    if(err){
-    	res.end(err.message+'<br>'+err.stack);
-    }else{
-    	require(config.root+'/app/models/product.js');
-        mongoose = require('mongoose');
-		Product = mongoose.model('Product');
-      Product.find({},function(err,docs){
-       res.end(JSON.stringify(docs)); 
-      })
-    }
-  })
-}).listen(1337, '127.0.0.1');
-console.log('Server running at http://127.0.0.1:1337/');
+database(function(err){
+	if(err){
+		console.log(err.message,err.stack);
+	}else{
+		runServer()
+	}
+})
