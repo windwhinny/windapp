@@ -9,7 +9,7 @@ var config = {
         app: {
             name: 'WindApp - Development'
         },
-        port:8080
+        port:3000
     },
     test: {
         db: 'mongodb://localhost/mean-test',
