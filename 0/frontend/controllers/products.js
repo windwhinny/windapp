@@ -98,7 +98,6 @@ window.app
 			console.log($scope);
 		}
 	}
-
 	return directiveDefinitionObject;
 })
 .controller('ProductItemController',
@@ -144,16 +143,31 @@ window.app
 				$scope.edit=false;
 			}else{
         product.$getImageUploadToken(function(resource,headers){
-          $scope.imageUploadToken=resource.token;
+        	$scope.imageUploadToken=resource.token;
         },function(resource,headers){
           handleError(resource.data)
         })
 				$scope.edit=true;
 			}
 		}
-    $scope.uploadCallback=function(){
-      
-    }
+
+		$scope.uploadOptions={
+			action:'http://up.qiniu.com/',
+			method:'post',
+			name:'file',
+			data:{
+				token:$scope.imageUploadToken
+			},
+			callback:function(result){
+				var images=product.images||[];
+				for(var i in result){
+					if(result[i].name){
+						images.push(result[i])
+					}
+				}
+				product.images=images;
+			}
+		}
 		$scope.getCatalogs=function(){
 			ProductQuery.getCatalog(function(resource,headers){
 				$scope.catalogs=resource;

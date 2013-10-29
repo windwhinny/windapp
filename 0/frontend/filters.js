@@ -27,7 +27,11 @@ var translation={
 	'EDIT': '编辑',
 	'SAVE': '保存',
 	'CATALOG': '类目',
-	'NUMBER_ALREADY_EXIST':'编号已经存在'
+	'NUMBER_ALREADY_EXIST':'编号已经存在',
+	'DROP_FILES_HERE':'将文件拖至此处',
+	'RELEASE':'释放',
+	'ONLY_FILES_ARE_ALLOWED':'只允许文件',
+	'FAILED_TO_UPLOAD_THE_FILE':'上传失败'
 }
 window.app
 .filter('i18n',

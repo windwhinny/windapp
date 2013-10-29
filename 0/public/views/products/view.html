@@ -70,12 +70,8 @@
 		</tab>
 		<tab heading="{{'Pictures' | i18n}}">
       <div class='uplaod' ng-if='edit&&imageUploadToken'>
-        <form method="post" ng-submit='uploadCallback()' target="callback" action="http://up.qiniu.com/" enctype="multipart/form-data">
-          <input name="token" type="hidden" value="{{imageUploadToken}}"/>
-          <input name="file" type="file"/>
-          <input type="submit"/>
-        </form>
-        <iframe ng-change='uploadCallback()' ng-model='_uploadCallback' name="callback"></iframe>
+        <upload options="uploadOptions"></upload>
+        <pre>{{product.images}}</pre>
       </div>
     </tab>
 	</tabset>

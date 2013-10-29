@@ -2,10 +2,10 @@
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
     env = process.env.NODE_ENV || 'production';
-
+var mongolab='mongodb://wind:5487@ds043388.mongolab.com:43388/windapp';
 var config = {
     development: {
-        db: 'mongodb://wind:5487@ds043388.mongolab.com:43388/windapp',
+        db: 'mongodb://localhost/mean-dev',
         app: {
             name: 'WindApp - Development'
         },
