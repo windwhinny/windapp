@@ -31,7 +31,8 @@ var translation={
 	'DROP_FILES_HERE':'将文件拖至此处',
 	'RELEASE':'释放',
 	'ONLY_FILES_ARE_ALLOWED':'只允许文件',
-	'FAILED_TO_UPLOAD_THE_FILE':'上传失败'
+	'FAILED_TO_UPLOAD_THE_FILE':'上传失败',
+  'UPLOADING':'上传中'
 }
 window.app
 .filter('i18n',

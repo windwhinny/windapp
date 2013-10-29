@@ -27,13 +27,7 @@ window.app
 					url:'/products/schema',
 					method:'GET',
 					responseType:'json'
-				},
-        getImageUploadToken:{
-          url:'/products/:productId/image/token',
-          method:'GET',
-          responseType:'json',
-          params:{productId:'@uid'},
-        }
+				}
 			})
 
 		return Product;
@@ -63,7 +57,17 @@ window.app
 					method:'GET',
 					isArray:true,
 					responseType:'json'
-				}
+				},
+        getImageUploadToken:{
+          url:'/products/:productUid/image/token',
+          method:'GET',
+          responseType:'json',
+        },
+        getImageHost:{
+          url:'/products/imageHost',
+          method:'GET',
+          responseType:'json'
+        }
 
 			})
 	return Products;
@@ -110,7 +114,13 @@ window.app
 		},function(resource,headers){
 			handleError(resource.data);
 		});
-
+  
+    ProductQuery.getImageHost(function(resource,headers){
+      $scope.imageHost=resource.host;
+    },function(resource,headers){
+      handleError(resource.data)
+    })
+    
 		$scope.getInputType=function(type){
 			if(type==='string'){
 				return 'text'
@@ -142,11 +152,13 @@ window.app
 					});
 				$scope.edit=false;
 			}else{
-        product.$getImageUploadToken(function(resource,headers){
-        	$scope.imageUploadToken=resource.token;
+        ProductQuery.getImageUploadToken({productUid:product.uid},function(resource,headers){
+        	$scope.uploadOptions.data.token=resource.token;
+          $scope.uploadAvailable=true;
         },function(resource,headers){
           handleError(resource.data)
         })
+
 				$scope.edit=true;
 			}
 		}
@@ -156,16 +168,16 @@ window.app
 			method:'post',
 			name:'file',
 			data:{
-				token:$scope.imageUploadToken
 			},
 			callback:function(result){
-				var images=product.images||[];
-				for(var i in result){
-					if(result[i].name){
-						images.push(result[i])
-					}
-				}
-				product.images=images;
+				var images=product.images;
+        if(Array.isArray(result)){
+          images=result; 
+        }
+        $scope.$apply(function(){
+          product.images=images;
+        })
+				
 			}
 		}
 		$scope.getCatalogs=function(){

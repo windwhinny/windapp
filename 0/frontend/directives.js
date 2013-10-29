@@ -35,7 +35,7 @@ window.app
       	'<div class="upload" ng-class="status">'+
       		'<input type="file" ng-show="isTradition" multiple onchange="angular.element(this).scope().setFiles(this)">'+
       		'<div id="dropbox" ng-hide ="isTradition" ng-class="dropClass"><h1>{{ dropText | i18n}}</h1></div>'+
-      		'<progress percent="progress" ng-show="progressing" class="progress-striped " animate="true"></progress>'+
+      		'<progress percent="progress" class="progress-striped "></progress>'+
       		'<errors></errors>'+
       	'</div>',
 
@@ -115,19 +115,15 @@ window.app
 	    	function upload(){
 	    		var i=0;
 	    		var count=$scope.files.length;
-	    		var results=[];
 	    		$scope.errors=[];
 	    		function done(){
 	    			options.callback(results);
 	    		}
 	    		function _upload(){
-	    			uploadFile(i,count,options.name, $scope.files[i],function(r){
+	    			uploadFile(i,count,options.name, $scope.files[i],function(result){
 	    				i++;
-	    				results.push(r)
-	    				if(i>=count){
-	    					done();
-	    					return;
-	    				};
+	    				options.callback(result);
+	    				if(i>=count)return;
 	    				_upload();
 		        	})
 	    		}
@@ -142,7 +138,7 @@ window.app
 		        	fd.append(i,options.data[i]);
 		        }
 		        var xhr = new XMLHttpRequest()
-		        xhr.upload.addEventListener("pending", uploadProgress, false)
+		        xhr.upload.addEventListener("progress", uploadProgress, false)
 		        xhr.addEventListener("load", uploadComplete, false)
 		        xhr.addEventListener("error", uploadFailed, false)
 		        xhr.addEventListener("abort", uploadFailed, false)
@@ -160,7 +156,8 @@ window.app
 			        $scope.$apply(function(){
 			        	
 			            if (evt.lengthComputable) {
-			                $scope.progress = evt.loaded * 100 / evt.total
+			                $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+                      console.log(Math.round(evt.loaded * 100 / evt.total));
 			            } else {
 			                $scope.progress = 'unable to compute'
 			            }

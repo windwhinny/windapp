@@ -5,12 +5,14 @@ var path = require('path'),
 var mongolab='mongodb://wind:5487@ds043388.mongolab.com:43388/windapp';
 var config = {
     development: {
-        db: 'mongodb://localhost/mean-dev',
+        db:mongolab,
+        //db: 'mongodb://localhost/mean-dev',
         app: {
             name: 'WindApp - Development'
         },
         bucket:'products-dev',
-        port:3000
+        port:3000,
+      imageHost:'http://products-dev.u.qiniudn.com'
     },
     test: {
         db: 'mongodb://localhost/mean-test',
@@ -18,6 +20,7 @@ var config = {
         app: {
             name: 'WindApp - Test'
         },
+      imageHost:'http://products-test.u.qiniudn.com'
     },
     production: {
         db: {
@@ -33,6 +36,7 @@ var config = {
         app: {
             name: 'WindApp'
         },
+        imageHost:'http://products.u.qiniudn.com'
     }
 };
     

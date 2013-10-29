@@ -209,13 +209,7 @@ window.app
 					url:'/products/schema',
 					method:'GET',
 					responseType:'json'
-				},
-        getImageUploadToken:{
-          url:'/products/:productId/image/token',
-          method:'GET',
-          responseType:'json',
-          params:{productId:'@uid'},
-        }
+				}
 			})
 
 		return Product;
@@ -245,7 +239,17 @@ window.app
 					method:'GET',
 					isArray:true,
 					responseType:'json'
-				}
+				},
+        getImageUploadToken:{
+          url:'/products/:productUid/image/token',
+          method:'GET',
+          responseType:'json',
+        },
+        getImageHost:{
+          url:'/products/imageHost',
+          method:'GET',
+          responseType:'json'
+        }
 
 			})
 	return Products;
@@ -292,7 +296,13 @@ window.app
 		},function(resource,headers){
 			handleError(resource.data);
 		});
-
+  
+    ProductQuery.getImageHost(function(resource,headers){
+      $scope.imageHost=resource.host;
+    },function(resource,headers){
+      handleError(resource.data)
+    })
+    
 		$scope.getInputType=function(type){
 			if(type==='string'){
 				return 'text'
@@ -324,11 +334,13 @@ window.app
 					});
 				$scope.edit=false;
 			}else{
-        product.$getImageUploadToken(function(resource,headers){
-        	$scope.imageUploadToken=resource.token;
+        ProductQuery.getImageUploadToken({productUid:product.uid},function(resource,headers){
+        	$scope.uploadOptions.data.token=resource.token;
+          $scope.uploadAvailable=true;
         },function(resource,headers){
           handleError(resource.data)
         })
+
 				$scope.edit=true;
 			}
 		}
@@ -338,16 +350,16 @@ window.app
 			method:'post',
 			name:'file',
 			data:{
-				token:$scope.imageUploadToken
 			},
 			callback:function(result){
-				var images=product.images||[];
-				for(var i in result){
-					if(result[i].name){
-						images.push(result[i])
-					}
-				}
-				product.images=images;
+				var images=product.images;
+        if(Array.isArray(result)){
+          images=result; 
+        }
+        $scope.$apply(function(){
+          product.images=images;
+        })
+				
 			}
 		}
 		$scope.getCatalogs=function(){
@@ -428,7 +440,7 @@ window.app
       	'<div class="upload" ng-class="status">'+
       		'<input type="file" ng-show="isTradition" multiple onchange="angular.element(this).scope().setFiles(this)">'+
       		'<div id="dropbox" ng-hide ="isTradition" ng-class="dropClass"><h1>{{ dropText | i18n}}</h1></div>'+
-      		'<progress percent="progress" ng-show="progressing" class="progress-striped " animate="true"></progress>'+
+      		'<progress percent="progress" class="progress-striped "></progress>'+
       		'<errors></errors>'+
       	'</div>',
 
@@ -508,19 +520,15 @@ window.app
 	    	function upload(){
 	    		var i=0;
 	    		var count=$scope.files.length;
-	    		var results=[];
 	    		$scope.errors=[];
 	    		function done(){
 	    			options.callback(results);
 	    		}
 	    		function _upload(){
-	    			uploadFile(i,count,options.name, $scope.files[i],function(r){
+	    			uploadFile(i,count,options.name, $scope.files[i],function(result){
 	    				i++;
-	    				results.push(r)
-	    				if(i>=count){
-	    					done();
-	    					return;
-	    				};
+	    				options.callback(result);
+	    				if(i>=count)return;
 	    				_upload();
 		        	})
 	    		}
@@ -535,7 +543,7 @@ window.app
 		        	fd.append(i,options.data[i]);
 		        }
 		        var xhr = new XMLHttpRequest()
-		        xhr.upload.addEventListener("pending", uploadProgress, false)
+		        xhr.upload.addEventListener("progress", uploadProgress, false)
 		        xhr.addEventListener("load", uploadComplete, false)
 		        xhr.addEventListener("error", uploadFailed, false)
 		        xhr.addEventListener("abort", uploadFailed, false)
@@ -553,7 +561,8 @@ window.app
 			        $scope.$apply(function(){
 			        	
 			            if (evt.lengthComputable) {
-			                $scope.progress = evt.loaded * 100 / evt.total
+			                $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+                      console.log(Math.round(evt.loaded * 100 / evt.total));
 			            } else {
 			                $scope.progress = 'unable to compute'
 			            }
@@ -643,7 +652,8 @@ var translation={
 	'DROP_FILES_HERE':'将文件拖至此处',
 	'RELEASE':'释放',
 	'ONLY_FILES_ARE_ALLOWED':'只允许文件',
-	'FAILED_TO_UPLOAD_THE_FILE':'上传失败'
+	'FAILED_TO_UPLOAD_THE_FILE':'上传失败',
+  'UPLOADING':'上传中'
 }
 window.app
 .filter('i18n',

@@ -149,6 +149,14 @@ productsEntry.handlers={
 			});
 		}
 	},
+  getImageHost:{
+    method:'get',
+    type:'json',
+    url:'/imageHost',
+    main:function(req,res,done){
+      done(null,{host:config.imageHost});
+    }
+  },
   getImageUploadToken:{
     method:'get',
     type:'json',
@@ -173,7 +181,6 @@ productsEntry.handlers={
         for(i in image){
           image=JSON.parse(i);
         }
-        console.log(image);
         if(!uid){
           var client = new qiniu.rs.Client();
           client.remove('products', image.name, function(err, ret) {

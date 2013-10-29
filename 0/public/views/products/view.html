@@ -1,4 +1,4 @@
-<div ng-controller="ProductItemController">
+<div ng-controller="ProductItemController" class="product">
 	<div class='control-group'>
 		<h2>{{'Number' |i18n}}
 			<span ng-if="!edit">{{product.number}}</span>
@@ -69,9 +69,13 @@
 			</form>
 		</tab>
 		<tab heading="{{'Pictures' | i18n}}">
-      <div class='uplaod' ng-if='edit&&imageUploadToken'>
+      <div class='uplaod' ng-if='edit&&uploadAvailable'>
         <upload options="uploadOptions"></upload>
-        <pre>{{product.images}}</pre>
+      </div>
+      <div class="images" ng-if="imageHost">
+        <div class="wapper" ng-repeat="img in product.images">
+          <img  ng-src="{{(imageHost&&img.name)?imageHost+'/'+img.name+'?imageView/2/w/100/h/100':''}}"/>
+        </div>
       </div>
     </tab>
 	</tabset>
