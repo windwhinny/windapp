@@ -209,7 +209,13 @@ window.app
 					url:'/products/schema',
 					method:'GET',
 					responseType:'json'
-				}
+				},
+        getImageUploadToken:{
+          url:'/products/:productId/image/token',
+          method:'GET',
+          responseType:'json',
+          params:{productId:'@uid'},
+        }
 			})
 
 		return Product;
@@ -319,12 +325,19 @@ window.app
 					});
 				$scope.edit=false;
 			}else{
-
+        product.$getImageUploadToken(function(resource,headers){
+          $scope.imageUploadToken=resource.token;
+        },function(resource,headers){
+          handleError(resource.data)
+        })
 				$scope.edit=true;
 			}
 		}
+    $scope.uploadCallback=function(){
+      
+    }
 		$scope.getCatalogs=function(){
-			ProductQuery.getCatalog(function(resource,heanders){
+			ProductQuery.getCatalog(function(resource,headers){
 				$scope.catalogs=resource;
 			},function(resource,headers){
 				handleError(resource.data)

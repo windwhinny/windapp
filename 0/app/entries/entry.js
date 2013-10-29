@@ -30,7 +30,7 @@ var Entry = function(name){
 var ErrorHandler={
 	type:['json']
 }
-function renderResult(err,res,handler,mainResult,fakeRes){
+function renderResult(err,req,res,handler,mainResult,fakeRes){
 	if(err){
 		if(err.status){
 			res.status(err.status);
@@ -92,9 +92,7 @@ function requestCallback(handler,req,res,next){
 	var fakeRes=new FakeRes();
 	if(handler.main){
 		handler.main(req,fakeRes,function(err,mainResult){
-
-			
-			renderResult(err,res,handler,mainResult,fakeRes)
+			renderResult(err,req,res,handler,mainResult,fakeRes)
 		})
 	}else{
 		console.log(handler);

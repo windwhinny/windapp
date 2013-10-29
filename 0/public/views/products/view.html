@@ -68,6 +68,15 @@
 				<button class='btn btn-primary' ng-if="edit" ng-click="product.property.custom.push({})">&plus;</button>
 			</form>
 		</tab>
-		<tab heading="{{'Pictures' | i18n}}">Vertical content 2</tab>
+		<tab heading="{{'Pictures' | i18n}}">
+      <div class='uplaod' ng-if='edit&&imageUploadToken'>
+        <form method="post" ng-submit='uploadCallback()' target="callback" action="http://up.qiniu.com/" enctype="multipart/form-data">
+          <input name="token" type="hidden" value="{{imageUploadToken}}"/>
+          <input name="file" type="file"/>
+          <input type="submit"/>
+        </form>
+        <iframe ng-change='uploadCallback()' ng-model='_uploadCallback' name="callback"></iframe>
+      </div>
+    </tab>
 	</tabset>
 </div>

@@ -25,5 +25,16 @@ window.app
 	}
 	]
 )
+.directive('uplaod',
+  [
+  function(){
+    var directiveDefinitionObject = {
+      
+    }
+    
+    return directiveDefinitionObject;
+  }
+  ]
+)
 
 })()

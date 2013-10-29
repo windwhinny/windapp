@@ -9,10 +9,12 @@ var config = {
         app: {
             name: 'WindApp - Development'
         },
+        bucket:'products-dev',
         port:3000
     },
     test: {
         db: 'mongodb://localhost/mean-test',
+        bucket:'products-test',
         app: {
             name: 'WindApp - Test'
         },
@@ -37,6 +39,7 @@ var config = {
 var defaultConfig = {
     db: 'mongodb://localhost/mean',
     root: rootPath,
+    bucket:'products',
     app: {
         name: 'WindApp'
     },

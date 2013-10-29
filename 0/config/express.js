@@ -78,14 +78,14 @@ module.exports = function(app, config, passport) {
                 if(!accept){
                     accept='text/html';
                 };
-				var accepts=accept.split(',');
-				for ( var i = 0;i<accepts.length;i++) {
-					var accept=accepts[i];
-                    if(accept.match(type)){
-						return true;
-					}
-				}
-				return false;
+                var accepts=accept.split(',');
+                for ( var i = 0;i<accepts.length;i++) {
+                  var accept=accepts[i];
+                  if(accept.match(type)){
+                    return true;
+                  }
+                }
+                return false;
             }
             next();
         });

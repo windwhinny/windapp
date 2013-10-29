@@ -1,7 +1,9 @@
 var Entry = require('./entry'),
 	mongoose = require('mongoose'),
 	Product = mongoose.model('Product'),
+  qiniu = require('../../config/qiniu.js'),
 	productsEntry = new Entry('Product'),
+  base64 = require('Base64'),
 	Errors = require('../errors');
 
 function handleError(err,done){
@@ -11,19 +13,15 @@ function handleError(err,done){
 function requireUid(req,done){
 	var uid=null;
 	var container='';
-	if(req.method.toLowerCase() == 'get'){
-		container='params';
-		uid=req[container].uid;
-	}else{
-		container='body';
-		uid=req[container].uid;
+	uid=req['params'].uid;
+	if(!uid){
+		uid=req['body'].uid;
 	}
 	if(!uid){
-		var err=Errors.BadRequest('must have an id in '+container);
+		var err=Errors.BadRequest('must have an id ');
 		done(err);
 		return false;
 	}
-
 	return uid;
 }
 
@@ -151,6 +149,54 @@ productsEntry.handlers={
 			});
 		}
 	},
+  getImageUploadToken:{
+    method:'get',
+    type:'json',
+      url:'/:uid/image/token',
+    main:function(req,res,done){
+      var uid=requireUid(req,done);
+      if(!uid)return;
+      done(null,{
+        token:qiniu(uid)
+      });
+    }
+  },
+  imageUploadCallback:{
+    method:'post',
+    type:'.*',
+      url:'/:uid/image',
+    main:function(req,res,done){
+      var uid=requireUid(req,done);
+      var image=req.body;
+      if(image){
+        //BUG
+        for(i in image){
+          image=JSON.parse(i);
+        }
+        console.log(image);
+        if(!uid){
+          var client = new qiniu.rs.Client();
+          client.remove('products', image.name, function(err, ret) {
+            if (!err) {
+              return;
+            } else {
+              console.log(image.name,err);
+            }
+          })
+          return;
+        }
+        
+        Product.addImage(uid,image,function(err,doc){
+          done(err,doc); 
+        })
+      }else{
+        done();
+      }
+    },
+    html:function(result,req,res){
+      res.end(JSON.stringify(result));      
+    }
+  },
 	get:{
 		method:'get',
 		type:'json',

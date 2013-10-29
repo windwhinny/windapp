@@ -32,6 +32,11 @@ var mongoose = require('mongoose'),
         type: Schema.ObjectId,
         ref: 'User'
     },
+    images:[{
+      name:'string',
+      size:'number',
+      imageInfo:'mixed'
+    }],
     property:{
         default:{
             length:{
@@ -182,7 +187,19 @@ ProductSchema.statics = {
             },function(curr,result){
                 result.count++;
             },null,true,callback);
-    }
+    },
+  addImage:function(uid,image,callback){
+    Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
+      if(err){
+        callback(err)
+        return;
+      }
+      
+      Product.findOne({uid:uid},function(err,doc){
+        callback(err,doc.images);
+      })
+    })
+  }
 };
 
 var Product=mongoose.model('Product', ProductSchema);
