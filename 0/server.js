@@ -28,22 +28,30 @@ var auth = require(config.root+'/config/middlewares/authorization'),
 function runServer(){
   console.log('Running server');
 	//Bootstrap models
+  var i=0;
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
 	    require(models_path + '/' + file);
 	});
+  console.log(1++);
 	//bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
 	var app = express();
 	//express settings
+  console.log(1++);
 	require(config.root+'/config/express')(app, config, passport);
 	//Bootstrap routes
+  console.log(1++);
 	require(config.root+'/config/routes')(app, passport, auth);
 	//Start the app by listening on <port>
+  console.log(1++);
 	app.listen(config.port);
+  console.log(1++);
 	console.log('Express app started on port ' + config.port);
 	//Initializing logger 
+  console.log(1++);
 	logger.init(app, passport, mongoose);
+  console.log(1++);
 	//expose app
 	exports = module.exports = app;
 	
