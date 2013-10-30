@@ -26,7 +26,7 @@ var auth = require(config.root+'/config/middlewares/authorization'),
     database = require(config.root+'/config/database');
 
 function runServer(){
-  	console.log('Running server');
+  console.log('Running server');
 	//Bootstrap models
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
