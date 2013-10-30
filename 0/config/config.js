@@ -37,6 +37,7 @@ var config = {
         app: {
             name: 'WindApp'
         },
+        imageBucketName:'products',
         imageHost:'http://products.u.qiniudn.com'
     }
 };
