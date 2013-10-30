@@ -69,12 +69,17 @@
 			</form>
 		</tab>
 		<tab heading="{{'Pictures' | i18n}}">
-      <div class='uplaod' ng-if='edit&&uploadAvailable'>
-        <upload options="uploadOptions"></upload>
-      </div>
-      <div class="images" ng-if="imageHost">
-        <div class="wapper" ng-repeat="img in product.images">
-          <img  ng-src="{{(imageHost&&img.name)?imageHost+'/'+img.name+'?imageView/2/w/100/h/100':''}}"/>
+      <div class="image-tab">
+        <div class='upload' ng-if='edit&&uploadAvailable'>
+          <upload options="uploadOptions"></upload>
+        </div>
+        <div class="images" ng-if="imageHost">
+          <div class="box" ng-repeat="img in product.images">
+            <div class="wapper">
+              <img  ng-src="{{(imageHost&&img.name)?imageHost+'/'+img.name+'?imageView/2/w/100/h/100':''}}"/>
+            </div>
+            <button class="btn btn-link delete" ng-if="edit">Delete</button>
+          </div>
         </div>
       </div>
     </tab>

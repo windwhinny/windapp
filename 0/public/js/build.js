@@ -439,7 +439,7 @@ window.app
       replace:true,
       template:
       	'<div class="upload" ng-class="status">'+
-          '<h1>{{"Upload Image" | i18n}}</h1>'+
+          '<h2>{{"Upload Image" | i18n}}</h2>'+
       		'<input type="file" multiple onchange="angular.element(this).scope().setFiles(this)">'+
       		'<div id="dropbox" ng-hide ="isTradition" ng-class="dropClass"><h1>{{ dropText | i18n}}</h1></div>'+
       		'<progress percent="progress" class="progress-striped "></progress>'+
