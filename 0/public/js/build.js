@@ -216,8 +216,8 @@ window.app
 	}]
 )
 .factory('ProductsQueryService',
-	[		'$resource',
-	function($resource){
+	[		'$resource','$location',
+	function($resource,$location){
 	var Products=$resource('/products',
 			{},
 			{
@@ -242,6 +242,7 @@ window.app
 				},
         getImageUploadToken:{
           url:'/products/:productUid/image/token',
+          params:{host:$location.protocol()+'://'+$location.host()+':'+$location.port()},
           method:'GET',
           responseType:'json',
         },

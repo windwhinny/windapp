@@ -163,9 +163,11 @@ productsEntry.handlers={
       url:'/:uid/image/token',
     main:function(req,res,done){
       var uid=requireUid(req,done);
+      var host=req.query.host;
+      if(!host){done();return;}
       if(!uid)return;
       done(null,{
-        token:qiniu(uid)
+        token:qiniu(host,uid)
       });
     }
   },
