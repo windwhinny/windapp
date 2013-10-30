@@ -103,26 +103,12 @@ color: #C4C4C4;
 .upload .progress{
   height:5px; 
 }
-.product .image-tab{
-  display:-webkit-box;
-  display:-moz-box;
-  display:box;
-}
-.product .upload{
-  width:400px
-}
-.product .images{
-  -webkit-box-flex: 1
-}
+
 .product .images .box{
-  border-radius: 5px;
-  padding: 5px;
   width: 100px;
   display: inline-block;
   margin: 5px;
 }
-.product .images .box:hover {
-    background: #FAFAFA;
 }
 .product .images .wapper{
   height:100px

@@ -70,16 +70,18 @@
 		</tab>
 		<tab heading="{{'Pictures' | i18n}}">
       <div class="image-tab">
-        <div class='upload' ng-if='edit&&uploadAvailable'>
-          <upload options="uploadOptions"></upload>
-        </div>
-        <div class="images" ng-if="imageHost">
+        
+        <div class="images" ng-if="imageHost" ng-class="(edit)?'span7':''">
           <div class="box" ng-repeat="img in product.images">
             <div class="wapper">
               <img  ng-src="{{(imageHost&&img.name)?imageHost+'/'+img.name+'?imageView/2/w/100/h/100':''}}"/>
             </div>
-            <button class="btn btn-link delete" ng-if="edit">Delete</button>
+            <button class="btn btn-link delete" ng-if="edit" ng-click="removeImage($index)">Delete</button>
           </div>
+        </div>
+        
+        <div class='upload span5' ng-if='edit&&uploadAvailable'>
+          <upload options="uploadOptions"></upload>
         </div>
       </div>
     </tab>

@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     Schema = mongoose.Schema,
+    imageBrucket = require('../imageBrucket.js'),
     Errors = require('../errors');
 
 
@@ -188,23 +189,44 @@ ProductSchema.statics = {
                 result.count++;
             },null,true,callback);
     },
-  addImage:function(uid,image,callback){
-    Product.findOne({uid:uid,images:{$elemMatch:{name:image.name}}},'images',function(err,doc){
-      if(doc){
-        callback(err,doc.images)
-      }else{
-        Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
-          if(err){
-            callback(err)
-            return;
-          }
-          Product.findOne({uid:uid},function(err,doc){
-            callback(err,doc.images);
+    addImage:function(uid,image,callback){
+      Product.findOne({uid:uid,images:{$elemMatch:{name:image.name}}},'images',function(err,doc){
+        if(doc){
+          callback(err,doc.images)
+        }else{
+          Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
+            if(err){
+              callback(err)
+              return;
+            }
+            Product.findOne({uid:uid},function(err,doc){
+              callback(err,doc.images);
+            })
           })
+        }
+      })
+    },
+  updateAndClean:function(uid,data,callback){
+    Product.findOneAndUpdate({uid:uid},data,{new:false},function(err,doc){
+      var newImages=data.images;
+      var oldImages=doc.images;
+      callback(err,data);
+      process.nextTick(function(){
+        oldImages.forEach(function(image){
+          var found=false;
+          newImages.forEach(function(img){
+            if(img.name==image.name){
+              found=true; 
+            }
+          })
+          if(!found){
+            imageBrucket.remove(image.name,function(err){
+              if(err)console.log(err);
+            });
+          }
         })
-      }
-    })
-    
+      })
+    })  
   }
 };
 

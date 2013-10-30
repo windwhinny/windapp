@@ -131,7 +131,10 @@ window.app
 				return type;
 			}
 		}
-
+  
+    $scope.removeImage=function(index){
+      product.images.splice(index,1);
+    }
 		$scope.toggleEditModel=function(){
 			var edit=$scope.edit||false;
 

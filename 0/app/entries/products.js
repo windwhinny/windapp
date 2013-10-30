@@ -1,7 +1,7 @@
 var Entry = require('./entry'),
 	mongoose = require('mongoose'),
 	Product = mongoose.model('Product'),
-  qiniu = require('../../config/qiniu.js'),
+  imageBrucket = require('../imageBrucket.js'),
 	productsEntry = new Entry('Product'),
   base64 = require('Base64'),
 	Errors = require('../errors');
@@ -167,7 +167,7 @@ productsEntry.handlers={
       if(!host){done();return;}
       if(!uid)return;
       done(null,{
-        token:qiniu(host,uid)
+        token:imageBrucket.token(host,uid)
       });
     }
   },
@@ -184,8 +184,7 @@ productsEntry.handlers={
           image=JSON.parse(i);
         }
         if(!uid){
-          var client = new qiniu.rs.Client();
-          client.remove('products', image.name, function(err, ret) {
+          imageBrucket.remove( image.name, function(err, ret) {
             if (!err) {
               return;
             } else {
@@ -230,9 +229,7 @@ productsEntry.handlers={
 		main:function(req,res,done){
 			var uid=requireUid(req,done);
 			if(!uid)return;
-			Product.findOneAndUpdate({
-				uid:uid
-			},req.body,done);
+			Product.updateAndClean(uid,req.body,done);
 		}
 	},
 }
