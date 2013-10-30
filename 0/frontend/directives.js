@@ -33,7 +33,8 @@ window.app
       replace:true,
       template:
       	'<div class="upload" ng-class="status">'+
-      		'<input type="file" ng-show="isTradition" multiple onchange="angular.element(this).scope().setFiles(this)">'+
+          '<h2>{{"Upload Image" | i18n}}</h2>'+
+      		'<input type="file" multiple onchange="angular.element(this).scope().setFiles(this)">'+
       		'<div id="dropbox" ng-hide ="isTradition" ng-class="dropClass"><h1>{{ dropText | i18n}}</h1></div>'+
       		'<progress percent="progress" class="progress-striped "></progress>'+
       		'<errors></errors>'+
@@ -157,7 +158,6 @@ window.app
 			        	
 			            if (evt.lengthComputable) {
 			                $scope.progress = Math.round(evt.loaded * 100 / evt.total)
-                      console.log(Math.round(evt.loaded * 100 / evt.total));
 			            } else {
 			                $scope.progress = 'unable to compute'
 			            }
