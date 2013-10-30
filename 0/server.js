@@ -32,18 +32,26 @@ function runServer(){
 	fs.readdirSync(models_path).forEach(function(file) {
 	    require(models_path + '/' + file);
 	});
+  var i=0;
 	//bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
+  console.log(i++);
 	var app = express();
+  console.log(i++);
 	//express settings
 	require(config.root+'/config/express')(app, config, passport);
+  console.log(i++);
 	//Bootstrap routes
 	require(config.root+'/config/routes')(app, passport, auth);
+  console.log(i++);
 	//Start the app by listening on <port>
 	app.listen(config.port);
+  console.log(i++);
 	console.log('Express app started on port ' + config.port);
+  console.log(i++);
 	//Initializing logger 
 	logger.init(app, passport, mongoose);
+  console.log(i++);
 	//expose app
 	exports = module.exports = app;
 	
