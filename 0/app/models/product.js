@@ -220,7 +220,6 @@ ProductSchema.statics = {
             }
           })
           if(!found){
-            console.log(image.name);
             imageBrucket.remove(image.name,function(err){
               if(err)console.log(err,err.stack);
             });
