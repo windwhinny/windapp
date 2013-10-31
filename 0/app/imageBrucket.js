@@ -11,7 +11,7 @@ var imageBrucket={
     putPolicy.callbackUrl = host+'/products/'+uid+'/image';
     return putPolicy.token();
   },
-  remove:function(callback){
+  remove:function(name,callback){
     var client= imageBrucket.client;
     client.remove(brucketName,name,callback);
   },
