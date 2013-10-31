@@ -17,7 +17,7 @@ var config = {
     },
     test: {
         db: 'mongodb://localhost/mean-test',
-        bucket:'products-test',
+      	imageBrucketName:'products-test',
         app: {
             name: 'WindApp - Test'
         },
@@ -37,7 +37,7 @@ var config = {
         app: {
             name: 'WindApp'
         },
-        imageBucketName:'products',
+        imageBrucketName:'products',
         imageHost:'http://products.u.qiniudn.com'
     }
 };
@@ -45,7 +45,7 @@ var config = {
 var defaultConfig = {
     db: 'mongodb://localhost/mean',
     root: rootPath,
-    imageBucketName:'products',
+    
     imageBrucketAK:'1hiE4FNoplKf9OnmVEg3Sr6KXp3nBa2wDOIYv5f1',
     imageBrucketSK:'2QtaTVv7z9yZQOGkKvLJqGWLHSKsI4eO-J5CI5rM',
     app: {
