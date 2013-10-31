@@ -13,7 +13,7 @@ var imageBrucket={
   },
   remove:function(callback){
     var client= imageBrucket.client;
-    client.remove(config.imageBrucketName,name,callback);
+    client.remove(brucketName,name,callback);
   },
   client:new qiniu.rs.Client()
 }
