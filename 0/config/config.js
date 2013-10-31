@@ -10,8 +10,7 @@ var config = {
         app: {
             name: 'WindApp - Development'
         },
-        imageBucketName:'products-dev',
-      
+        imageBrucketName:'products-dev',
         port:3000,
       imageHost:'http://products-dev.u.qiniudn.com'
     },
@@ -45,7 +44,6 @@ var config = {
 var defaultConfig = {
     db: 'mongodb://localhost/mean',
     root: rootPath,
-    
     imageBrucketAK:'1hiE4FNoplKf9OnmVEg3Sr6KXp3nBa2wDOIYv5f1',
     imageBrucketSK:'2QtaTVv7z9yZQOGkKvLJqGWLHSKsI4eO-J5CI5rM',
     app: {
