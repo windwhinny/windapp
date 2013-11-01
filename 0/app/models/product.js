@@ -208,7 +208,7 @@ ProductSchema.statics = {
     },
   removeImage:function(uid,image,callback){
     imageBrucket.remove(image.name,function(err){
-      if(err)callback(err);
+      if(err){callback(err);return};
       Product.update({uid:uid},{$pull:{images:{name:image}}}},callback);
     })
   },
