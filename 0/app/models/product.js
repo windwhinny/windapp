@@ -206,6 +206,12 @@ ProductSchema.statics = {
         }
       })
     },
+  removeImage:function(uid,image,callback){
+    imageBrucket.remove(image.name,function(err){
+      if(err)callback(err);
+      Product.update({uid:uid},{$pull:{images:{name:image}}}},callback);
+    })
+  },
   updateAndClean:function(uid,data,callback){
     Product.findOneAndUpdate({uid:uid},data,{new:false},function(err,doc){
       var newImages=data.images;
