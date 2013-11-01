@@ -183,7 +183,7 @@ productsEntry.handlers={
       Product.removeImage(uid,image,done)
     }
   },
-  imageUploadCallback:{
+  addImage:{
     method:'post',
     type:'.*',
       url:'/:uid/image',

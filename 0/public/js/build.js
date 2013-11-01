@@ -323,7 +323,7 @@ window.app
       ProductQuery.removeImage(
         {
           productUid:product.uid,
-          imageName:index
+          imageName:product.images[index]&&product.images[index].name
         },
         function(resource,headers){
         	product.images.splice(index,1);
