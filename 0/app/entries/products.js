@@ -178,8 +178,8 @@ productsEntry.handlers={
     main:function(req,res,done){
    	  var uid=requireUid(req,done);
       var image=req.params.image;
-      if(!image){done();return;}
       if(!uid)return;
+      if(!image){done();return;}
       Product.removeImage(uid,image,done)
     }
   },
