@@ -5,8 +5,7 @@
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
-    path=require('path'),
-    logger = require('mean-logger');
+    path=require('path');
 
 if (process.env.BAE_ENV_APPID) {
  	config = require('./config/config.js');
@@ -43,7 +42,7 @@ function runServer(){
 	app.listen(config.port);
 	console.log('Express app started on port ' + config.port);
 	//Initializing logger 
-	logger.init(app, passport, mongoose);
+	
 	//expose app
 	exports = module.exports = app;
 	
