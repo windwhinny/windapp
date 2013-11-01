@@ -226,8 +226,9 @@ window.app
 		$scope.currentPage=$state.params.currentPage;
 		$scope.refresh=function(page){
 			page=page||1;
-
+      $scope.loading=true;
 			$scope.products =  ProductQuery.find({currentPage:page},function(resource,headers){
+        $scope.loading=false;
 				$scope.pageCount=headers('Page-Count')||1;
 				$scope.pageStep=headers('Page-Step')||20;
 				$scope.currentPage=headers('Page-Number')||1;

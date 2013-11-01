@@ -408,8 +408,9 @@ window.app
 		$scope.currentPage=$state.params.currentPage;
 		$scope.refresh=function(page){
 			page=page||1;
-
+      $scope.loading=true;
 			$scope.products =  ProductQuery.find({currentPage:page},function(resource,headers){
+        $scope.loading=false;
 				$scope.pageCount=headers('Page-Count')||1;
 				$scope.pageStep=headers('Page-Step')||20;
 				$scope.currentPage=headers('Page-Number')||1;
@@ -446,10 +447,21 @@ window.app
 		var directiveDefinitionObject ={
 			template:'<alert ng-repeat="err in errors" class="alert-error error">{{err.message | i18n}}</alert>',
 			restrict:'EA',
+      replace:true
 		}
 		return directiveDefinitionObject ;
 	}
 	]
+)
+.directive('loading',
+  [
+  function(){
+    var directiveDefinitionObject = {
+      template:'<h1 class="loading">{{"Loading..." | i18n}}</h1>',
+      restrict:'E'
+    }
+    return directiveDefinitionObject;
+  }]
 )
 .directive('upload',
   [
@@ -674,7 +686,8 @@ var translation={
 	'ONLY_FILES_ARE_ALLOWED':'只允许文件',
 	'FAILED_TO_UPLOAD_THE_FILE':'上传失败',
   'UPLOADING':'上传中',
-  'UPLOAD_IMAGE':'上传图片'
+  'UPLOAD_IMAGE':'上传图片',
+  'LOADING...':'读取中...'
 }
 window.app
 .filter('i18n',

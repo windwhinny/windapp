@@ -5,25 +5,7 @@
 			<input ng-if="edit" type="{{getInputType(schema.number.type)}}" ng-model="product.number" >
 		</h2>
 	</div>
-
-	<div class='control-group catalog'>
-		<small ng-if="!edit">{{product.catalog}}</small>
-		<form class='form-horizontal' ng-if="edit">
-			<label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
-			<div  class='controls combobox'>
-				<input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
-				 <ul class="dropdown-menu">
-				    <li ng-repeat="cg in catalogs">
-				      <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
-				    </li>
-				  </ul>
-			</div>
-		</form>
-	</div>
-
 	<errors></errors>
-
-
 	<div class='pull-right'>
 		<button ng-click="toggleEditModel()" class="{{edit?'btn btn-primary':'btn btn-success'}}">
 			<div ng-switch on="edit">
@@ -33,9 +15,24 @@
 			</div>
 		</button>
 	</div>
-
+  <loading ng-if="!product.uid"></loading>
 	<tabset  class='nav-pills nav-stacked' direction ="left" >
 		<tab heading="{{'Property' | i18n}}">
+      <div class='control-group catalog'>
+        <small ng-if="!edit">{{product.catalog}}</small>
+        <form class='form-horizontal' ng-if="edit">
+          <label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
+          <div  class='controls combobox'>
+            <input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
+             <ul class="dropdown-menu">
+                <li ng-repeat="cg in catalogs">
+                  <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
+                </li>
+              </ul>
+          </div>
+        </form>
+      </div>
+      
 			<form class="form-horizontal">
 				<div class='control-group' ng-repeat='field in schema.property.default'>
 				    <label class="control-label" for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
@@ -45,7 +42,7 @@
 					</div>
 				</div>
 			</form>
-
+    
 			<form class="form-horizontal">
 				<div class='control-group' ng-repeat='field in product.property.custom'>
 				    <label ng-if="!edit" class="control-label" for="inputEmail">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
@@ -70,7 +67,7 @@
 		</tab>
 		<tab heading="{{'Pictures' | i18n}}">
       <div class="image-tab">
-        
+        <loading ng-if="!imageHost"></loading>
         <div class="images" ng-if="imageHost" ng-class="(edit)?'span7':''">
           <div class="box" ng-repeat="img in product.images">
             <div class="wapper">
@@ -79,11 +76,15 @@
             <button class="btn btn-link delete" ng-if="edit" ng-click="removeImage($index)">Delete</button>
           </div>
         </div>
-        
-        <div class='upload span5' ng-if='edit&&uploadAvailable'>
+        <div class='upload span5' ng-if='edit'>
+          <loading ng-if="!uploadAvailable"></loading>
+          <div ng-if='uploadAvailable'>
           <upload options="uploadOptions"></upload>
+          </div>
         </div>
       </div>
     </tab>
 	</tabset>
+  
+  
 </div>

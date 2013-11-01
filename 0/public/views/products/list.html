@@ -3,21 +3,24 @@
 	<div class='refresh control-group'>
 		<button class='btn ' ng-click='refresh()'>{{'Refresh' | i18n}}</button>
 	</div>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th class='id'>{{"ID" | i18n}}</th>
-				<th>{{"Number" |i18n}}</th>
-				<th>{{"Created" | i18n}}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="product in products" ng-click="productClicked(product.uid)">
-				<td class='id'>{{product.uid}}</td>
-				<td>{{product.number}}</td>
-				<td>{{product.created | date:"yyyy-M-d"}}</td>
-			</tr>
-		</tbody>
-	</table>
-	<pagination boundary-links="true" total-items="productsCount" items-per-page='pageStep' page="currentPage" class="pagination-small" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="refresh(page)"></pagination>
-</div>
+  <loading ng-if='loading'></loading>
+  <div ng-if='!loading'>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th class='id'>{{"ID" | i18n}}</th>
+          <th>{{"Number" |i18n}}</th>
+          <th>{{"Created" | i18n}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="product in products" ng-click="productClicked(product.uid)">
+          <td class='id'>{{product.uid}}</td>
+          <td>{{product.number}}</td>
+          <td>{{product.created | date:"yyyy-M-d"}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination boundary-links="true" total-items="productsCount" items-per-page='pageStep' page="currentPage" class="pagination-small" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="refresh(page)"></pagination>
+  </div>
+ </div>

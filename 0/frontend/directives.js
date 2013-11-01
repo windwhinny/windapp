@@ -20,10 +20,21 @@ window.app
 		var directiveDefinitionObject ={
 			template:'<alert ng-repeat="err in errors" class="alert-error error">{{err.message | i18n}}</alert>',
 			restrict:'EA',
+      replace:true
 		}
 		return directiveDefinitionObject ;
 	}
 	]
+)
+.directive('loading',
+  [
+  function(){
+    var directiveDefinitionObject = {
+      template:'<h1 class="loading">{{"Loading..." | i18n}}</h1>',
+      restrict:'E'
+    }
+    return directiveDefinitionObject;
+  }]
 )
 .directive('upload',
   [
