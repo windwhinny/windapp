@@ -108,9 +108,8 @@ window.app
 			          $scope.files.push(element.files[i])
 			        }
 			      	setDefault();
-			      	
 			    });
-
+          upload();
 	    	}
 	    	
 	    	function upload(){
