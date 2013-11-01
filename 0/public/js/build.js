@@ -250,7 +250,12 @@ window.app
           url:'/products/imageHost',
           method:'GET',
           responseType:'json'
-        }
+        },
+              removeImage:{
+              	url:'/products/:productUid/image/:imageName',
+                method:'DELETE',
+                responseType:'json'
+              }
 
 			})
 	return Products;
@@ -315,7 +320,19 @@ window.app
 		}
   
     $scope.removeImage=function(index){
-      product.images.splice(index,1);
+      ProductQuery.removeImage(
+        {
+          productUid:product.uid,
+          imageName:index
+        },
+        function(resource,headers){
+        	product.images.splice(index,1);
+        },
+        function(resource,headers){
+          	handleError(response.data);
+        }
+      )
+      
     }
 		$scope.toggleEditModel=function(){
 			var edit=$scope.edit||false;
