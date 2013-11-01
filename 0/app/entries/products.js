@@ -171,7 +171,7 @@ productsEntry.handlers={
       });
     }
   },
-  deleteImage:{
+  removeImage:{
   	method:'delete',
     type:'json',
     url:'/:uid/image/:image',
