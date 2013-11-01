@@ -180,7 +180,6 @@ productsEntry.handlers={
       var image=req.params.image;
       if(!image){done();return;}
       if(!uid)return;
-      
       Product.removeImage(uid,image,done)
     }
   },
