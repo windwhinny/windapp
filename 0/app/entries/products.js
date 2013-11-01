@@ -171,6 +171,19 @@ productsEntry.handlers={
       });
     }
   },
+  deleteImage:{
+  	method:'delete',
+    type:'json',
+    url:'/:uid/image/:image',
+    main:function(req,res,done){
+   	  var uid=requireUid(req,done);
+      var image=req.params.image;
+      if(!image){done();return;}
+      if(!uid)return;
+      
+      Product.removeImage(uid,image,done)
+    }
+  },
   imageUploadCallback:{
     method:'post',
     type:'.*',
