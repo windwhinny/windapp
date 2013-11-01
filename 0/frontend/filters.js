@@ -34,7 +34,8 @@ var translation={
 	'FAILED_TO_UPLOAD_THE_FILE':'上传失败',
   'UPLOADING':'上传中',
   'UPLOAD_IMAGE':'上传图片',
-  'LOADING...':'读取中...'
+  'LOADING...':'读取中...',
+  'Cancel':'取消'
 }
 window.app
 .filter('i18n',

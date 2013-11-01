@@ -293,8 +293,8 @@ window.app
 	return directiveDefinitionObject;
 })
 .controller('ProductItemController',
-	[		'$scope', 'ProductsService','$state', 'ProductsQueryService',
-	function($scope,   Product,		     $state,   ProductQuery){
+	[		'$scope', 'ProductsService','$state', 'ProductsQueryService','$modal',
+	function($scope,   Product,		     $state,   ProductQuery, $modal){
 		var productId=$state.params.productId;
 		$scope.schema = Product.getSchema();
 		var product = $scope.product = Product.get({productId:productId},function(resource){
@@ -318,7 +318,33 @@ window.app
 				return type;
 			}
 		}
-  
+    var getImageURL=$scope.getImageURL=function(name,size){
+      var sizeFix=(size)?'?imageView/2/w/'+size+'/h/'+size+'':'';
+      return ($scope.imageHost&&name)?$scope.imageHost+'/'+name+sizeFix:'';
+    }
+    $scope.viewImage=function(index){
+      var image=product.images[index]; 
+      if(!image||$scope.edit)return;      
+       var modalInstance = $modal.open({
+        templateUrl: '/views/products/imageViewer.html',
+        controller: 'ImageViewerController',
+        resolve: {
+          images: function () {
+            product.images.forEach(function(image,i){
+              image.url=getImageURL(image.name,500)
+              image.original=getImageURL(image.name)
+              if(index==i){
+                 image.active=true; 
+              }
+            });
+            return product.images;
+          },
+          productNumber:function(){
+            return product.number; 
+          }
+        }
+      });
+    }
     $scope.removeImage=function(index){
       ProductQuery.removeImage(
         {
@@ -425,6 +451,16 @@ window.app
 	}
 	]
 )
+.controller('ImageViewerController',
+  ['$scope', '$modalInstance', 'images','productNumber',
+  function($scope, $modalInstance, images, productNumber){
+    $scope.images=images;
+    $scope.productNumber=productNumber;
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };    
+  }
+])
 })();(function(){
 window.app
 .directive('accountinput',
@@ -687,7 +723,8 @@ var translation={
 	'FAILED_TO_UPLOAD_THE_FILE':'上传失败',
   'UPLOADING':'上传中',
   'UPLOAD_IMAGE':'上传图片',
-  'LOADING...':'读取中...'
+  'LOADING...':'读取中...',
+  'Cancel':'取消'
 }
 window.app
 .filter('i18n',

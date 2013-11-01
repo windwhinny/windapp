@@ -70,8 +70,8 @@
         <loading ng-if="!imageHost"></loading>
         <div class="images" ng-if="imageHost" ng-class="(edit)?'span7':''">
           <div class="box" ng-repeat="img in product.images">
-            <div class="wapper">
-              <img  ng-src="{{(imageHost&&img.name)?imageHost+'/'+img.name+'?imageView/2/w/100/h/100':''}}"/>
+            <div class="wapper" ng-click="viewImage($index)">
+              <img  ng-src="{{getImageURL(img.name,100)}}"/>
             </div>
             <button class="btn btn-link delete" ng-if="edit" ng-click="removeImage($index)">Delete</button>
           </div>
