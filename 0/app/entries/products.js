@@ -110,43 +110,21 @@ productsEntry.handlers={
 		type:'json',
 		url:['','/page/:page'],
 		main:function(req,res,done){
-
 			var page=req.params.page||1;
 			var step=req.query.step||20;
 			var fields=req.query.fields||"";
 			var sort=req.query.sort||"uid";
-
-			function varifyPageNumber(count,step,page){
-				var pageCount=Math.ceil(count/step);
-				if(page>pageCount){
-					page=pageCount;
-				}
-				return pageCount;
-			}
-
-			Product.find(req.query).count(function(err,count){
-				if(err){
-					handleError(err,done);
-				}else{
-					var pageCount=varifyPageNumber(count,step,page);
-
-					var query=Product.find(req.query,fields,{
-						skip:(page-1)*step,	
-					}).sort(sort).limit(step);
-
-					query.exec(function(err,docs){
-						if(err){
-							handleError(err,done);
-						}else{
-							res.header('Page-Count',pageCount);
-							res.header('Items-Count',count);
-							res.header('Page-Number',page);
-							res.header('Page-Step',step);
-							done(null,docs);
-						}
-					})
-				}
-			});
+			Product.list(req.query,page,step,fields,sort,function(err,docs,pagination){
+        if(err){
+			    handleError(err,done);
+			  }else{
+			    res.header('Page-Count',pagination.pageCount);
+			    res.header('Items-Count',pagination.itemCount);
+			    res.header('Page-Number',pagination.page);
+			    res.header('Page-Step',pagination.step);
+			    done(null,docs);
+			  }
+      })
 		}
 	},
   getImageHost:{

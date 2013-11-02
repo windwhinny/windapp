@@ -80,6 +80,19 @@ var ProductSchema = new Schema(schemaData,{
     _id:false
 });
 
+[
+  {
+    fields:{uid:1},
+    options:{unique:true,sparse: true}
+  },
+  {
+    fields:{uid:1,'images.name':1},
+    options:{unique:true,sparse: true}
+  }
+].forEach(function(index){
+  ProductSchema.index(index.fields,index.options);
+});
+
 function addToQueue(queue,cb){
     queue.push(cb);
     function runQueue(){
@@ -99,9 +112,7 @@ var saveQueue=[];
 
 ProductSchema.pre('save', function(next) {
     if (!this.isNew) return next();
-
     var self=this;
-
     function checkNumber(callback){
         var number=self.number;
         if(number){
@@ -152,6 +163,34 @@ ProductSchema.statics = {
         this.findOne({
             _id: id
         }).populate('user').exec(cb);
+    },
+    list:function(query,page,step,fields,sort,callback){
+      function varifyPageNumber(count,step,page){
+				var pageCount=Math.ceil(count/step);
+				if(page>pageCount){
+					page=pageCount;
+				}
+				return pageCount;
+			}
+      Product.find(query).count(function(err,count){
+				if(err){
+					callback(err);
+				}else{
+					var pageCount=varifyPageNumber(count,step,page);
+					var query=Product.find(query,fields,{
+						skip:(page-1)*step,	
+					}).sort(sort).limit(step);
+            
+          query.exec(function(err,docs){
+            callback(err,docs,{
+              page:page,
+              step:step,
+              pageCount:pageCount,
+              itemCount:count
+            })
+          })
+				}
+			});
     },
     getSchema: function(cb){
         if(typeof(cb)=='function'){

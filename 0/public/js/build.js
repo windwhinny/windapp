@@ -246,21 +246,36 @@ window.app
           method:'GET',
           responseType:'json',
         },
-        getImageHost:{
-          url:'/products/imageHost',
-          method:'GET',
+        removeImage:{
+          url:'/products/:productUid/image/:imageName',
+          method:'DELETE',
           responseType:'json'
-        },
-              removeImage:{
-              	url:'/products/:productUid/image/:imageName',
-                method:'DELETE',
-                responseType:'json'
-              }
+        }
 
 			})
 	return Products;
 	}]
 )
+.factory('ImageOptions',
+  ['$http','$rootScope',
+  function($http,$rootScope){
+    var host=null;
+    var options={
+      getHost:function(callback){
+        if(host){
+          callback(host);
+        }else{
+          $http({method:'GET',responseType:'json',url:'/products/imageHost'})
+            .success(function(data, status, headers, config){
+                host=data.host;
+                callback(host);
+            })
+        }
+      }
+    };
+    return options;
+  }
+])
 .controller('AddProductController',
 	[		'$scope', 'ProductsService', '$state',
 	function($scope,   Product,			  $state){
@@ -293,8 +308,8 @@ window.app
 	return directiveDefinitionObject;
 })
 .controller('ProductItemController',
-	[		'$scope', 'ProductsService','$state', 'ProductsQueryService','$modal',
-	function($scope,   Product,		     $state,   ProductQuery, $modal){
+	[		'$scope', 'ProductsService','$state', 'ProductsQueryService','$modal','ImageOptions',
+	function($scope,   Product,		     $state,   ProductQuery, $modal,ImageOptions){
 		var productId=$state.params.productId;
 		$scope.schema = Product.getSchema();
 		var product = $scope.product = Product.get({productId:productId},function(resource){
@@ -302,13 +317,14 @@ window.app
 		},function(resource,headers){
 			handleError(resource.data);
 		});
-  
-    ProductQuery.getImageHost(function(resource,headers){
-      $scope.imageHost=resource.host;
-    },function(resource,headers){
-      handleError(resource.data)
+    
+    ImageOptions.getHost(function(host){
+      $scope.imageHost=host;
     })
     
+    $scope.getImageURL=function(name,size){
+      return $scope.imageHost+getImagePath(name,size); 
+    }
 		$scope.getInputType=function(type){
 			if(type==='string'){
 				return 'text'
@@ -318,10 +334,7 @@ window.app
 				return type;
 			}
 		}
-    var getImageURL=$scope.getImageURL=function(name,size){
-      var sizeFix=(size)?'?imageView/2/w/'+size+'/h/'+size+'':'';
-      return ($scope.imageHost&&name)?$scope.imageHost+'/'+name+sizeFix:'';
-    }
+    $scope.getImagePath=getImagePath;
     $scope.viewImage=function(index){
       var image=product.images[index]; 
       if(!image||$scope.edit)return;      
@@ -424,8 +437,8 @@ window.app
 	}
 ])
 .controller('ProductsListController',
-	[		'$scope', 'ProductsQueryService','$state','$location',
-	function($scope,   ProductQuery,          $state,  $location){
+	[		'$scope', 'ProductsQueryService','$state','$location','ImageOptions',
+	function($scope,   ProductQuery,          $state,  $location,ImageOptions){
 		$scope.currentPage=$state.params.currentPage;
 		$scope.refresh=function(page){
 			page=page||1;
@@ -442,7 +455,18 @@ window.app
 		};
 		$scope.productClicked=function(uid){
 			$state.go('products.item',{productId:uid});
-		}
+		};
+    ImageOptions.getHost(function(host){
+      $scope.imageHost=host;
+    });
+    $scope.getCover=function(product){
+      var image=product.images[0];
+      if(!image)return "";
+      
+      return getImagePath(image.name,100);
+    }
+ 
+     
 	}
 	]
 )
@@ -456,6 +480,11 @@ window.app
     };    
   }
 ])
+
+function getImagePath(name,size){
+  var sizeFix=(size)?'?imageView/2/w/'+size+'/h/'+size+'':'';
+  return (name)?'/'+name+sizeFix:'';
+}
 })();(function(){
 window.app
 .directive('accountinput',

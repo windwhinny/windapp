@@ -109,8 +109,9 @@ color: #C4C4C4;
   display: inline-block;
   margin: 5px;
 }
-.product .images .wapper{
+.thumbnails-wapper{
   height:100px;
+  width:100px;
   cursor:pointer;
 }
 .product .images img{
