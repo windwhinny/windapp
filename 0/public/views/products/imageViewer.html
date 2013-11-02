@@ -7,7 +7,7 @@
       <img ng-src="{{image.url}}" style="margin:auto;">
       <div class="carousel-caption">
         <p>{{image.imageInfo.height}}&times;{{image.imageInfo.width}}</p>
-        <a ng-heef="image.original">{{"Original Image" | i18n}}</a>
+        <a ng-href="{{image.original}}" target="_blank">{{"Original Image" | i18n}}</a>
       </div>
     </slide>
   </carousel>

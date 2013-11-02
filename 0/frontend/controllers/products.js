@@ -149,7 +149,7 @@ window.app
         resolve: {
           images: function () {
             product.images.forEach(function(image,i){
-              image.url=getImageURL(image.name,500)
+              image.url=getImageURL(image.name,380)
               image.original=getImageURL(image.name)
               if(index==i){
                  image.active=true; 

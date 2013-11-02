@@ -331,7 +331,7 @@ window.app
         resolve: {
           images: function () {
             product.images.forEach(function(image,i){
-              image.url=getImageURL(image.name,500)
+              image.url=getImageURL(image.name,380)
               image.original=getImageURL(image.name)
               if(index==i){
                  image.active=true; 
@@ -724,7 +724,8 @@ var translation={
   'UPLOADING':'上传中',
   'UPLOAD_IMAGE':'上传图片',
   'LOADING...':'读取中...',
-  'Cancel':'取消'
+  'CANCEL':'取消',
+  'ORIGINAL_IMAGE':'原始图像'
 }
 window.app
 .filter('i18n',

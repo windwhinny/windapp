@@ -35,7 +35,8 @@ var translation={
   'UPLOADING':'上传中',
   'UPLOAD_IMAGE':'上传图片',
   'LOADING...':'读取中...',
-  'Cancel':'取消'
+  'CANCEL':'取消',
+  'ORIGINAL_IMAGE':'原始图像'
 }
 window.app
 .filter('i18n',
