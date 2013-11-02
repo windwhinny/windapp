@@ -147,15 +147,10 @@ window.app
         templateUrl: '/views/products/imageViewer.html',
         controller: 'ImageViewerController',
         resolve: {
-          images: function () {
-            product.images.forEach(function(image,i){
-              image.url=getImageURL(image.name,380)
-              image.original=getImageURL(image.name)
-              if(index==i){
-                 image.active=true; 
-              }
-            });
-            return product.images;
+          image: function () {
+            image.original=getImageURL(image.name);
+            image.url=getImageURL(image.name,400);
+            return image;
           },
           productNumber:function(){
             return product.number; 
@@ -270,9 +265,9 @@ window.app
 	]
 )
 .controller('ImageViewerController',
-  ['$scope', '$modalInstance', 'images','productNumber',
-  function($scope, $modalInstance, images, productNumber){
-    $scope.images=images;
+  ['$scope', '$modalInstance', 'image','productNumber',
+  function($scope, $modalInstance, image, productNumber){
+    $scope.image=image;
     $scope.productNumber=productNumber;
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
