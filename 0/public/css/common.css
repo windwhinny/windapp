@@ -109,9 +109,9 @@ color: #C4C4C4;
   display: inline-block;
   margin: 5px;
 }
-}
 .product .images .wapper{
-  height:100px
+  height:100px;
+  cursor:pointer;
 }
 .product .images img{
   max-height:100px;
