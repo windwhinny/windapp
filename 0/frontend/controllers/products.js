@@ -140,7 +140,7 @@ window.app
       $scope.imageHost=host;
     })
     
-    $scope.getImageURL=function(name,size){
+    var getImageURL = $scope.getImageURL = function(name,size){
       return $scope.imageHost+getImagePath(name,size); 
     }
 		$scope.getInputType=function(type){
