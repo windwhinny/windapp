@@ -6,8 +6,6 @@ var brucketName=config.imageBrucketName;
 var putPolicy= new qiniu.rs.PutPolicy(brucketName);
 putPolicy.callbackBody = '{"size": $(fsize),"name":"$(etag)","type":"$(mimeType)","imageInfo":$(imageInfo)}';
 
-
-console.log()
 var imageBrucket={
   token:function(host,uid){
     putPolicy.callbackUrl = host+'/products/'+uid+'/image';

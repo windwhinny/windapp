@@ -136,22 +136,21 @@ ProductSchema.pre('save', function(next) {
             .limit(1)
             .exec(function(err, product){
                 self.uid= (product[0]?product[0].uid:0)+1;
+                console.log(self.number);
+                console.log(self.uid);
                 callback(err);
             });
     }
-    addToQueue(saveQueue,function(nx){
-         checkUid(function(err){
-            if(err){
+    
+    checkUid(function(err){
+        if(err){
+            next(err);
+            return
+        }else{
+            checkNumber(function(err){
                 next(err);
-                nx()
-                return
-            }else{
-                checkNumber(function(err){
-                    next(err);
-                    nx();
-                })
-            }
-        })
+            })
+        }
     })
 });
 
@@ -159,6 +158,15 @@ ProductSchema.pre('save', function(next) {
  * Statics
  */
 ProductSchema.statics = {
+    checkAndSave:function(doc,callback){
+        addToQueue(saveQueue,function(next){
+            var product= new Product(doc);
+            product.save(function(err,doc){
+                 callback(err,doc);
+                 next();
+            })
+        })
+    },
     load: function(id, cb) {
         this.findOne({
             _id: id
@@ -275,4 +283,4 @@ ProductSchema.statics = {
   }
 };
 
-var Product=mongoose.model('Product', ProductSchema);
+var Product = module.exports = mongoose.model('Product', ProductSchema);

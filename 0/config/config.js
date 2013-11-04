@@ -3,6 +3,7 @@ var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
     env = process.env.NODE_ENV || 'production';
 var mongolab='mongodb://wind:5487@ds043388.mongolab.com:43388/windapp';
+var mongolabTest='mongodb://wind:5487@ds051838.mongolab.com:51838/wind-test';
 var config = {
     development: {
         db:mongolab,
@@ -15,7 +16,7 @@ var config = {
       imageHost:'http://products-dev.u.qiniudn.com'
     },
     test: {
-        db: 'mongodb://localhost/mean-test',
+        db: mongolabTest,
       	imageBrucketName:'products-test',
         app: {
             name: 'WindApp - Test'

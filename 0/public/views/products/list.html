@@ -16,7 +16,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="product in products" ng-click="productClicked(product.uid)">
-          <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{imageHost+getCover(product)}}"></td>
+          <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></td>
           <td class='id'>{{product.uid}}</td>
           <td>{{product.number}}</td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>

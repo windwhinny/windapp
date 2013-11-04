@@ -1,6 +1,6 @@
 var Entry = require('./entry'),
 	mongoose = require('mongoose'),
-	Product = mongoose.model('Product'),
+	Product = require('../models/product'),
   imageBrucket = require('../imageBrucket.js'),
 	productsEntry = new Entry('Product'),
   base64 = require('Base64'),
@@ -30,9 +30,9 @@ productsEntry.handlers={
 		method:'put',
 		type:'json',
 		main:function(req,res,done){
-			var product = new Product(req.body);
+			var product = req.body;
 			product.user=req.user;
-			product.save(done);
+			Product.checkAndSave(product,done);
 		},
 
 	},

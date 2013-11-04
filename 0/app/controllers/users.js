@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
+    User = require('../models/user'),
 	UserEntrices = {},
 	passport = null;
 

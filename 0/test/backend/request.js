@@ -4,8 +4,8 @@ var
 	app=require('../../server'),
 	request=require('supertest'),
 	mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    Product = mongoose.model('Product');
+    User = require('../../app/models/user'),
+    Product = require('../../app/models/product');
 
 describe('Request', function(){
 	describe('Response from "/"', function(){
@@ -217,6 +217,7 @@ describe('Request', function(){
         })
 
         it('should return catalogs in group', function(done){
+            this.timeout(60000);
             var i=0;
             function callback(err){
                 i--;
@@ -232,31 +233,37 @@ describe('Request', function(){
                             should.exist(catalogs[0].catalog);
                             should.exist(catalogs[0].count);
                             catalogs[0].catalog.should.equal('aaa');
-                            catalogs[0].count.should.equal(20);
+                            catalogs[0].count.should.equal(10);
 
                             should.exist(catalogs[1]);
                             should.exist(catalogs[1].catalog);
                             should.exist(catalogs[1].count);
                             catalogs[1].catalog.should.equal('bbb');
-                            catalogs[1].count.should.equal(12);
+                            catalogs[1].count.should.equal(7);
 
                             done();
                         })
                 }
             }
-            for (i=0;i<100;i++) {
-                var product=new Product({
+            var products=[];
+            for (i=0;i<20;i++) {
+                var product={
                     number:'testCatalog-'+i,
-                });
-
-                if(!(i%5)){
-                    product.catalog='aaa';
-                }else if(!(i%7)) {
-                    product.catalog='bbb';
                 };
 
-                product.save(callback)
+                if(!(i%2)){
+                    product.catalog='aaa';
+                }else if(!(i%3)) {
+                    product.catalog='bbb';
+                };
+                
+                Product.checkAndSave(product,function(err,doc){
+                    should.not.exist(err);
+                    callback();
+                })
             }
+            
+            
         })
 
         after(function(done){

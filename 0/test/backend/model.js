@@ -4,6 +4,8 @@
  process.env.NODE_ENV = 'test';
 var should = require('should'),
     app = require('../../server'),
+    User = require('../../app/models/user'),
+    Product = require('../../app/models/product'),
     mongoose = require('mongoose');
     
 
@@ -11,13 +13,13 @@ var should = require('should'),
 describe('Model', function() {
 
     it('Connection should be ok', function(done){
-        should.exist(mongoose.connection.db);
-        done();
+        this.timeout(60000);
+      mongoose.connection.on('connected',function(){
+        done()
+      })
     });
 
     describe('User', function() {
-        
-        var User = mongoose.model('User');
         var user;
 
         before(function(done) {
@@ -71,8 +73,6 @@ describe('Model', function() {
     });
 
     describe('Product', function(){
-
-        var Product= mongoose.model('Product');
         var product={
             number:'MT-101'
         }
@@ -122,6 +122,7 @@ describe('Model', function() {
         })
 
         it('should have correct result in MapReduce for product.property', function(done){
+            this.timeout(60000);
             var i=0;
             function callback(){
                 i--;
@@ -131,9 +132,9 @@ describe('Model', function() {
                             should.not.exist(err);
                             docs.should.be.an.instanceOf(Array);
                             should.equal(docs[0]._id,'fifth');
-                            should.equal(docs[0].value,20);
+                            should.equal(docs[0].value,7);
                             should.equal(docs[1]._id,'twice');
-                            should.equal(docs[1].value,50);
+                            should.equal(docs[1].value,10);
                         }catch(e){
                             done(e);
                             return;
@@ -143,7 +144,9 @@ describe('Model', function() {
                     })
                 }
             }
-            for(;i<100;i++){
+            
+            var products=[];
+            for(;i<20;i++){
                 var property={custom:[]};
                 if(!(i%2)){
                     property.custom.push({
@@ -152,29 +155,30 @@ describe('Model', function() {
                     })
                 
                 }
-                if(!(i%5)){
+                if(!(i%3)){
                     property.custom.push({
                         name:'fifth',
                         value:1
                     })
                 }
-                var product=new Product({
+                var product={
                     number:'testGetProperty-'+i,
                     property:property
-                })
-
-                product.save(function(err){
+                };
+                
+                Product.checkAndSave(product,function(err,doc){
                     should.not.exist(err);
                     callback();
                 })
             }
+            
         })
 
         after(function(done){
-            Product.remove({},function(err){
-                should.not.exist(err);
+            //Product.remove({},function(err){
+            //    should.not.exist(err);
                 done();
-            })
+            //})
         })    
     })
 });

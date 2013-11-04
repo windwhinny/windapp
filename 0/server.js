@@ -22,10 +22,10 @@ if (process.env.BAE_ENV_APPID) {
 //if test env, load example file
 var auth = require(config.root+'/config/middlewares/authorization'),
     mongoose = require('mongoose'),
-    database = require(config.root+'/config/database');
+    database = require(config.root+'/config/database'),
+    app = express();
 
 function runServer(){
-  console.log('Running server');
 	//Bootstrap models
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
@@ -33,19 +33,17 @@ function runServer(){
 	});
 	//bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
-	var app = express();
+
 	//express settings
 	require(config.root+'/config/express')(app, config, passport);
 	//Bootstrap routes
+ 
 	require(config.root+'/config/routes')(app, passport, auth);
 	//Start the app by listening on <port>
+
 	app.listen(config.port);
 	console.log('Express app started on port ' + config.port);
-	//Initializing logger 
-	
-	//expose app
-	exports = module.exports = app;
-	
+
 }
 
 database(function(err){
@@ -55,3 +53,5 @@ database(function(err){
 		runServer()
 	}
 })
+
+exports = module.exports = app;
