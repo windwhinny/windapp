@@ -136,8 +136,6 @@ ProductSchema.pre('save', function(next) {
             .limit(1)
             .exec(function(err, product){
                 self.uid= (product[0]?product[0].uid:0)+1;
-                console.log(self.number);
-                console.log(self.uid);
                 callback(err);
             });
     }

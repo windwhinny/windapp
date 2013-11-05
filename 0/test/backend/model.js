@@ -175,10 +175,10 @@ describe('Model', function() {
         })
 
         after(function(done){
-            //Product.remove({},function(err){
-            //    should.not.exist(err);
+            Product.remove({},function(err){
+                should.not.exist(err);
                 done();
-            //})
+            })
         })    
     })
 });

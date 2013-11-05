@@ -156,30 +156,27 @@ describe('Request', function(){
                         .get('/products')
                         .set('Accept','application/json')
                         .send()
-                        .expect('Page-Count','5')
+                        .expect('Page-Count','2')
                         .expect('Page-Step','20')
                         .expect('Page-Number','1')
                         .expect(200,function(err,res){
                             should.not.exist(err);
 
                             request(app)
-                                .get('/products/page/4')
+                                .get('/products/page/2')
                                 .set('Accept','application/json')
                                 .send()
-                                .expect('Page-Count','5')
+                                .expect('Page-Count','2')
                                 .expect('Page-Step','20')
-                                .expect('Page-Number','4')
+                                .expect('Page-Number','2')
                                 .expect(200,function(err,res){
                                     should.not.exist(err);
                                     done();
                                 })
-
                         })
-
-                    
                 }
             }
-            for(;i<98;i++){
+            for(;i<21;i++){
                 request(app)
                     .put('/products')
                     .set('Accept','application/json')
