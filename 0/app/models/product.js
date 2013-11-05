@@ -183,11 +183,10 @@ ProductSchema.statics = {
 					callback(err);
 				}else{
 					var pageCount=varifyPageNumber(count,step,page);
-					var query=Product.find(query,fields,{
+					var que=Product.find(query,fields,{
 						skip:(page-1)*step,	
-					}).sort(sort).limit(step);
-            
-          query.exec(function(err,docs){
+					}).sort(sort).limit(step);            
+          que.exec(function(err,docs){
             callback(err,docs,{
               page:page,
               step:step,

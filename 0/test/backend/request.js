@@ -131,7 +131,6 @@ describe('Request', function(){
                 .expect(200, function(err,res){
                     var products=res.body;
                     should.not.exist(err);
-
                     products.should.be.an.instanceOf(Array);
                     products.length.should.equal(1);
 
@@ -224,13 +223,14 @@ describe('Request', function(){
                         .get('/products/catalog')
                         .set('Accept', 'application/json')
                         .expect(200, function(err,res) {
+                          
                             var catalogs=res.body;
                             catalogs.should.be.an.instanceOf(Array);
                             should.exist(catalogs[0]);
                             should.exist(catalogs[0].catalog);
                             should.exist(catalogs[0].count);
                             catalogs[0].catalog.should.equal('aaa');
-                            catalogs[0].count.should.equal(10);
+                            catalogs[0].count.should.equal(6);
 
                             should.exist(catalogs[1]);
                             should.exist(catalogs[1].catalog);
@@ -242,7 +242,6 @@ describe('Request', function(){
                         })
                 }
             }
-            var products=[];
             for (i=0;i<20;i++) {
                 var product={
                     number:'testCatalog-'+i,
@@ -250,7 +249,8 @@ describe('Request', function(){
 
                 if(!(i%2)){
                     product.catalog='aaa';
-                }else if(!(i%3)) {
+                }
+                if(!(i%3)) {
                     product.catalog='bbb';
                 };
                 
