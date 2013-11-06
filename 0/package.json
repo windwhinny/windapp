@@ -26,8 +26,6 @@
     "underscore": "latest",
     "async": "latest",
     "view-helpers": "~0.1.3",
-    "mean-logger": "latest",
-    "bower": "latest",
     "forever": "latest",
     "qiniu": "~6.1.0"
   },

@@ -122,16 +122,6 @@ module.exports = function(grunt) {
                 src: ['<%= folders.frontend.files %>'],
                 dest: '<%= folders.frontend.build %>/build.js'
             },
-        },
-        bower: {
-            install:{
-                options: {
-                    targetDir: '<%= folders.frontend.lib %>',
-                    clean: true,
-                    layout: 'byComponent',
-                    verbose: true
-                }
-            }
         }
     });
 
@@ -143,7 +133,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-karma');
 
@@ -152,5 +141,5 @@ module.exports = function(grunt) {
     grunt.registerTask('noTest', ['concurrent:noTest']);
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('mini', ['concat', 'uglify']);
-    grunt.registerTask('install', ['bower', 'mini', 'test']);
+    grunt.registerTask('install', [ 'mini', 'test']);
 };

@@ -223,21 +223,10 @@ describe('Request', function(){
                         .get('/products/catalog')
                         .set('Accept', 'application/json')
                         .expect(200, function(err,res) {
-                          
                             var catalogs=res.body;
                             catalogs.should.be.an.instanceOf(Array);
-                            should.exist(catalogs[0]);
-                            should.exist(catalogs[0].catalog);
-                            should.exist(catalogs[0].count);
-                            catalogs[0].catalog.should.equal('aaa');
-                            catalogs[0].count.should.equal(6);
-
-                            should.exist(catalogs[1]);
-                            should.exist(catalogs[1].catalog);
-                            should.exist(catalogs[1].count);
-                            catalogs[1].catalog.should.equal('bbb');
-                            catalogs[1].count.should.equal(7);
-
+                            catalogs.should.includeEql({catalog:'aaa',count:6})
+                            catalogs.should.includeEql({catalog:'bbb',count:7})
                             done();
                         })
                 }
