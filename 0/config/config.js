@@ -2,7 +2,6 @@
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
     env = process.env.NODE_ENV || 'production';
-//var mongodb='mongodb://wind:5487@ds043388.mongolab.com:43388/windapp';
 var mongodb='mongodb://localhost:27017/windapp-dev';
 var mongodbTest='mongodb://localhost:27017/windapp-test';
 var config = {
