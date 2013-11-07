@@ -32,6 +32,7 @@
   "devDependencies": {
     "supertest": "~0.8.1",
     "should": "latest",
+    "requirejs":"~2.1.9",
     "grunt": "~0.4.1",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-contrib-jshint": "~0.6.0",
