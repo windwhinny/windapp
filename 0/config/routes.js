@@ -49,18 +49,19 @@ module.exports = function(app, passport, auth) {
     //Finish with setting up the userId param
     app.param('userId', users.user);
 
-    //if not in production env, browser will revice script file store in frontend folder directly
-    if(config.env!='production'){
-      var scriptHandler=express.static(config.root+'/frontend');
-      app.get('/js',scriptHandler);
-    }
-
-    var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
     //handle static file
+    var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
     var staticFileHandler=express.static(config.root+'/public');
-    app.get('/',function(req,res,next) {
+    var scriptHandler=express.static(config.root+'/frontend');
+    app.use(function(req,res,next) {
         if(staticFileExtReg.test(req.url)){
-          staticFileHandler(req,res,next); 
+
+        //if not in production env, browser will revice script file store in frontend folder directly
+          if(config.env!='production'&&req.url.match(/^\/js/)){
+            scriptHandler(req,res,next);        
+          }else{
+            staticFileHandler(req,res,next); 
+          }
         }else{
           next();
         }
