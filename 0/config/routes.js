@@ -55,6 +55,7 @@ module.exports = function(app, passport, auth) {
       app.get('/js',scriptHandler);
     }
 
+    var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
     //handle static file
     var staticFileHandler=express.static(config.root+'/public');
     app.get('/',function(req,res,next) {

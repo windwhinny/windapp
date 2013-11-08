@@ -8,7 +8,6 @@ var express = require('express'),
     helpers = require('view-helpers'),
     url = require('url');
 
-var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
 module.exports = function(app, config, passport) {
     app.set('showStackError', true);
 
