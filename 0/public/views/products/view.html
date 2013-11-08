@@ -19,7 +19,7 @@
   <tabset  class='nav-pills nav-stacked' direction ="left">
 		<tab heading="{{'Property' | i18n}}">
       <div class='control-group catalog'>
-        <small ng-if="!edit">{{product.catalog}}</small>
+        <h3 ng-if="!edit">{{product.catalog}}</h3>
         <form class='form-horizontal' ng-if="edit">
           <label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
           <div  class='controls combobox'>
