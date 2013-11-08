@@ -25,6 +25,8 @@
     }
   },
   name:'lib/almond',
-  include:'init',
-  out:'../public/js/build.js'
+  include:['init'],
+  insertRequire:['init'],
+  out:'../public/js/build.js',
+  wrap:true
 })
