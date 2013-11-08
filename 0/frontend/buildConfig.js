@@ -1,0 +1,29 @@
+({
+  baseUrl:'.',
+  paths:{
+    angular:'lib/angular',
+    'angular-resource':'lib/angular-resource',
+    'angular-bootstrap':'lib/ui-bootstrap-tpls',
+    'angular-ui-router':'lib/angular-ui-router',
+    jquery:'lib/jquery'
+  },
+  shim:{
+    angular:{
+      exports:'angular'
+    },
+    'angular-resource':{
+      deps:['angular']
+    },
+    'angular-bootstrap':{
+      deps:['angular','jquery'] 
+    },
+    'angular-ui-router':{
+      deps:['angular'] 
+    },
+    jquery:{
+      exports:['jQuery']
+    }
+  },
+  name:'init',
+  out:'../public/js/build.js'
+})

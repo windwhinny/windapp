@@ -1,4 +1,3 @@
-
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
     env = process.env.NODE_ENV || 'production';
@@ -12,7 +11,7 @@ var config = {
         },
         imageBrucketName:'products-dev',
         port:3000,
-      imageHost:'http://products-dev.u.qiniudn.com'
+        imageHost:'http://products-dev.u.qiniudn.com'
     },
     test: {
         db: mongodb,
@@ -20,7 +19,7 @@ var config = {
         app: {
             name: 'WindApp - Test'
         },
-      imageHost:'http://products-test.u.qiniudn.com'
+        imageHost:'http://products-test.u.qiniudn.com'
     },
     production: {
         db: {
@@ -49,7 +48,8 @@ var defaultConfig = {
     app: {
         name: 'WindApp'
     },
-    port:process.env.APP_PORT||3000
+    port:process.env.APP_PORT||3000,
+    env:env
 };
 
 module.exports = function(a,b){

@@ -1,5 +1,5 @@
 {
-  "name": "windApp",
+  "name": "windapp",
   "description": "A SPA build for manage products",
   "version": "1.0.0",
   "private": false,
@@ -43,6 +43,7 @@
     "grunt-contrib-concat": "latest",
     "grunt-bower-task": "latest",
     "grunt-contrib-cssmin ": "latest",
+    "grunt-requirejs": "~0.4.0",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-ng-scenario": "~0.1.0",

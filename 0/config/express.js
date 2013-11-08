@@ -22,15 +22,6 @@ module.exports = function(app, config, passport) {
 
     //Setting the fav icon
     app.use(express.favicon());
-    //handle static file
-    var staticFileHandler=express.static(config.root+'/public');
-    app.use(function(req,res,next) {
-        if(staticFileExtReg.test(req.url)){
-          staticFileHandler(req,res,next); 
-        }else{
-          next();
-        }
-    });
 
     //Don't use logger for test env
     if (process.env.NODE_ENV !== 'test') {

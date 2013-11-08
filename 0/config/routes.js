@@ -1,5 +1,4 @@
-var async = require('async');
-
+var config = require('./config');
 module.exports = function(app, passport, auth) {
     //User Routes
     function handleRequest (method,type,route,handler) {
@@ -48,9 +47,20 @@ module.exports = function(app, passport, auth) {
     });
     //Finish with setting up the userId param
     app.param('userId', users.user);
-    //Article Routes
-    app.put('/articles/:articleId', auth.requiresLogin, auth.article.hasAuthorization, articles.update);
-    app.del('/articles/:articleId', auth.requiresLogin, auth.article.hasAuthorization, articles.destroy);
-    //Finish with setting up the articleId param
-    app.param('articleId', articles.article);
+
+    //if not in production env, browser will revice script file store in frontend folder directly
+    if(config.env!='production'){
+      var scriptHandler=express.static(config.root+'/frontend');
+      app.get('/js',scriptHandler);
+    }
+
+    //handle static file
+    var staticFileHandler=express.static(config.root+'/public');
+    app.get('/',function(req,res,next) {
+        if(staticFileExtReg.test(req.url)){
+          staticFileHandler(req,res,next); 
+        }else{
+          next();
+        }
+    });
 };
