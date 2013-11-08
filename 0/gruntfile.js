@@ -21,6 +21,15 @@ module.exports = function(grunt) {
                 tasks: ['test']
             }
         },
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: "frontend",
+                    mainConfigFile: "frontend/builConfig.js",
+                    out: "public/js/build.js"
+                }
+            }
+        },
         nodemon: {
             dev: {
                 options: {
