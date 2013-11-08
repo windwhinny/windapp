@@ -1,4 +1,5 @@
-var config = require('./config');
+var config = require('./config'),
+  express = require('express');
 module.exports = function(app, passport, auth) {
     //User Routes
     function handleRequest (method,type,route,handler) {
