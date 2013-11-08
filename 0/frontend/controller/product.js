@@ -136,6 +136,13 @@ app
 		$scope.schema = Product.getSchema();
 		var product = $scope.product = Product.get({productId:productId},function(resource){
 			$scope.product=resource;
+      var defaultImage=resource
+        &&resource.images
+        &&resource.images[0]
+        &&resource.images[0].name;
+      if(defaultImage){
+        $scope.defaultImage=getImageURL(defaultImage,200);
+      }
 		},function(resource,headers){
 			handleError(resource.data);
 		});

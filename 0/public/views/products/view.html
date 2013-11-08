@@ -1,9 +1,12 @@
 <div ng-controller="ProductItemController" class="product">
-	<div class='control-group'>
+	<div class='control-group head'>
 		<h2>{{'Number' |i18n}}
 			<span ng-if="!edit">{{product.number}}</span>
 			<input ng-if="edit" type="{{getInputType(schema.number.type)}}" ng-model="product.number" >
 		</h2>
+    <div class='default-img wapper'>
+      <img ng-src='{{defaultImage}}'>
+    </div>
 	</div>
 	<errors></errors>
 	<div class='pull-right'>

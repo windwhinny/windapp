@@ -118,7 +118,19 @@ text-aglign:center;
   width:100px;
   cursor:pointer;
 }
-.product .images img{
-  max-height:100px;
-  max-width:100px
+img{
+  max-height:100%;
+  max-width:100%;
+}
+.product .head{
+  overflow:auto;
+}
+.product .head h2{
+  display:inline;
+}
+.product .head .default-img{
+  display:inline-block;
+  float:right;
+  width:100px;
+  height:100px
 }
