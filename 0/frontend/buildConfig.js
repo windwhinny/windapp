@@ -24,6 +24,7 @@
       exports:['jQuery']
     }
   },
-  name:'init',
+  name:'lib/almond',
+  include:'init',
   out:'../public/js/build.js'
 })
