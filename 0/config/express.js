@@ -22,6 +22,24 @@ module.exports = function(app, config, passport) {
     //Setting the fav icon
     app.use(express.favicon());
 
+    //handle static file
+    var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
+    var staticFileHandler=express.static(config.root+'/public');
+    var scriptHandler=express.static(config.root+'/frontend');
+    app.use(function(req,res,next) {
+        if(staticFileExtReg.test(req.url)){
+        //if not in production env, browser will revice script file store in frontend folder directly
+          if(config.env!='production'&&req.url.match(/^\/js/)){
+            req.url=req.url.replace(/^\/js/,'');
+            scriptHandler(req,res,next);        
+          }else{
+            staticFileHandler(req,res,next); 
+          }
+        }else{
+          next();
+        }
+    });
+
     //Don't use logger for test env
     if (process.env.NODE_ENV !== 'test') {
         app.use(express.logger('dev'));
