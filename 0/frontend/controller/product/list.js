@@ -31,7 +31,7 @@ app
       var image=product.images[0];
       if(!image)return "";
       
-      return getImagePath(image.name,100);
+      return ImageOptions.getImagePath(image.name,100);
     }
  
      
