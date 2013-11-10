@@ -1,6 +1,5 @@
 define([
-  'app',
-  'filter'
+  'app'
 ],function(app){
 app.controller('HeaderController', 
     [       '$scope', '$location', '$state',

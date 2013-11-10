@@ -234,20 +234,14 @@ ProductSchema.statics = {
             },null,true,callback);
     },
     addImage:function(uid,image,callback){
-      Product.findOne({uid:uid,images:{$elemMatch:{name:image.name}}},'images',function(err,doc){
-        if(doc){
-          callback(err,doc.images)
-        }else{
-          Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
-            if(err){
-              callback(err)
-              return;
-            }
-            Product.findOne({uid:uid},function(err,doc){
-              callback(err,doc.images);
-            })
-          })
+      Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
+        if(err){
+          callback(err)
+          return;
         }
+        Product.findOne({uid:uid},function(err,doc){
+          callback(err,doc.images);
+        })
       })
     },
   removeImage:function(uid,image,callback){

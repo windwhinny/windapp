@@ -1,10 +1,11 @@
 define([
   'app',
-  'route',
-  'controller/auth',
-  'controller/product',
-  'controller/header',
-  'controller/index'
+  'controller/signin',
+  'controller/signup',
+  'controller/product/addProduct',
+  'controller/product/item',
+  'controller/product/list',
+  'controller/header'
 ],function(app){
 app.config(['$stateProvider' , '$urlRouterProvider' ,
     function($stateProvider,$urlRouterProvider) {

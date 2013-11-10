@@ -28,7 +28,10 @@ require.config({
 define([
   'angular',
   'app',
-  'route'
+  'route',
+  'directive/errors',
+  'directive/loading',
+  'filter/i18n'
 ],function(angular){
 var bootstrap = function() {
     angular.bootstrap(document, ['windapp']);

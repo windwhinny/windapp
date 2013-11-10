@@ -2,42 +2,6 @@ define([
   'app'
 ],function(app){
 app
-.directive('accountinput',
-	[
-	function() {
-		var directiveDefinitionObject ={
-			templateUrl: '/views/auth.html',
-			restrict:'C',
-			scope: {
-				type: '='
-			},
-			replace: true
-		}
-		return directiveDefinitionObject ;
-	}]
-)
-.directive('errors',
-	[
-	function(){
-		var directiveDefinitionObject ={
-			template:'<alert ng-repeat="err in errors" class="alert-error error">{{err.message | i18n}}</alert>',
-			restrict:'EA',
-      replace:true
-		}
-		return directiveDefinitionObject ;
-	}
-	]
-)
-.directive('loading',
-  [
-  function(){
-    var directiveDefinitionObject = {
-      template:'<h1 class="loading">{{"Loading..." | i18n}}</h1>',
-      restrict:'E'
-    }
-    return directiveDefinitionObject;
-  }]
-)
 .directive('upload',
   [
   function(){
@@ -165,9 +129,8 @@ app
 			        $scope.status='pending';
 			        $scope.progressing = true;
 		    	})
-		        function uploadProgress(evt) {
+          function uploadProgress(evt) {
 			        $scope.$apply(function(){
-			        	
 			            if (evt.lengthComputable) {
 			                $scope.progress = Math.round(evt.loaded * 100 / evt.total)
 			            } else {
@@ -210,19 +173,13 @@ app
 			    		$scope.dropText="Failed to upload the file";
 				        $scope.status="error";
 			    	})
-			        
 			    }
-
 	    	}
-
-	    	
 	    }
-	}
+    }
     return directiveDefinitionObject;
-  }
-  ]
-)
+  }])
 window.isMobile=function(){
 	return navigator.userAgent.match('Mobile');
 }
-})
+});
