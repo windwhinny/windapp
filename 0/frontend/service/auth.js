@@ -11,15 +11,15 @@ app
 			signin:{
 				method: 'POST',
 				responseType: 'json',
-				url: '/signin'
+				url: '/user/signin'
 			},
 			signup: {
 				method: 'PUT',
 				responseType: 'json',
-				url: '/signup'
+				url: '/user/signup'
 			},
 			signout: {
-				url: '/signout',
+				url: '/user/signout',
 				method: 'POST',
 				responseType: 'json'
 			}

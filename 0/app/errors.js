@@ -1,18 +1,18 @@
 
 module.exports={
 	BadRequest:function(message){
-		var err=new Error(message);
-		err.status=400;
-		return err;
+    return createError(400,message);
 	},
 	NotFound:function(message){
-		var err=new Error(message);
-		err.status=404;
-		return err;
+    return create(404,message);
 	},
-  create:function(status,message){
-    var err=new Error(message);
-    err.status=status;
-    return err;
+  create:createError,
+  Unauthorized:function(message){
+    return createError(401,message);
   }
+}
+function createError(status,message){
+  var err=new Error(message);
+  err.status=status;
+  return err;
 }

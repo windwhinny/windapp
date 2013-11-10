@@ -1,3 +1,5 @@
+var Errors=require('../errors'),
+  config=require('../../config/config');
 function registeRequestMethod (app,url,handler,callback){
 	var method=handler.method||'get';	
 	app[method](url,function(req, res, next) {
@@ -39,14 +41,16 @@ function renderResult(err,req,res,handler,mainResult,fakeRes){
 			res.status(500);
 		}
 		mainResult={
-			message:err.message,
-			stack:err.stack
+			message:err.message
 		};
+    if(config.env!='production'){
+      mainResult.stack=err.stack;
+    }
 		handler=ErrorHandler;
 	}
-
-	fakeRes.apply(res);
-
+  if(fakeRes){
+    fakeRes.apply(res);
+  }
 	var types=handler.type;
 	var handled=false;
 	if(typeof(types)=='string'){
@@ -90,15 +94,18 @@ FakeRes.prototype.apply=function(res){
 
 function requestCallback(handler,req,res,next){
 	var fakeRes=new FakeRes();
-	if(handler.main){
-		handler.main(req,fakeRes,function(err,mainResult){
-			renderResult(err,req,res,handler,mainResult,fakeRes)
-		})
-	}else{
-		console.log(handler);
-		next();
-		return;
-	}
+  if(handler.noAuth||req.isAuthenticated()){
+    if(handler.main){
+      handler.main(req,fakeRes,function(err,mainResult){
+        renderResult(err,req,res,handler,mainResult,fakeRes)
+      })
+    }else{
+      next();
+      return;
+    }   
+  }else{
+    renderResult(new Errors.Unauthorized('not authorized'),req,res);    
+  }
 }
 Entry.prototype.init = function(app){
 	var rootUrl=this.rootUrl;
@@ -112,8 +119,6 @@ Entry.prototype.init = function(app){
 		}else if(typeof(url)==='string'){
 			registeRequestMethod(app,rootUrl+url,handler,requestCallback)
 		}
-			
-		
 	}
 }
 module.exports = Entry;

@@ -22,7 +22,7 @@ app
 			this.$signout(function(resource,headers) {
 				$state.go('home');
 			},function(resource,headers) {
-				//TODO: handle error
+			  handleError(resource,$scope);	
 			})
 		};
 		return user;
