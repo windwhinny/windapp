@@ -1,5 +1,6 @@
 define([
   'app',
+  'controller/product/imageViewer',
   'service/product/item',
   'service/product/query',
   'service/product/imageOptions',
