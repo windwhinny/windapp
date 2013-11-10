@@ -5,7 +5,7 @@
 			<input ng-if="edit" type="{{getInputType(schema.number.type)}}" ng-model="product.number" >
 		</h2>
     <div class='default-img wapper'>
-      <img ng-src='{{defaultImage}}'>
+      <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
 	<errors></errors>
