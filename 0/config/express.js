@@ -121,8 +121,11 @@ module.exports = function(app, config, passport) {
                     message: 'Can not handle this request'
                 }
             if(req.acceptType('html')){
-                var index = require(config.root+'/app/controllers/index');
-                index.render(req,res,next);
+               //go to index
+               res.render('index',{
+                  user: req.user ? JSON.stringify(req.user) : "null",
+                  script: (config.env=='production')?'/js/build.js':'/js/lib/require.js'
+               });   
             }else if(req.acceptType('json')){
                 res.status(400).json(err);
             }else{

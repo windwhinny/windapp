@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                 logConcurrentOutput: true
             },
             target: {
-                tasks: ['nodemon','karma','watch']
+                tasks: ['nodemon',/*'karma',*/'watch']
             },
             noTest: {
                 tasks: ['nodemon','watch']
@@ -81,7 +81,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-mocha-test');
-    grunt.loadNpmTasks('grunt-karma');
+//    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-requirejs');
 
     //task(s).

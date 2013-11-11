@@ -12,6 +12,9 @@ module.exports={
   }
 }
 function createError(status,message){
+  if(typeof(message)=='object'){
+    message=JSON.stringify(message);
+  }
   var err=new Error(message);
   err.status=status;
   return err;

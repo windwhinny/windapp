@@ -14,7 +14,7 @@ var config = {
         imageHost:'http://products-dev.u.qiniudn.com'
     },
     test: {
-        db: mongodb,
+        db: mongodbTest,
       	imageBrucketName:'products-test',
         app: {
             name: 'WindApp - Test'

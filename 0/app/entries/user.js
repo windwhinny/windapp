@@ -15,12 +15,12 @@ userEntry.handlers={
    main:function(req,res,done){
       passport.authenticate('local',{
         badRequestMessage:'Account and Password cannot be blank'
-      },function(err, user, info) {
+        },function(err, user, info) {
         if (err) {
           return done(err);
         }
         if (!user) {
-          return done(new Errors.badRequest(info));
+          return done(new Errors.BadRequest(info));
         }
         req.login(user, function(err) {
             done(err,user);
