@@ -113,7 +113,7 @@ module.exports = function(grunt) {
     //task(s).
     grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
-    grunt.registerTask('commit','git commit',function(){
+    grunt.registerTask('git','git commit and push',function(){
         var argv=process.argv;
         var message='';
         for(var i=0;i<argv.length;i++){
@@ -121,14 +121,33 @@ module.exports = function(grunt) {
             message=argv[++i];
           }
         }
-
+        grunt.util.spawn({cmd:'git',args:['status']});
+        function commit(message,done){
+            grunt.util.spawn({
+              cmd:'git',
+              args:['commit','-am',message]
+            },done)
+        }
+        function push(done){
+            grunt.util.spawn({
+              cmd:'git',
+              args:['push']
+            },done)
+        }
+        function callback(done){
+          return function(err,result){
+            if(err){
+              console.error(err)
+            }else{
+              console.log(result);
+              done&&done();
+            }
+          }
+        }
         if(message){
-          grunt.util.spawn({
-            cmd:'git',
-            args:['commit','-am',message]
-          },function(){
-            
-          })
+          commit(message,callback(function(){
+            push(callback());
+          }))
         }else{
           console.log('nothing to commit ');
         }
