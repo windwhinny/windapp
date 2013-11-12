@@ -21,12 +21,44 @@ module.exports = function(grunt) {
                 tasks: ['test']
             }
         },
+        gitcommit:{
+          baidu:{
+            
+          }
+        },
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: "frontend",
-                    mainConfigFile: "frontend/builConfig.js",
-                    out: "public/js/build.js"
+                    baseUrl: "./frontend",
+                    out: "./public/js/build.js",
+                    name:"lib/almond",
+                    include:["init"],
+                    insertRequire:['init'],
+                    wrap:true,
+                    paths:{
+                      angular:'lib/angular',
+                      'angular-resource':'lib/angular-resource',
+                      'angular-bootstrap':'lib/ui-bootstrap-tpls',
+                      'angular-ui-router':'lib/angular-ui-router',
+                      jquery:'lib/jquery'
+                    },
+                    shim:{
+                      angular:{
+                        exports:'angular'
+                      },
+                      'angular-resource':{
+                        deps:['angular']
+                      },
+                      'angular-bootstrap':{
+                        deps:['angular','jquery'] 
+                      },
+                      'angular-ui-router':{
+                        deps:['angular'] 
+                      },
+                      jquery:{
+                        exports:['jQuery']
+                      }
+                    },
                 }
             }
         },
@@ -81,8 +113,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-mocha-test');
-//    grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-requirejs');
+    grunt.loadNpmTasks('grunt-git');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
 
     //task(s).
     grunt.registerTask('default', ['concurrent:target']);
