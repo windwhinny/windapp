@@ -131,8 +131,7 @@ module.exports = function(grunt) {
        }else{
         message='auto commit';
        }
-       grunt.log.write(grunt.config.get('gitcommit.task.options.message'));
-       grunt.option('message',message);
+       grunt.config.set('gitcommit.task.options.message',message);
        grunt.task.run('gitcommit');
     })
 };
