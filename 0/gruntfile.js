@@ -24,10 +24,10 @@ module.exports = function(grunt) {
         gitcommit:{
           task:{
             options:{
-              message:grunt.option('message')
+              message:'test11'
             },
             files:{
-              src:grunt.option('file')
+              src:'-A'
             }
           }
         },
@@ -124,4 +124,15 @@ module.exports = function(grunt) {
     //task(s).
     grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
+    grunt.registerTask('commit','autoo commit',function(arg1,arg2){
+       var message;
+       if(arguments.length>=0){
+        message=arg1;
+       }else{
+        message='auto commit';
+       }
+       grunt.log.write(grunt.config.get('gitcommit.task.options.message'));
+       grunt.option('message',message);
+       grunt.task.run('gitcommit');
+    })
 };
