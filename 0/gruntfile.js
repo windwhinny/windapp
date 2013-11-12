@@ -24,10 +24,10 @@ module.exports = function(grunt) {
         gitcommit:{
             task:{
               options:{
-                message:grunt.option('message'),
-                files:{
-                  src:grunt.option('files')
-                }
+                message:grunt.option('message')
+              },
+              files:{
+                src:grunt.option('file')
               }
             }
         },
