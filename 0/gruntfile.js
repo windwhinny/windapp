@@ -21,6 +21,16 @@ module.exports = function(grunt) {
                 tasks: ['test']
             }
         },
+        gitcommit:{
+            task:{
+              options:{
+                message:grunt.option('message'),
+                files:{
+                  src:grunt.option('files')
+                }
+              }
+            }
+        },
         requirejs: {
             compile: {
                 options: {
@@ -109,47 +119,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-git');
 
     //task(s).
     grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
-    grunt.registerTask('git','git commit and push',function(){
-        var argv=process.argv;
-        var message='';
-        for(var i=0;i<argv.length;i++){
-          if(argv[i]=='-m'){
-            message=argv[++i];
-          }
-        }
-        grunt.util.spawn({cmd:'git',args:['status']});
-        function commit(message,done){
-            grunt.util.spawn({
-              cmd:'git',
-              args:['commit','-am',message]
-            },done)
-        }
-        function push(done){
-            grunt.util.spawn({
-              cmd:'git',
-              args:['push']
-            },done)
-        }
-        function callback(done){
-          return function(err,result){
-            if(err){
-              console.error(err)
-            }else{
-              console.log(result);
-              done&&done();
-            }
-          }
-        }
-        if(message){
-          commit(message,callback(function(){
-            push(callback());
-          }))
-        }else{
-          console.log('nothing to commit ');
-        }
-    })
 };
