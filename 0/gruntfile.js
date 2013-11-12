@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         gitcommit:{
           task:{
             options:{
-              message:'test11'
+              message:grunt.option('message')
             },
             files:{
               src:'-A'
