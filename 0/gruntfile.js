@@ -22,14 +22,14 @@ module.exports = function(grunt) {
             }
         },
         gitcommit:{
-            task:{
-              options:{
-                message:grunt.option('message')
-              },
-              files:{
-                src:grunt.option('file')
-              }
+          task:{
+            options:{
+              message:grunt.option('message')
+            },
+            files:{
+              src:grunt.option('file')
             }
+          }
         },
         requirejs: {
             compile: {
