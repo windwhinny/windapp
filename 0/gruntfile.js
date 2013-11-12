@@ -21,11 +21,6 @@ module.exports = function(grunt) {
                 tasks: ['test']
             }
         },
-        gitcommit:{
-          baidu:{
-            
-          }
-        },
         requirejs: {
             compile: {
                 options: {
@@ -113,10 +108,31 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-mocha-test');
-    grunt.loadNpmTasks('grunt-git');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
     //task(s).
     grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
+    grunt.registerTask('commit','git commit',function(){
+        var argv=process.argv;
+        var message='';
+        for(var i=0;i<argv.length;i++){
+          if(argv[i]=='-m'){
+            message=argv[++i];
+          }
+        }
+
+        if(message){
+          grunt.util.spawn({
+            cmd:'git',
+            args:['commit','-am',message]
+          },function(){
+            
+          })
+        }else{
+          console.log('nothing to commit ');
+        }
+    })
 };
+
+
