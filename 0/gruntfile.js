@@ -125,16 +125,19 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('push','auto push',function(arg1,arg2){
+      console.log(111);
       grunt.util.spawn({
         cmd:'git',
         args:['push']
       },function(err,result){
+        console.log(222);
         if(result.stdout){
           grunt.log.write(result.stdout)
         }
         if(result.stderr){
           grunt.util.error(result.stderr);
         }
+        console.log(result);
       })
     })
     grunt.registerTask('commit','auto commit',function(arg1,arg2){
@@ -145,6 +148,6 @@ module.exports = function(grunt) {
         message='auto commit';
        }
        grunt.config.set('gitcommit.task.options.message',message);
-       grunt.task.run('gitcommit','push');
+       grunt.task.run('requirejs','gitcommit','push');
     })
 };
