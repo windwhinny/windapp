@@ -127,7 +127,7 @@ module.exports = function(grunt) {
     grunt.registerTask('push','auto push',function(arg1,arg2){
       grunt.util.spawn({
         cmd:'git',
-        args:'push'
+        args:['push']
       },function(err,result){
         if(result.stdout){
           grunt.log.write(result.stdout)
