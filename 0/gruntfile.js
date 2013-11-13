@@ -125,19 +125,12 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('push','auto push',function(arg1,arg2){
-      console.log(111);
-      grunt.util.spawn({
-        cmd:'git',
-        args:['push']
-      },function(err,result){
-        console.log(222);
-        if(result.stdout){
-          grunt.log.write(result.stdout)
-        }
-        if(result.stderr){
-          grunt.util.error(result.stderr);
-        }
-        console.log(result);
+      var exec=require('child_process').exec;
+      exec('git push',function(err,stdout,stderr){
+        console.log(111);
+        console.log(err);
+        console.log(stdout);
+        console.error(stderr);
       })
     })
     grunt.registerTask('commit','auto commit',function(arg1,arg2){

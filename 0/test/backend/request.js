@@ -7,13 +7,21 @@ var
   User = require('../../app/models/user'),
   Product = require('../../app/models/product');
 var authCookie='';
+function ajax(method,url){
+  var req=request(app)[method](url)
+    .set('Accept','application/json');
+  if(authCookie){
+    req=req.set('Cookie',authCookie)
+  }
+  return req;
+}
 describe('Request', function(){
   describe('Response from "/"', function(){
     it('should be html', function(done){
       request(app)
-      .get('/')
-      .expect('Content-Type', /html/)
-      .expect(200,done);
+        .get('/')
+        .expect('Content-Type', /html/)
+        .expect(200,done);
     });
   })
 
@@ -36,27 +44,21 @@ describe('Request', function(){
     });
 
     it ('should login successful with account and password', function(done){
-      request(app)
-      .post('/user/signin')
-      .send({account:user.account, password: user.password})
-      .set('Accept','application/json')
-      .expect('content-type', /json/)
-        .expect(200,function(err,res) {
-        should.not.exist(err);
-        should.exist(res.body.account);
-        res.body.account.should.equal(user.account);
-        authCookie=res.header['set-cookie'][0].match(/connect.sid[^;]*/);
-        done();
-      });
+      ajax('post','/user/signin')
+        .send({account:user.account, password: user.password})
+        .expect(200,function(err,res){
+          should.not.exist(err);
+          should.exist(res.body.account);
+          res.body.account.should.equal(user.account);
+          authCookie=res.header['set-cookie'][0].match(/connect.sid[^;]*/);
+          done();
+        })
     })
 
     it ('should signup with a account and password', function(done) {
-      request(app)
-        .put('/user/signup')
+      ajax('put','/user/signup')
         .send(user1)
-        .set('Accept','application/json')
-        .set('Cookie',authCookie)
-        .expect('content-type', /json/)
+        .expect('Content-Type', /json/)
         .expect(200,function(err,res) {
           should.not.exist(err);
           should.exist(res.body.account);
@@ -76,11 +78,8 @@ describe('Request', function(){
     };
 
     it('should save successful', function(done){
-      request(app)
-        .put('/products')
+      ajax('put','/products')
         .send(product1)
-        .set('Accept','application/json')
-        .set('Cookie',authCookie)
         .expect(200,function(err,res){
           should.not.exist(err);
           should.exist(res.body.uid);
@@ -90,11 +89,8 @@ describe('Request', function(){
     })
 
     it('should save anthor product successful', function(done){
-      request(app)
-        .put('/products')
+      ajax('put','/products')
         .send(product2)
-        .set('Accept','application/json')
-        .set('Cookie',authCookie)
         .expect(200,function(err,res){
           should.not.exist(err);
           should.exist(res.body.uid);
@@ -104,11 +100,8 @@ describe('Request', function(){
     })
 
     it('should list all the products', function(done){
-      request(app)
-        .get('/products')
+      ajax('get','/products')
         .send()
-        .set('Accept','application/json')
-        .set('Cookie',authCookie)
         .expect(200, function(err,res){
           var products=res.body;
           should.not.exist(err);
@@ -131,11 +124,8 @@ describe('Request', function(){
     })
 
     it('can search the product with a number', function(done){
-      request(app)
-        .get('/products?number='+product1.number)
+      ajax('get','/products?number='+product1.number)
         .send()
-        .set('Accept','application/json')
-        .set('Cookie',authCookie)
         .expect(200, function(err,res){
           var products=res.body;
           should.not.exist(err);
@@ -159,10 +149,7 @@ describe('Request', function(){
         i--;
         should.not.exist(err);
         if(i==0){
-          request(app)
-            .get('/products')
-            .set('Accept','application/json')
-            .set('Cookie',authCookie)
+          ajax('get','/products')
             .send()
             .expect('Page-Count','2')
             .expect('Page-Step','20')
@@ -186,10 +173,7 @@ describe('Request', function(){
         }
       }
       for(;i<21;i++){
-        request(app)
-          .put('/products')
-          .set('Accept','application/json')
-          .set('Cookie',authCookie)
+        ajax('put','/products')
           .send({
             number:'testPage-'+i
           })
@@ -198,10 +182,7 @@ describe('Request', function(){
     })
 
     it('should return correct products schema', function(done){
-      request(app)
-        .get('/products/schema')
-        .set('Accept','application/json')
-        .set('Cookie',authCookie)
+      ajax('get','/products/schema')
         .expect(200,function(err,res){
           should.not.exist(err);
           res.body.should.have.property('created');
@@ -211,10 +192,7 @@ describe('Request', function(){
 
     it('should return model schema when request to /products/schema', function(done){
       var schema=Product.getSchema();
-      request(app)
-        .get('/products/schema')
-        .set('Accept','application/json')
-        .set('Cookie',authCookie)
+      ajax('get','/products/schema')
         .expect(200,function(err,res){
           should.not.exist(err);
           var property="";
@@ -232,10 +210,7 @@ describe('Request', function(){
         i--;
         should.not.exist(err);
         if(i==0){
-          request(app)
-            .get('/products/catalog')
-            .set('Accept', 'application/json')
-            .set('Cookie',authCookie)
+          ajax('get','/products/catalog')
             .expect(200, function(err,res) {
               var catalogs=res.body;
               catalogs.should.be.an.instanceOf(Array);
