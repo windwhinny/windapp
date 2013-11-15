@@ -10,7 +10,6 @@ var imageBrucket={
     var callbackMethod=(host.match(/(localhost|127\.0\.0\.1)/)) ? 'return' : 'callback';
     putPolicy[callbackMethod+'Url'] = host+'/products/'+uid+'/image';
     putPolicy[callbackMethod+'Body'] = '{"size": $(fsize),"name":"$(etag)","type":"$(mimeType)","imageInfo":$(imageInfo)}';
-    console.log(putPolicy);
     return putPolicy.token();
   },
   remove:function(name,callback){
