@@ -12,6 +12,7 @@
 * mocha
 * mongodb
 * qiniu
+
 ### How to run
   ```shell
   node server.js
