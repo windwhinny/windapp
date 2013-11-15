@@ -17,7 +17,7 @@
   ```shell
   node server.js
   ```
-### How to develop
+### Set up development environment
   ```shell
   npm install;
   npm install grunt-cli -g;
