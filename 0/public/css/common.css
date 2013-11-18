@@ -20,15 +20,18 @@ footer p{
 	padding:5px 0 12px 10px
 }
 form.signup,form.signin{
-
 	margin: 100px auto;
 	max-width: 220px;
 }
-div.products{
+.content .row-fluid>div.products{
 	margin:auto;
+  float:none;
 }
 .products .list .id{
 	width:40px;
+}
+.products .list td{
+  vertical-align:middle;
 }
 .gridStyle {
     border: 1px solid rgb(212,212,212);

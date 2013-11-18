@@ -10,11 +10,12 @@
 	</div>
 	<errors></errors>
 	<div class='pull-right'>
-		<button ng-click="toggleEditModel()" class="{{edit?'btn btn-primary':'btn btn-success'}}">
+		<button ng-click="toggleEditModel()" class="{{edit?'btn btn-primary':'btn btn'}}">
 			<div ng-switch on="edit">
-				<div ng-switch-when="true">{{"Save" | i18n}}</div>
-	          	<div ng-switch-when="false">{{"Edit" |i18n}}</div>
-	          	<div ng-switch-default="false">{{"Edit" |i18n}}</div>
+        <i class="icon-edit"></i>
+				<span ng-switch-when="true">{{"Save" | i18n}}</span>
+        <span ng-switch-when="false">{{"Edit" |i18n}}</span>
+        <span ng-switch-default="false">{{"Edit" |i18n}}</span>
 			</div>
 		</button>
 	</div>

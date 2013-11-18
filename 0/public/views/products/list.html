@@ -1,7 +1,10 @@
 <a ui-sref='products.add'>{{'Add' | i18n}}</a>
 <div class='list' ng-controller='ProductListController' ng-init='refresh(currentPage)'>
 	<div class='refresh control-group'>
-		<button class='btn ' ng-click='refresh()'>{{'Refresh' | i18n}}</button>
+		<button class='btn ' ng-click='refresh()'>
+      <i class='icon-refresh'></i>
+      {{'Refresh' | i18n}}
+    </button>
 	</div>
   <loading ng-if='loading'></loading>
   <div ng-if='!loading'>
