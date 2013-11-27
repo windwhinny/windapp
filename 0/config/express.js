@@ -26,6 +26,7 @@ module.exports = function(app, config, passport) {
     var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
     var staticFileHandler=express.static(config.root+'/public');
     var scriptHandler=express.static(config.root+'/frontend');
+    var viewsHandler=express.static(config.root+'/frontend/views');
     app.use(function(req,res,next) {
         if(staticFileExtReg.test(req.url)){
         //if not in production env, browser will revice script file store in frontend folder directly
@@ -39,7 +40,7 @@ module.exports = function(app, config, passport) {
           next();
         }
     });
-
+    app.use('/views',viewsHandler);
     //Don't use logger for test env
     if (process.env.NODE_ENV !== 'test') {
         app.use(express.logger('dev'));
@@ -134,3 +135,4 @@ module.exports = function(app, config, passport) {
         });
     });
 };
+

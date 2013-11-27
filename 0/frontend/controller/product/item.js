@@ -7,42 +7,48 @@ define([
   'directive/upload',
   'directive/field'
 ],function(app){
+function handleError($scope,err){ $scope.errors=[err]; }
+function getProduct(Product,uid,$scope,callback){
+  return Product.get(
+    {productUid:uid},
+    function(resource){
+      $scope.product=resource;
+      callback&&callback(resource);
+  },function(resource,headers){
+    handleError($scope,resource.data);
+  });
+}
+function getDefaultImage($scope){
+  if($scope.product&&$scope.imageHost){
+    var product=$scope.product;
+    var defaultImage=product
+      &&product.images
+      &&product.images[0]
+      &&product.images[0].name;
+    if(defaultImage){
+      $scope.defaultImage=$scope.getImageURL(defaultImage,200);
+    }
+  }
+}
 app
-.controller('ProductItemController',
-	[		'$scope', 'ProductItemService','$state', 'ProductQueryService','$modal','ImageOptions',
-	function($scope,   Product,		     $state,   ProductQuery, $modal,ImageOptions){
-		var productId=$state.params.productId;
-		$scope.schema = Product.getSchema();
-		var product = $scope.product = Product.get({productId:productId},function(resource){
-			$scope.product=resource;
-      var defaultImage=resource
-        &&resource.images
-        &&resource.images[0]
-        &&resource.images[0].name;
-      if(defaultImage){
-        $scope.defaultImage=getImageURL(defaultImage,200);
-      }
-		},function(resource,headers){
-			handleError(resource.data);
-		});
-    
+.controller('ProductItemController',[	
+          '$scope', 'ProductItemService', '$state','ProductQueryService','$modal','ImageOptions',
+	function($scope,   Product,		     $state,ProductQuery, $modal,ImageOptions){
+    var productUid=$state.params.productUid;
+    $scope.schema = Product.getSchema();
+		var product = getProduct(Product,productUid,$scope,function(resource){
+      getDefaultImage($scope)
+    });
+
     ImageOptions.getHost(function(host){
       $scope.imageHost=host;
+      getDefaultImage($scope); 
     })
-    
-    var getImageURL = $scope.getImageURL = function(name,size){
-      return $scope.imageHost+ImageOptions.getImagePath(name,size); 
+    var getImageURL = $scope.getImageURL = ImageOptions.getImageURL;
+
+    $scope.editModel=function(){
+      $state.go('products.item.edit',{productUid:productUid});
     }
-		$scope.getInputType=function(type){
-			if(type==='string'){
-				return 'text'
-			}else if(!type){
-				return 'text';
-			}else{
-				return type;
-			}
-		}
-    $scope.getImagePath=ImageOptions.getImagePath;
     $scope.viewImage=function(index){
       var image=product.images[index]; 
       if(!image||$scope.edit)return;      
@@ -61,53 +67,65 @@ app
         }
       });
     }
-    $scope.removeImage=function(index){
-      ProductQuery.removeImage(
-        {
-          productUid:product.uid,
-          imageName:product.images[index]&&product.images[index].name
-        },
-        function(resource,headers){
-        	product.images.splice(index,1);
-        },
-        function(resource,headers){
-          	handleError(response.data);
-        }
-      )
-      
-    }
 		$scope.toggleEditModel=function(){
-			var edit=$scope.edit||false;
-
-			if(edit){
-				var custom=product.property.custom;
-				for(var i=custom.length-1;i>=0;i--){
-					if(!custom[i]||!custom[i].name||!custom[i].value){
-						custom.splice(i,1);
-					}
-				}
-
-				product
-					.$save()
-					.catch(function(response){
-						handleError(response.data);
-					})
-					.then(function(){
-
-					});
-				$scope.edit=false;
-			}else{
-        ProductQuery.getImageUploadToken({productUid:product.uid},function(resource,headers){
-        	$scope.uploadOptions.data.token=resource.token;
-          $scope.uploadAvailable=true;
-        },function(resource,headers){
-          handleError(resource.data)
-        })
-
-				$scope.edit=true;
-			}
 		}
 
+	}
+]
+)
+.controller('EditProductItemController',[
+          '$scope', 'ProductItemService', '$state','ProductQueryService','ImageOptions',
+	function($scope,   Product,		        $state,ProductQuery, ImageOptions){
+    var productUid=$state.params.productUid;
+    $scope.schema = Product.getSchema();
+		var product = getProduct(Product,productUid,$scope,function(resource){
+      getDefaultImage($scope)
+    });
+
+    ImageOptions.getHost(function(host){
+      $scope.imageHost=host;
+      getDefaultImage($scope); 
+    })
+    var getImageURL = $scope.getImageURL = ImageOptions.getImageURL;
+
+    ProductQuery.getImageUploadToken({productUid:productUid},function(resource,headers){
+      $scope.uploadOptions.data.token=resource.token;
+      $scope.uploadAvailable=true;
+    },function(resource,headers){
+      handleError($scope,resource.data)
+    })
+
+    $scope.save=function(){
+      var custom=product.property.custom;
+      for(var i=custom.length-1;i>=0;i--){
+        if(!custom[i]||!custom[i].name||!custom[i].value){
+          custom.splice(i,1);
+        }
+      }
+      product.$save({productUid:productUid})
+        .catch(function(response){
+          handleError($scope,response.data);
+        })
+        .then(function(){
+          $state.go('products.item',{
+            productUid:productUid
+          })
+        });
+    }
+		$scope.getProperties=function(){
+			ProductQuery.getProperties({catalog:product.catalog},function(resource,headers){
+				$scope.properties=resource;
+			},function(resource,headers){
+				handleError($scope,resource.data)
+			})
+		}
+		$scope.getCatalogs=function(){
+			ProductQuery.getCatalog(function(resource,headers){
+				$scope.catalogs=resource;
+			},function(resource,headers){
+				handleError($scope,resource.data)
+			})
+		}
 		$scope.uploadOptions={
 			action:'http://up.qiniu.com/',
 			method:'post',
@@ -125,23 +143,30 @@ app
 				
 			}
 		}
-		$scope.getCatalogs=function(){
-			ProductQuery.getCatalog(function(resource,headers){
-				$scope.catalogs=resource;
-			},function(resource,headers){
-				handleError(resource.data)
-			})
+    $scope.removeImage=function(index){
+      ProductQuery.removeImage(
+        {
+          productUid:product.uid,
+          imageName:product.images[index]&&product.images[index].name
+        },
+        function(resource,headers){
+        	product.images.splice(index,1);
+        },
+        function(resource,headers){
+          	handleError($scope,response.data);
+        }
+      )
+      
+    }
+		$scope.getInputType=function(type){
+			if(type==='string'){
+				return 'text'
+			}else if(!type){
+				return 'text';
+			}else{
+				return type;
+			}
 		}
-		$scope.getProperties=function(){
-			ProductQuery.getProperties({catalog:product.catalog},function(resource,headers){
-				$scope.properties=resource;
-			},function(resource,headers){
-				handleError(resource.data)
-			})
-		}
-		function handleError(err){
-			$scope.errors=[err];
-		}
-	}
+  }
 ])
 });

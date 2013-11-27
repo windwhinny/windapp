@@ -4,7 +4,7 @@ module.exports={
     return createError(400,message);
 	},
 	NotFound:function(message){
-    return create(404,message);
+    return createError(404,message);
 	},
   create:createError,
   Unauthorized:function(message){

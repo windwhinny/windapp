@@ -1,0 +1,56 @@
+<div class="product" ng-controller="ProductItemController">
+	<div class='control-group head'>
+		<h2>{{'Number' |i18n}}
+			<span ng-if="!edit">{{product.number}}</span>
+		</h2>
+    <div class='default-img wapper'>
+      <img ng-if="imageHost" ng-src='{{defaultImage}}'>
+    </div>
+	</div>
+	<errors></errors>
+	<div class='pull-right'>
+		<button ng-click="editModel()" class="btn">
+        <i class="icon-edit"></i>
+        <span >{{"Edit" |i18n}}</span>
+		</button>
+	</div>
+  <loading ng-if="!product.uid"></loading>
+  <tabset  class='nav-pills nav-stacked' direction ="left">
+		<tab heading="{{'Property' | i18n}}">
+      <div class='control-group catalog'>
+        <h3>{{product.catalog}}</h3>
+      </div>
+      
+			<form class="form-horizontal">
+				<div class='control-group' ng-repeat='field in schema.property.default'>
+          <label class="control-label">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+					<div class="controls">
+						<span class='value' name="field.name">{{product.property.default[field.name]}}</span>
+					</div>
+				</div>
+			</form>
+    
+			<form class="form-horizontal">
+				<div class='control-group' ng-repeat='field in product.property.custom'>
+          <label class="control-label">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+					<div class="controls">
+            <span class='value' name="field.value">{{field.value}}</span>
+					</div>
+				</div>
+			</form>
+		</tab>
+		<tab heading="{{'Pictures' | i18n}}">
+      <div class="image-tab">
+        <loading ng-if="!imageHost"></loading>
+        <div class="images" ng-if="imageHost" ng-class="(edit)?'span7':''">
+          <div class="box" ng-repeat="img in product.images">
+            <div class="thumbnails-wapper" ng-click="viewImage($index)">
+              <img  ng-src="{{getImageURL(img.name,100)}}"/>
+            </div>
+            <button class="btn btn-link delete" ng-if="edit" ng-click="removeImage($index)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </tab>
+  </tabset>
+</div>

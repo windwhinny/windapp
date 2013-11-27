@@ -202,7 +202,7 @@ productsEntry.handlers={
 		main:function(req,res,done){
 			var uid=requireUid(req,done);
 			if(!uid)return;
-			Product.findOne({uid:uid},function(err,doc){
+      Product.load(uid,function(err,doc){
 				if(!doc){
 					var err = Errors.NotFound('product not found by id '+uid);
 					done(err,doc);
@@ -221,7 +221,7 @@ productsEntry.handlers={
 			if(!uid)return;
 			Product.updateAndClean(uid,req.body,done);
 		}
-	},
+	}
 }
 
 module.exports = function(url,app){

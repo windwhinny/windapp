@@ -22,7 +22,7 @@ app
 			});
 		};
 		$scope.productClicked=function(uid){
-			$state.go('products.item',{productId:uid});
+			$state.go('products.item',{productUid:uid});
 		};
     ImageOptions.getHost(function(host){
       $scope.imageHost=host;

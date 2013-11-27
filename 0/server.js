@@ -29,6 +29,9 @@ function runServer(){
 	//Bootstrap models
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
+      if(file.match(/^\..*/)){
+        return;
+      }
 	    require(models_path + '/' + file);
 	});
 	//bootstrap passport config

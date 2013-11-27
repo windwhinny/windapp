@@ -23,6 +23,12 @@
           <td class='id'>{{product.uid}}</td>
           <td>{{product.number}}</td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
+          <td><div class='dropdown'>
+            <a class="dropdown-toggle">{{"Operation" | i18n}}</a>
+            <ul class="dropdown-menu">
+              <li><a>{{"Add similar product" | i18n}}</a></li>
+            </ul>
+          </div></td>
         </tr>
       </tbody>
     </table>

@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         watch: {
             backendjs: {
                 files: ['<%= folders.backend.files %>'],
-                tasks: ['test']
+                //tasks: ['test']
             }
         },
         gitcommit:{

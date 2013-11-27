@@ -79,7 +79,12 @@ var mongoose = require('mongoose'),
 var ProductSchema = new Schema(schemaData,{
     _id:false
 });
-
+ProductSchema.options.toObject={
+  hide : '_id'
+};
+ProductSchema.options.toJSON={
+  hide : '_id'
+};
 [
   {
     fields:{uid:1},
@@ -165,10 +170,12 @@ ProductSchema.statics = {
             })
         })
     },
-    load: function(id, cb) {
-        this.findOne({
-            _id: id
-        }).populate('user').exec(cb);
+    load: function(uid, cb) {
+        var query;
+        query={
+          uid:uid
+        }
+        this.findOne(query,cb);
     },
     list:function(query,page,step,fields,sort,callback){
       function varifyPageNumber(count,step,page){
@@ -271,7 +278,7 @@ ProductSchema.statics = {
         })
       })
     })  
-  }
+  },
 };
 
 var Product = module.exports = mongoose.model('Product', ProductSchema);

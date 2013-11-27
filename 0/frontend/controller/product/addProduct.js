@@ -11,7 +11,7 @@ app
 			product.$add(function(resource,headers){
 				product=resource;
 				$state.go('products.item',{
-					productId:product.uid
+					productUid:product.uid
 				})
 			},function(resource,headers){
 				$scope.errors=[resource.data];

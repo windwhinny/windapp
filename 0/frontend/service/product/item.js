@@ -5,8 +5,8 @@ app
 .factory('ProductItemService',
 	[		"$resource",
 	function($resource){
-		var Product=$resource('/products/:productId',
-			{productId:'@uid'},
+		var Product=$resource('/products/:productUid',
+			{productUid:'@uid'},
 			{
 				add:{
 					method:'PUT',
