@@ -36,7 +36,10 @@ var translation={
   'UPLOAD_IMAGE':'上传图片',
   'LOADING...':'读取中...',
   'CANCEL':'取消',
-  'ORIGINAL_IMAGE':'原始图像'
+  'ORIGINAL':'原始',
+  'IMAGE':'图像',
+  'CREATE':'创建',
+  'SIMILAR':'类似'
 }
 app
 .filter('i18n',
