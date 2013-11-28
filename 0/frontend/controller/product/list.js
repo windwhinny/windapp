@@ -33,7 +33,9 @@ app
       
       return ImageOptions.getImagePath(image.name,100);
     }
- 
+    $scope.addProduct=function(){
+      $state.go('products.add')
+    }
      
 	}
 	]

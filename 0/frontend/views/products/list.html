@@ -1,6 +1,9 @@
-<a ui-sref='products.add'>{{'Add' | i18n}}</a>
 <div class='list' ng-controller='ProductListController' ng-init='refresh(currentPage)'>
-	<div class='refresh control-group'>
+	<div class='pull-right btn-group control-group'>
+    <button class="btn" ng-click="addProduct()">
+      <i class='icon-plus'></i>
+      {{'Add' | i18n}}
+    </button>
 		<button class='btn ' ng-click='refresh()'>
       <i class='icon-refresh'></i>
       {{'Refresh' | i18n}}
@@ -23,12 +26,6 @@
           <td class='id'>{{product.uid}}</td>
           <td>{{product.number}}</td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
-          <td><div class='dropdown'>
-            <a class="dropdown-toggle">{{"Operation" | i18n}}</a>
-            <ul class="dropdown-menu">
-              <li><a>{{"Add similar product" | i18n}}</a></li>
-            </ul>
-          </div></td>
         </tr>
       </tbody>
     </table>

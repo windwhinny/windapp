@@ -44,12 +44,6 @@ form.signup,form.signin{
   -o-transition:all linner 0.5s;
   transition:all linner 0.5s;
 }
-.refresh{
-	overflow: auto;
-}
-.refresh .btn{
-	float:right;
-}
 .ng-enter,
 .ng-leave.ng-leave-active,
  {
