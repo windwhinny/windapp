@@ -252,10 +252,20 @@ ProductSchema.statics = {
       })
     },
   removeImage:function(uid,image,callback){
-    imageBrucket.remove(image,function(err){
-      if(err){callback(err);return};
-      Product.update({uid:uid},{$pull:{images:{name:image}}},callback);
-    })
+    Product.update({uid:uid},{$pull:{images:{name:image}}},function(err){
+      if(err)return callback(err);
+      Product.find({images:{$elemMatch:{name:image}}},function(err,doc){
+        console.log(doc);
+        if(err){throw err;return};
+        if(!doc||doc&&(!doc.length)){
+          console.log('delete '+image);
+          imageBrucket.remove(image,function(err){
+            if(err)throw err;
+          });
+        }
+      })
+      callback();
+    });
   },
   updateAndClean:function(uid,data,callback){
     Product.findOneAndUpdate({uid:uid},data,{new:false},function(err,doc){
