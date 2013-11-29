@@ -164,7 +164,8 @@ productsEntry.handlers={
   addImage:{
     method:'post',
     type:'.*',
-      url:'/:uid/image',
+    url:'/:uid/image',
+    noAuth:true,
     main:function(req,res,done){
       var uid=requireUid(req,done);
       var image=req.body;
