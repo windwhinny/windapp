@@ -19,7 +19,7 @@
     "jade": "~0.28.1",
     "Base64": "~0.2.0",
     "mongoose": "~3.6.20",
-    "connect-mongo": "latest",
+    "connect-mongo": "~0.4.0",
     "connect-flash": "latest",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
