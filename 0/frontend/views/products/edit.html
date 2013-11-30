@@ -14,7 +14,6 @@
       <span >{{"Save" | i18n}}</span>
 		</button>
 	</div>
-  <loading ng-if="!product.uid"></loading>
   <tabset  class='nav-pills nav-stacked' direction ="left">
 		<tab heading="{{'Property' | i18n}}">
       <div class='control-group catalog'>
@@ -80,4 +79,5 @@
       </div>
     </tab>
   </tabset>
+  <loading ng-if="!product.uid"></loading>
 </div>
