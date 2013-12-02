@@ -38,7 +38,6 @@
 					</div>
 				</div>
 			</form>
-    
 			<form class="form-horizontal">
 				<div class='control-group' ng-repeat='field in product.property.custom'>
 				    <label class="control-label" for="inputEmail">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
@@ -58,6 +57,7 @@
 				</div>
 				<button class='btn btn-primary' ng-click="product.property.custom.push({})">&plus;</button>
 			</form>
+      <div class="dropdown-pad"></div>
 		</tab>
 		<tab heading="{{'Pictures' | i18n}}">
       <div class="image-tab">

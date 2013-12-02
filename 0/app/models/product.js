@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
     config = require('../../config/config')[env],
     Schema = mongoose.Schema,
     imageBrucket = require('../imageBrucket.js'),
-    Errors = require('../errors');
+    Errors = require('../errors'),
+    utils = require('../utils');
 
 
 /**
@@ -73,6 +74,9 @@ var mongoose = require('mongoose'),
     catalog:{
         type:'string',
         name:'catalog'
+    },
+    similar:{
+      type:'number'
     }
  }
 
@@ -118,6 +122,22 @@ var saveQueue=[];
 ProductSchema.pre('save', function(next) {
     if (!this.isNew) return next();
     var self=this;
+    function checkSimilarProduct(done){
+      if(self.similar&&self.isNew){
+        Product.findOne({uid:self.similar},function(err,doc){
+          if(err)return done(err);
+          doc=doc.toObject();
+          delete doc.uid;
+          delete doc._id;
+          delete doc.number;
+          delete doc.created;
+          utils.deepMegre(self._doc,doc);
+          done();
+        })
+      }else{
+        done();
+      }
+    }
     function checkNumber(callback){
         var number=self.number;
         if(number){
@@ -144,17 +164,16 @@ ProductSchema.pre('save', function(next) {
                 callback(err);
             });
     }
-    
-    checkUid(function(err){
-        if(err){
-            next(err);
-            return
-        }else{
-            checkNumber(function(err){
-                next(err);
-            })
-        }
-    })
+
+    checkSimilarProduct(function(err){
+      if(err)return next(err);
+      checkUid(function(err){
+          if(err)return next(err);
+          checkNumber(function(err){
+              next(err);
+          })
+      })
+    }) 
 });
 
 /**

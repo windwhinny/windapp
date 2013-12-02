@@ -2,7 +2,7 @@ process.env.NODE_ENV='test';
 var should=require('should'),
   app=require('../../server'),
   Product = require('../../app/models/product'),
-  utils=require('./utils'),
+  utils=require('../utils'),
   config=require('../../config/config');
 describe('Request for product', function(){
   var product1={

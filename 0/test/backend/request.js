@@ -6,7 +6,7 @@ var
   mongoose = require('mongoose'),
   User = require('../../app/models/user'),
   Product = require('../../app/models/product'),
-  utils=require('./utils');
+  utils = require('../utils');
 
 describe('Request for user', function(){
   describe('Response from "/"', function(){

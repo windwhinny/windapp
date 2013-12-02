@@ -8,6 +8,7 @@ define([
   'directive/field'
 ],function(app){
 function handleError($scope,err){ $scope.errors=[err]; }
+
 function getProduct(Product,uid,$scope,callback){
   return Product.get(
     {productUid:uid},
@@ -18,6 +19,7 @@ function getProduct(Product,uid,$scope,callback){
     handleError($scope,resource.data);
   });
 }
+
 function getDefaultImage($scope){
   if($scope.product&&$scope.imageHost){
     var product=$scope.product;
@@ -30,6 +32,7 @@ function getDefaultImage($scope){
     }
   }
 }
+
 app
 .controller('ProductItemController',[	
           '$scope', 'ProductItemService', '$state','ProductQueryService','$modal','ImageOptions',
@@ -49,6 +52,11 @@ app
     $scope.editModel=function(){
       $state.go('products.item.edit',{productUid:productUid});
     }
+
+    $scope.addSimilarProduct=function(){
+      $state.go('products.add',{similar:product.uid});   
+    }
+
     $scope.viewImage=function(index){
       var image=product.images[index]; 
       if(!image||$scope.edit)return;      

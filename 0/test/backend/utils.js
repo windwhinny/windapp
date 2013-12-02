@@ -1,57 +1,48 @@
-process.env.NODE_ENV = 'test';
-var app=require('../../server'),
-  request=require('supertest'),
-  mongoose = require('mongoose'),
-  User = require('../../app/models/user'),
-  Product = require('../../app/models/product'),
-  should = require('should'),
-  user={
-    account: 'user2',
-    password: 'password'
-  },
-  authCookie=null;
+var should=require('should'),
+    utils = require('../../app/utils');
 
-var utils={
-  login:function(done){
-    var u=new User(user);
-    u.save(function(err){
-      if(err)return done(err);
-      utils.ajax('post','/user/signin',true,function(req){
-        req
-          .send(user)
-          .expect(200,function(err,res){
-            if(err)return done(err);
-            authCookie=res.header['set-cookie'][0].match(/connect.sid[^;]*/);
-            done();
-          })
+describe('Utils',function(){
+  describe('Clone',function(){
+  it('should clone object recurisivily',function(){
+    var a={ a:1, b:{ c:3, d:{ e:4, d:[1,2,3,{ e:3 }] } } };
+    utils.cloneObject(a).should.eql(a);
+  })
+  })
+
+  describe('Megre',function(){
+    it('should megre two object',function(){
+      var a={ p1:1, p2:2 }
+      var b={ p3:3, p4:4 }
+      utils.deepMegre(a,b).should.eql({ p1:1, p2:2, p3:3, p4:4 }); 
+    })
+
+    it('should megre two obejct recurisivily',function(){
+      var a={ p1:1, p2:{a:1,b:2}}
+      var b={ p3:3, p2:{c:3,d:{a:1,b:2}} };
+      utils.deepMegre(a,b).should.eql({
+      p1:1,p3:3,p2:{a:1,b:2,c:3,d:{a:1,b:2}}
       })
-    });
-  },
-  clean:function(){
-    autoCookie=null; 
-    User.remove({});
-    Product.remove({});
-  },
-  ajax:function(method,url,noauth,done){
-    function _ajax(){
-      var req=request(app)[method](url)
-        .set('Accept','application/json')
-        .set('Cookie',authCookie);
-      done(req);
-    }
-    if(typeof(noauth)=='function'){
-      var d=done;
-      done=noauth;
-      noauth=d;
-    }
-    if(!noauth&&!authCookie){
-      utils.login(function(err){
-        should.not.exist(err);
-        _ajax();
-      })
-    }else{
-      _ajax()
-    }
-  }
-}
-module.exports=exports=utils;
+    })
+   
+    describe('Array',function(){
+      it('should replace array',function(){
+        var a=[1,2,{a:3,b:4}];
+        var b=[5,6,7];
+
+        utils.deepMegre(a,b).should.eql(a);
+      }) 
+      
+      it('should remove object with _removed',function(){
+        var a={
+          _removed:[{
+            a:1,b:2
+          }]
+        }
+        
+        var b=[{a:2,b:2},{a:1,b:2}];
+
+        utils.deepMegre(a,b).should.eql([{a:2,b:2}]);
+      }) 
+    })
+  })
+})

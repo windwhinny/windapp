@@ -13,7 +13,6 @@ var should = require('should'),
 describe('Model', function() {
 
     it('Connection should be ok', function(done){
-        this.timeout(60000);
       mongoose.connection.on('connected',function(){
         done()
       })
@@ -77,8 +76,11 @@ describe('Model', function() {
             number:'MT-101'
         }
         before(function(done){
-            product = new Product(product);
-            done();
+            Product.remove({},function(err){
+                should.not.exist(err);
+                product = new Product(product);
+                done();
+            })
         })
 
         it('should be saved successfull', function(done){
@@ -97,6 +99,18 @@ describe('Model', function() {
                 should.exist(err);
                 done();
             })
+        })
+        
+        it('should save with similar product',function(done){
+          Product.checkAndSave({catalog:'p1'},function(err,doc){
+            if(err)return done(err);
+            should.exist(doc.uid);
+            Product.checkAndSave({similar:doc.uid},function(err,doc){
+              if(err)return done(err);
+              doc.should.include({catalog:'p1'})
+              done();
+            })
+          });
         })
 
         it('should be readed successfull', function(done){
@@ -122,7 +136,6 @@ describe('Model', function() {
         })
 
         it('should have correct result in MapReduce for product.property', function(done){
-            this.timeout(60000);
             var i=0;
             function callback(){
                 i--;

@@ -5,6 +5,9 @@
 .content{
 	margin-top:50px;
 	}
+.clickable{
+  pointer:cursor;
+}
 footer{
 	position:fixed;
 	left:0px;
@@ -71,7 +74,7 @@ form .value{
 table tr:hover {
 cursor: pointer;
 }
-.tab-content{
+.dropdown-pad{
 padding-bottom:10em;
 }
 .upload{

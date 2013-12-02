@@ -7,8 +7,12 @@ app
 	[		'$scope', 'ProductItemService', '$state',
 	function($scope,   Product,			  $state){
 		var product=$scope.product=new (Product);
+    var params={};
+    if($state.params.similar){
+      product.similar=$state.params.similar;
+    }
 		$scope.submit=function(){
-			product.$add(function(resource,headers){
+			product.$add(params,function(resource,headers){
 				product=resource;
 				$state.go('products.item',{
 					productUid:product.uid

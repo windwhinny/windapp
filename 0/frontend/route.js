@@ -89,7 +89,7 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 			templateUrl: '/views/products/list.html'
 		})
 		.state('products.add', {
-			url:'/create',
+			url:'/create?similar',
 			templateUrl: '/views/products/add.html'
 		})
 		.state('products.item', {
