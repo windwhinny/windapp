@@ -102,10 +102,13 @@ describe('Model', function() {
         })
         
         it('should save with similar product',function(done){
-          Product.checkAndSave({catalog:'p1'},function(err,doc){
+          var p=new Product({catalog:'p1'});
+
+          p.checkAndSave(function(err,doc){
             if(err)return done(err);
             should.exist(doc.uid);
-            Product.checkAndSave({similar:doc.uid},function(err,doc){
+            var p=new Product({similar:doc.uid});
+            p.checkAndSave(function(err,doc){
               if(err)return done(err);
               doc.should.include({catalog:'p1'})
               done();
@@ -178,13 +181,42 @@ describe('Model', function() {
                     number:'testGetProperty-'+i,
                     property:property
                 };
-                
-                Product.checkAndSave(product,function(err,doc){
+                var p=new Product(product);
+                 
+                p.checkAndSave(function(err,doc){
                     should.not.exist(err);
                     callback();
                 })
             }
             
+        })
+        
+        it('should get components',function(done){
+          var count=3;
+          var main=new Product({number:'product-component'});
+          var components=[];
+          function saved(err,doc){
+            should.not.exist(err);
+            main.components.push({uid:doc.uid});
+            components.push(doc.toObject());
+            if(!(--count)){
+              main.checkAndSave(function(err){
+                should.not.exist(err);
+                main.getComponents(function(err,docs){
+                  should.not.exist(err);
+                  var coms=[];
+                  docs.forEach(function(doc,i){
+                    doc.toObject().should.include(components[i]);
+                  })
+                  done();
+                })
+              })
+            }
+          }
+          for(var i=0;i<count;i++){
+            var p=new Product({number:'component'+i});  
+            p.checkAndSave(saved);
+          }
         })
 
         after(function(done){

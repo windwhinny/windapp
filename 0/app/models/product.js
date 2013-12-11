@@ -39,6 +39,10 @@ var mongoose = require('mongoose'),
       size:'number',
       imageInfo:'mixed'
     }],
+    components:[{
+      uid:'string',
+      count:'number'
+    }],
     property:{
         default:{
             length:{
@@ -176,19 +180,33 @@ ProductSchema.pre('save', function(next) {
     }) 
 });
 
-/**
+ProductSchema.methods.getComponents=function(done){
+  var components=this.components;
+  var or=[];
+  var query=null;
+  components.forEach(function(component){
+    var data={uid:component.uid};
+    or.push(data);
+  })
+  query=Product.find();
+  if(!or.length){
+    return done(null,[]);
+  }
+  return query.or(or).exec(done) 
+}
+ProductSchema.methods.checkAndSave=function(callback){
+    var self=this;
+    addToQueue(saveQueue,function(next){
+        self.save(function(err,doc){
+             callback&&callback(err,doc);
+             next();
+        })
+    })
+},
+/*
  * Statics
  */
 ProductSchema.statics = {
-    checkAndSave:function(doc,callback){
-        addToQueue(saveQueue,function(next){
-            var product= new Product(doc);
-            product.save(function(err,doc){
-                 callback(err,doc);
-                 next();
-            })
-        })
-    },
     load: function(uid, cb) {
         var query;
         query={

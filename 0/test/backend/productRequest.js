@@ -155,7 +155,6 @@ describe('Request for product', function(){
   })
 
   it('should return catalogs in group', function(done){
-    this.timeout(60000);
     var i=0;
     function callback(err){
       i--;
@@ -184,8 +183,8 @@ describe('Request for product', function(){
       if(!(i%3)) {
         product.catalog='bbb';
       };
-      
-      Product.checkAndSave(product,function(err,doc){
+       
+     (new Product(product)).checkAndSave(function(err,doc){
         should.not.exist(err);
         callback();
       })
@@ -216,6 +215,38 @@ describe('Request for product', function(){
         })
     });
   })
+
+  it('should return components',function(done){
+    var count=3;
+    var main=new Product({number:'product-component'});
+    var components=[];
+    function saved(err,doc){
+      should.not.exist(err);
+      main.components.push({uid:doc.uid});
+      components.push(doc.toObject());
+      if(!(--count)){
+        main.checkAndSave(function(err){
+          should.not.exist(err);
+          utils.ajax('get','/products/'+main.uid+'/components',function(req){
+            req
+              .send()
+              .expect(200,function(err,res){
+                should.not.exist(err);
+                res.body.forEach(function(doc,i){
+                  doc.uid.should.eql(components[i].uid);
+                })
+                done();
+              })
+          })
+        })
+      }
+    }
+    for(var i=0;i<count;i++){
+      var p=new Product({number:'component'+i});  
+      p.checkAndSave(saved);
+    }
+  })
+
   after(function(done){
     utils.clean();
     done();

@@ -19,7 +19,8 @@ var config = {
         app: {
             name: 'WindApp - Test'
         },
-        imageHost:'http://products-test.u.qiniudn.com'
+        imageHost:'http://products-test.u.qiniudn.com',
+        port:4040
     },
     production: {
         db: {

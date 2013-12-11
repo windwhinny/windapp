@@ -32,7 +32,8 @@ productsEntry.handlers={
 		main:function(req,res,done){
 			var product = req.body;
 			product.user=req.user;
-			Product.checkAndSave(product,done);
+      var p=new Product(product);
+			p.checkAndSave(done);
 		},
 
 	},
@@ -138,7 +139,7 @@ productsEntry.handlers={
   getImageUploadToken:{
     method:'get',
     type:'json',
-      url:'/:uid/image/token',
+    url:'/:uid/image/token',
     main:function(req,res,done){
       var uid=requireUid(req,done);
       var host=req.query.host;
@@ -147,6 +148,20 @@ productsEntry.handlers={
       done(null,{
         token:imageBrucket.token(host,uid)
       });
+    }
+  },
+  getComponents:{
+    method:'get',
+    type:'json',
+    url:'/:uid/components',
+    main:function(req,res,done){
+      var uid=requireUid(req,done);
+      if(!uid)return;
+
+      Product.findOne({uid:uid},function(err,product){
+        if(err)return done(err);
+        product.getComponents(done)
+      })
     }
   },
   removeImage:{
