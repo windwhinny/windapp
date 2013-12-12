@@ -1,0 +1,28 @@
+<div class='list' ng-controller='CompanyListController' ng-init='refresh(currentPage)'>
+	<div class='pull-right btn-group control-group'>
+    <button class="btn" ng-click="addNew()">
+      <i class='icon-plus'></i>
+      {{'Add' | i18n}}
+    </button>
+		<button class='btn ' ng-click='refresh()'>
+      <i class='icon-refresh'></i>
+      {{'Refresh' | i18n}}
+    </button>
+	</div>
+  <loading ng-if='loading'></loading>
+  <div ng-if='!loading'>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{"Company Name" | i18n}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="company in companies" ng-click="viewCompany(company.uid)">
+          <td>{{company.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination boundary-links="true" total-items="companiesCount" items-per-page='pageStep' page="currentPage" class="pagination-small" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="refresh(page)"></pagination>
+  </div>
+ </div>

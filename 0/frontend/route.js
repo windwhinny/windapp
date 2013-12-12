@@ -5,6 +5,8 @@ define([
   'controller/product/addProduct',
   'controller/product/item',
   'controller/product/list',
+  'controller/company/list',
+  'controller/company/item',
   'controller/header'
 ],function(app){
 app.config(['$stateProvider' , '$urlRouterProvider' ,
@@ -101,6 +103,34 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 			views: {
 				'@products': {
 					templateUrl: '/views/products/edit.html'
+				}
+			}
+		})
+		.state('company',{
+			url:'/company',
+			abstract:true,
+			template:'<div class="company span9" ui-view="@company"></div>'
+		})
+		.state('company.list', {
+			url:'/page/:currentPage',
+			onEnter:['$state',function($state){
+				$state.params.currentPage=$state.params.currentPage||1;
+			}],
+			templateUrl: '/views/company/list.html'
+		})
+		.state('company.view', {
+			url:'/view/:companyUid',
+			views: {
+				'@company': {
+					templateUrl: '/views/company/view.html'
+				}
+			}
+		})
+		.state('company.edit', {
+			url:'/edit/:companyUid?new',
+			views: {
+				'@company': {
+					templateUrl: '/views/company/edit.html'
 				}
 			}
 		})

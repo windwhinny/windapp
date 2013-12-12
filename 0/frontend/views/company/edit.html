@@ -1,0 +1,16 @@
+<div class="company" ng-controller="EditCompanyController">
+	<div class='control-group head'>
+		<h2>{{'Name' |i18n}}
+			<input ng-model="company.name" >
+		</h2>
+	</div>
+	<errors></errors>
+  <div class='pull-right'>
+		<button ng-click="save()" class="btn btn-primary">
+      <i class="icon-edit"></i>
+      <span >{{"Save" | i18n}}</span>
+		</button>
+	</div
+		
+  <loading ng-if="!loaded"></loading>
+</div>

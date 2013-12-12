@@ -7,6 +7,9 @@ app.controller('HeaderController',
     $scope.menu = [{
         "title": "Products",
         "state": "products.list"
+    },{
+        'title': 'Client & Supplier',
+        'state': 'company.list'
     }];
     $scope.isSelected = function(item) {
         if ($state.is(item.state)) {

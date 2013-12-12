@@ -53,9 +53,9 @@ var defaultConfig = {
     env:env
 };
 
-module.exports = function(a,b){
+module.exports = (function(a,b){
     for(var i in b){
         a[i]=b[i];
     }
     return a;
-}(defaultConfig,config[env]);
+})(defaultConfig,config[env]);

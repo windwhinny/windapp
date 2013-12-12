@@ -32,14 +32,18 @@ var translation={
 	'RELEASE':'释放',
 	'ONLY_FILES_ARE_ALLOWED':'只允许文件',
 	'FAILED_TO_UPLOAD_THE_FILE':'上传失败',
-  'UPLOADING':'上传中',
-  'UPLOAD_IMAGE':'上传图片',
-  'LOADING...':'读取中...',
-  'CANCEL':'取消',
-  'ORIGINAL':'原始',
-  'IMAGE':'图像',
-  'CREATE':'创建',
-  'SIMILAR':'类似'
+	'UPLOADING':'上传中',
+	'UPLOAD_IMAGE':'上传图片',
+	'LOADING...':'读取中...',
+	'CANCEL':'取消',
+	'ORIGINAL':'原始',
+	'IMAGE':'图像',
+	'CREATE':'创建',
+	'SIMILAR':'类似',
+	'CONTACT': '联系人',
+	'NAME':'名称',
+	'COMPANY':'公司',
+	'CLIENT_&_SUPPLIER':'厂商'
 }
 app
 .filter('i18n',

@@ -1,0 +1,16 @@
+<div class="company" ng-controller="CompanyController">
+	<div class='control-group head'>
+		<h2>{{'Name' |i18n}}
+			<span>{{company.name}}</span>
+		</h2>
+	</div>
+	<errors></errors>
+	<div class='pull-right btn-group'>
+		<button ng-click="editModel()" class="btn">
+        <i class="icon-edit"></i>
+        <span >{{"Edit" |i18n}}</span>
+		</button>
+	</div>
+ 
+  <loading ng-if="!loaded"></loading>
+</div>
