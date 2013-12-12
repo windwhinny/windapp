@@ -30,14 +30,18 @@ var mongoose = require('mongoose'),
     },
     employees:[{
       name:'string',
-      phone:['string'],
-      email:['string']
+      position:'string',
+      phone:[{
+        value:"string"
+      }],
+      email:[{
+        value:"string"
+      }]
     }],
-    productCatalogs:['string'],
-    catalog:{
-        type:'string',
-        name:'catalog'
-    }
+    productCatalogs:[{
+      value:'string'
+    }],
+
  }
 
 var CompanySchema = new Schema(schemaData,{

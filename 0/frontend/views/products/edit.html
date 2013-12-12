@@ -1,44 +1,47 @@
 <div class="product" ng-controller="EditProductItemController">
-	<div class='control-group head'>
-		<h2>{{'Number' |i18n}}
-			<input type="{{getInputType(schema.number.type)}}" ng-model="product.number" >
-		</h2>
+	<errors></errors>
+  <div class='pull-right'>
+    <button ng-click="save()" class="btn btn-primary">
+      <i class="icon-edit"></i>
+      <span >{{"Save" | i18n}}</span>
+    </button>
+  </div>
+  <div class='control-group head'>
     <div class='default-img wapper'>
       <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
-	<errors></errors>
-  <div class='pull-right'>
-		<button ng-click="save()" class="btn btn-primary">
-      <i class="icon-edit"></i>
-      <span >{{"Save" | i18n}}</span>
-		</button>
-	</div>
-  <tabset  class='nav-pills nav-stacked' direction ="left">
-		<tab heading="{{'Property' | i18n}}">
-      <div class='control-group catalog'>
-        <form class='form-horizontal'>
-          <label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
-          <div  class='controls combobox'>
-            <input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
-             <ul class="dropdown-menu">
-                <li ng-repeat="cg in catalogs">
-                  <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
-                </li>
-              </ul>
+  <form class="form-horizontal">
+    <tabset  class='nav-pills nav-stacked' direction ="left">
+  		<tab heading="{{'Property' | i18n}}">
+        <div class='control-group'>
+            <label class="control-label" for="number">{{'Product Number' |i18n}}</label>
+          <div class="controls">
+            <input type="{{getInputType(field.type)}}" name="number" ng-model="product.number" >
           </div>
-        </form>
-      </div>
-      
-			<form class="form-horizontal">
+        </div>
+
+        <div class='control-group catalog'>
+          <form class='form-horizontal'>
+            <label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
+            <div  class='controls combobox'>
+              <input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
+               <ul class="dropdown-menu">
+                  <li ng-repeat="cg in catalogs">
+                    <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
+                  </li>
+                </ul>
+            </div>
+          </form>
+        </div>
+
 				<div class='control-group' ng-repeat='field in schema.property.default'>
 				    <label class="control-label" for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
 					<div class="controls">
 						<input type="{{getInputType(field.type)}}" name="field.name" ng-model="product.property.default[field.name]" >
 					</div>
 				</div>
-			</form>
-			<form class="form-horizontal">
+  			
 				<div class='control-group' ng-repeat='field in product.property.custom'>
 				    <label class="control-label" for="inputEmail">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
 				    <div class='combobox' ng-style="{float:'left'}" >
@@ -55,29 +58,29 @@
 						<button class='btn btn-warning' ng-click='product.property.custom.splice($index,1)'>&minus;</button>
 					</div>
 				</div>
-				<button class='btn btn-primary' ng-click="product.property.custom.push({})">&plus;</button>
-			</form>
-      <div class="dropdown-pad"></div>
-		</tab>
-		<tab heading="{{'Pictures' | i18n}}">
-      <div class="image-tab">
-        <loading ng-if="!imageHost"></loading>
-        <div class="images span7" ng-if="imageHost">
-          <div class="box" ng-repeat="img in product.images">
-            <div class="thumbnails-wapper" >
-              <img  ng-src="{{getImageURL(img.name,100)}}"/>
+  			<button class='btn btn-primary' ng-click="product.property.custom.push({})">&plus;</button>
+        <div class="dropdown-pad"></div>
+  		</tab>
+  		<tab heading="{{'Pictures' | i18n}}">
+        <div class="image-tab">
+          <loading ng-if="!imageHost"></loading>
+          <div class="images span7" ng-if="imageHost">
+            <div class="box" ng-repeat="img in product.images">
+              <div class="thumbnails-wapper" >
+                <img  ng-src="{{getImageURL(img.name,100)}}"/>
+              </div>
+              <button class="btn btn-link delete" ng-click="removeImage($index)">Delete</button>
             </div>
-            <button class="btn btn-link delete" ng-click="removeImage($index)">Delete</button>
+          </div>
+          <div class='upload span5'>
+            <loading ng-if="!uploadAvailable"></loading>
+            <div ng-if='uploadAvailable'>
+            <upload options="uploadOptions"></upload>
+            </div>
           </div>
         </div>
-        <div class='upload span5'>
-          <loading ng-if="!uploadAvailable"></loading>
-          <div ng-if='uploadAvailable'>
-          <upload options="uploadOptions"></upload>
-          </div>
-        </div>
-      </div>
-    </tab>
-  </tabset>
+      </tab>
+    </tabset>
+  </form>
   <loading ng-if="!product.uid"></loading>
 </div>

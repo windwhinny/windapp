@@ -41,6 +41,7 @@ productsEntry.handlers={
 	delte: {
 		method:'delete',
 		type:'json',
+		url:'/:uid',
 		main:function(req,res,done){
 			var uid=requireUid(req,done);
 			if(!uid)return;

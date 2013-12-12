@@ -43,7 +43,13 @@ var translation={
 	'CONTACT': '联系人',
 	'NAME':'名称',
 	'COMPANY':'公司',
-	'CLIENT_&_SUPPLIER':'厂商'
+	'CLIENT_&_SUPPLIER':'厂商',
+	'PHONE':'电话',
+	'PHONE_NUMBER':'电话号码',
+	'EMAIL':'邮箱',
+	'EMPLOYEE':'人员',
+	'ACTION':'操作',
+	'POSITION':'职位'
 }
 app
 .filter('i18n',

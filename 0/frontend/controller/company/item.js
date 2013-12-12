@@ -18,8 +18,8 @@ function getCompany(Company,uid,$scope,callback){
 }
 app
 .controller('EditCompanyController',[
-          '$scope', 'CompanyService', '$state','CompanyQueryService',
-	function($scope,   Company,		        $state,ProductQuery ){
+          '$scope', 'CompanyService', '$state','CompanyQueryService','ProductQueryService',
+	function($scope,   Company,		        $state,ProductQuery,ProductQuery){
     var isNew=$state.params.new,
       method='save',
       params={};
@@ -42,9 +42,28 @@ app
         })
         .then(function(){
           $state.go('company.item.view',{
-            companyUid:companyUid
+            companyUid:$scope.company.uid
           })
         });
+    }
+    $scope.addEmptyProductCatalog=function(){
+      $scope.company.productCatalogs=$scope.company.productCatalogs||[];
+      $scope.company.productCatalogs.push({})
+    }
+    $scope.addEmptyEmployee=function(){
+      $scope.company.employees=$scope.company.employees||[];
+      $scope.company.employees.push({
+        name:'',
+        phone:[],
+        email:[]
+      })
+    }
+    $scope.getCatalogs=function(){
+      ProductQuery.getCatalog(function(resource,headers){
+        $scope.productCatalogs=resource;
+      },function(resource,headers){
+        handleError($scope,resource.data)
+      })
     }
   }
 ])

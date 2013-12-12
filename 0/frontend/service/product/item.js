@@ -2,7 +2,7 @@ define([
   'app'
 ],function(app){
 app
-.factory('ProductItemService',
+.factory('ProductService',
 	[		"$resource",
 	function($resource){
 		var Product=$resource('/products/:productUid',

@@ -1,5 +1,16 @@
 <div class="product" ng-controller="ProductItemController">
-	<div class='control-group head'>
+	<errors></errors>
+  <div class='pull-right btn-group'>
+    <button class="btn" ng-click="addSimilarProduct()">
+      <i class="icon-file"></i>
+      <span>{{"Create similar product" | i18n}}</span>
+    </button>
+    <button ng-click="editModel()" class="btn">
+        <i class="icon-edit"></i>
+        <span >{{"Edit" |i18n}}</span>
+    </button>
+  </div>
+  <div class='control-group head'>
 		<h2>{{'Number' |i18n}}
 			<span ng-if="!edit">{{product.number}}</span>
 		</h2>
@@ -7,17 +18,8 @@
       <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
-	<errors></errors>
-	<div class='pull-right btn-group'>
-    <button class="btn" ng-click="addSimilarProduct()">
-      <i class="icon-file"></i>
-      <span>{{"Create similar product" | i18n}}</span>
-    </button>
-		<button ng-click="editModel()" class="btn">
-        <i class="icon-edit"></i>
-        <span >{{"Edit" |i18n}}</span>
-		</button>
-	</div>
+	
+	
   <tabset  class='nav-pills nav-stacked' direction ="left">
 		<tab heading="{{'Property' | i18n}}">
       <div class='control-group catalog'>

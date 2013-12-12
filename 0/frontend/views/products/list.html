@@ -18,14 +18,20 @@
           <th class='id'>{{"ID" | i18n}}</th>
           <th>{{"Number" |i18n}}</th>
           <th>{{"Created" | i18n}}</th>
+          <th class="action">{{"Action" | i18n}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="product in products" ng-click="productClicked(product.uid)">
+        <tr ng-repeat="product in products">
           <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></td>
           <td class='id'>{{product.uid}}</td>
-          <td>{{product.number}}</td>
+          <td><a ng-href="{{getProductURL(product.uid)}}">{{product.number}}</a></td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
+           <td class="action">
+              <button class="btn" ng-click="removeProduct(product.uid)">
+                <i class="icon-remove" ></i> {{"Delete" | i18n}}
+              </button>
+           </td>
         </tr>
       </tbody>
     </table>

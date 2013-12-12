@@ -4,7 +4,7 @@ define([
 ],function(app){
 app
 .controller('AddProductController',
-	[		'$scope', 'ProductItemService', '$state',
+	[		'$scope', 'ProductService', '$state',
 	function($scope,   Product,			  $state){
 		var product=$scope.product=new (Product);
     var params={};

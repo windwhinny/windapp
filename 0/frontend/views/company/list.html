@@ -14,12 +14,20 @@
     <table class="table table-hover">
       <thead>
         <tr>
+          <th class='id'>{{"ID" | i18n}}</th>
           <th>{{"Company Name" | i18n}}</th>
+          <th class="action">{{"Action" | i18n}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="company in companies" ng-click="viewCompany(company.uid)">
-          <td>{{company.name}}</td>
+        <tr ng-repeat="company in companies" >
+          <td class='id'>{{company.uid}}</td>
+          <td ><a ng-href="{{getCompanyURL(company.uid)}}">{{company.name}}</a></td>
+          <td class="action">
+              <button class="btn" ng-click="removeCompany(company.uid)">
+                <i class="icon-remove" ></i> {{"Delete" | i18n}}
+              </button>
+           </td>
         </tr>
       </tbody>
     </table>

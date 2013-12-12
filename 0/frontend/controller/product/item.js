@@ -35,7 +35,7 @@ function getDefaultImage($scope){
 
 app
 .controller('ProductItemController',[	
-          '$scope', 'ProductItemService', '$state','ProductQueryService','$modal','ImageOptions',
+          '$scope', 'ProductService', '$state','ProductQueryService','$modal','ImageOptions',
 	function($scope,   Product,		     $state,ProductQuery, $modal,ImageOptions){
     var productUid=$state.params.productUid;
     $scope.schema = Product.getSchema();
@@ -82,7 +82,7 @@ app
 ]
 )
 .controller('EditProductItemController',[
-          '$scope', 'ProductItemService', '$state','ProductQueryService','ImageOptions',
+          '$scope', 'ProductService', '$state','ProductQueryService','ImageOptions',
 	function($scope,   Product,		        $state,ProductQuery, ImageOptions){
     var productUid=$state.params.productUid;
     $scope.schema = Product.getSchema();

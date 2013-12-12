@@ -4,10 +4,10 @@ define([
 ],function(app){
 app 
 .controller('CompanyListController',
-  [    '$scope', 'CompanyQueryService','$state','$location',
-  function($scope,   CompanyQuery,          $state,  $location){
+  [    '$scope', 'CompanyQueryService','CompanyService','$state','$location',
+  function($scope,   CompanyQuery,     Company,     $state,  $location){
     $scope.currentPage=$state.params.currentPage;
-    $scope.refresh=function(page){
+    var refreshTable=$scope.refresh=function(page){
       page=page||1;
       $scope.loading=true;
       $scope.companies =  CompanyQuery.find({currentPage:page},function(resource,headers){
@@ -21,13 +21,19 @@ app
       });
     };
     $scope.addNew=function(){
-      $state.go('company.edit',{
-        new:true
+      $state.go('company.item.edit',{
+        new:true,
+        companyUid:0
       })
     }
-    $scope.viewCompany=function(uid){
-      $state.go('company.item.view',{
+    $scope.getCompanyURL=function(uid){
+      return $state.href('company.item.view',{
         companyUid:uid
+      })
+    }
+    $scope.removeCompany=function(uid){
+      Company.delete({companyUid:uid},function(){
+        refreshTable($scope.currentPage);
       })
     }
   }

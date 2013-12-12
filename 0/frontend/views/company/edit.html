@@ -1,16 +1,79 @@
-<div class="company" ng-controller="EditCompanyController">
-	<div class='control-group head'>
-		<h2>{{'Name' |i18n}}
-			<input ng-model="company.name" >
-		</h2>
-	</div>
+<form class="company form-horizontal" ng-controller="EditCompanyController">
 	<errors></errors>
   <div class='pull-right'>
-		<button ng-click="save()" class="btn btn-primary">
+    <button ng-click="save()" class="btn btn-primary">
       <i class="icon-edit"></i>
       <span >{{"Save" | i18n}}</span>
-		</button>
-	</div
-		
+    </button>
+  </div>
+	
+  <fieldset>
+    <legend>{{"Basic" | i18n}}</legend>
+
+    <div class="control-group">
+      <label class="control-label" for="name" >{{"Company Name" | i18n}}</label>
+      <div class="controls">
+        <input name="name" ng-model="company.name" type="text">
+      </div>
+    </div>
+
+    <div >
+      <div class="control-group">
+        <label class="control-label" for="catalog" >{{"Catalog" | i18n}}</label>
+        <div class="controls">
+          <div class="combobox " ng-repeat="catalog in company.productCatalogs track by $index">
+            <input class="dropdown-toggle"  name="catalog" ng-model="catalog.value" type="text" ng-focus='getCatalogs()'>
+            <ul class="dropdown-menu">
+              <li ng-repeat="cg in productCatalogs">
+                <a ng-click="catalog.value = cg.catalog">{{cg.catalog}}</a>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-link" ng-click="addEmptyProductCatalog()"><i class="icon-plus"></i> {{"Add Catalog" | i18n}}</button>
+        </div>
+      </div>
+    </div>
+
+  </fieldset>
+  
+  <fieldset>
+    <legend>{{"Employee" | i18n}}</legend>
+    <div ng-repeat="employee in company.employees">
+
+      <div class="control-group">
+        <label class="control-label" for="name" >{{"Name" | i18n}}</label>
+        <div class="controls">
+          <input name="name" ng-model="employee.name" type="text">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="position" >{{"Position" | i18n}}</label>
+        <div class="controls">
+          <input name="position" ng-model="employee.position" type="text">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="phone">{{"Phone" | i18n}}</label>
+        <div class="controls phones" name="phone">
+          <input ng-repeat="phone in employee.phone track by $index" ng-model="phone.value" type="tel">
+          <button class="btn btn-link" ng-click="employee.phone.push({})"><i class="icon-plus"></i> {{"Add Phone" | i18n}}</button>
+        </div>
+
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="email">{{"Email" | i18n}}</label>
+        <div class="controls emails" name="email">
+          <input ng-repeat="email in employee.email track by $index" ng-model="email.value" type="email">
+          <button class="btn btn-link" ng-click="employee.email.push({})"><i class="icon-plus"></i> {{"Add Email" | i18n}}</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-link" ng-click="addEmptyEmployee()"><i class="icon-plus"></i> {{"Add Employee" | i18n}}</button>
+  </fieldset>
+  
+
+  
   <loading ng-if="!loaded"></loading>
-</div>
+</form>
