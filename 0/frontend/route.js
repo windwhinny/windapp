@@ -31,6 +31,8 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 					return false;
 				}
 			})
+			.when('/','/products/page/1')
+			.when('/products','/products/page/1')
 			.otherwise('/error/400');
 
 		$stateProvider
@@ -53,8 +55,7 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 			}
 		})
 		.state('home', {
-			url:'/',
-			templateUrl:'/views/index.html'
+			url:'/'
 		})
 		.state('signin', {
 			url:'/signin?continue',
@@ -81,6 +82,9 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 		.state('products',{
 			url:'/products',
 			abstract:true,
+			onEnter: ['$state', function($state){
+				$state.go('products.list');
+			}],
 			template: '<div class="products span9" ui-view="@products"></div>'
 		})
 		.state('products.list', {
@@ -95,7 +99,7 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 			templateUrl: '/views/products/add.html'
 		})
 		.state('products.item', {
-			url:'/:productUid',
+			url:'/{productUid:[0-9]+}',
 			templateUrl: '/views/products/view.html'
 		})
 		.state('products.item.edit', {
@@ -118,16 +122,20 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 			}],
 			templateUrl: '/views/company/list.html'
 		})
-		.state('company.view', {
-			url:'/view/:companyUid',
+		.state('company.item',{
+			url:'/{companyUid:[0-9]+}',
+			abstract:true,
+		})
+		.state('company.item.view', {
+			url:'/view',
 			views: {
 				'@company': {
 					templateUrl: '/views/company/view.html'
 				}
 			}
 		})
-		.state('company.edit', {
-			url:'/edit/:companyUid?new',
+		.state('company.item.edit', {
+			url:'/edit?new',
 			views: {
 				'@company': {
 					templateUrl: '/views/company/edit.html'

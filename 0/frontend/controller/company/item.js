@@ -41,7 +41,7 @@ app
           handleError($scope,response.data);
         })
         .then(function(){
-          $state.go('company.view',{
+          $state.go('company.item.view',{
             companyUid:companyUid
           })
         });
@@ -57,7 +57,7 @@ app
     });
 
     $scope.editModel=function(){
-      $state.go('company.edit',{companyUid:companyUid});
+      $state.go('company.item.edit',{companyUid:companyUid});
     }
   }
 ]

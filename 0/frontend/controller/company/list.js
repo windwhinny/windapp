@@ -26,7 +26,7 @@ app
       })
     }
     $scope.viewCompany=function(uid){
-      $state.go('company.view',{
+      $state.go('company.item.view',{
         companyUid:uid
       })
     }
