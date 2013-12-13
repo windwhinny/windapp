@@ -49,7 +49,8 @@ var translation={
 	'EMAIL':'邮箱',
 	'EMPLOYEE':'人员',
 	'ACTION':'操作',
-	'POSITION':'职位'
+	'POSITION':'职位',
+	'DELETE':'删除'
 }
 app
 .filter('i18n',

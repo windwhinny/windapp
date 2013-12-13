@@ -24,8 +24,8 @@
           <td class='id'>{{company.uid}}</td>
           <td ><a ng-href="{{getCompanyURL(company.uid)}}">{{company.name}}</a></td>
           <td class="action">
-              <button class="btn" ng-click="removeCompany(company.uid)">
-                <i class="icon-remove" ></i> {{"Delete" | i18n}}
+              <button class="btn btn-link" ng-click="removeCompany(company.uid)">
+                {{"Delete" | i18n}}
               </button>
            </td>
         </tr>

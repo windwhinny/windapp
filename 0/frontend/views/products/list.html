@@ -28,8 +28,8 @@
           <td><a ng-href="{{getProductURL(product.uid)}}">{{product.number}}</a></td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
            <td class="action">
-              <button class="btn" ng-click="removeProduct(product.uid)">
-                <i class="icon-remove" ></i> {{"Delete" | i18n}}
+              <button class="btn  btn-link " ng-click="removeProduct(product.uid)">
+                {{"Delete" | i18n}}
               </button>
            </td>
         </tr>
