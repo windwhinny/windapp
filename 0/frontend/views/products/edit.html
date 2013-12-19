@@ -80,6 +80,25 @@
           </div>
         </div>
       </tab>
+      <tab heading="{{'Components' | i18n}}">
+        <div>
+          <button class="btn" ng-class="notCollapsed?'active':''" ng-click="notCollapsed = !notCollapsed"><i class="icon-list"></i> {{"Component List" | i18n}}</button>
+          <hr>
+          <div collapse="!notCollapsed">
+            <div class='pull-right btn-group control-group'>
+              <button class='btn ' ng-click='refresh()'>
+                <i class='icon-refresh'></i>
+                {{'Refresh' | i18n}}
+              </button>
+            </div>
+            <productlist nav="false" actions="check" options="listOptions"></productlist>
+          </div>
+        </div>
+        
+
+        
+        
+      </tab>
     </tabset>
   </form>
   <loading ng-if="!product.uid"></loading>

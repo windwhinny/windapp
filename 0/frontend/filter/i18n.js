@@ -50,7 +50,9 @@ var translation={
 	'EMPLOYEE':'人员',
 	'ACTION':'操作',
 	'POSITION':'职位',
-	'DELETE':'删除'
+	'DELETE':'删除',
+	'COMPONENT':'原件',
+	'COMPONENTS':'原件',
 }
 app
 .filter('i18n',

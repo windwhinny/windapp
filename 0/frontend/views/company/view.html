@@ -33,7 +33,7 @@
       <div class="control-group">
         <label class="control-label" >{{"Phone" | i18n}}</label>
         <div class="controls phones">
-          <span class="value" ng-repeat="phone in employee.phone track by $index">{{phone.value}}</span>
+          <a class="value" ng-href="callto:{{phone.value}}" ng-repeat="phone in employee.phone track by $index">{{phone.value}}</a>
         </div>
 
       </div>

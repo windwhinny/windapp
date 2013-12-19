@@ -1,4 +1,4 @@
-<div class='list' ng-controller='ProductListController' ng-init='refresh(currentPage)'>
+<div class='list' ng-controller='ProductListController'>
 	<div class='pull-right btn-group control-group'>
     <button class="btn" ng-click="addProduct()">
       <i class='icon-plus'></i>
@@ -9,32 +9,5 @@
       {{'Refresh' | i18n}}
     </button>
 	</div>
-  <loading ng-if='loading'></loading>
-  <div ng-if='!loading'>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>{{"Picture" | i18n}}</th>
-          <th class='id'>{{"ID" | i18n}}</th>
-          <th>{{"Number" |i18n}}</th>
-          <th>{{"Created" | i18n}}</th>
-          <th class="action">{{"Action" | i18n}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="product in products">
-          <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></td>
-          <td class='id'>{{product.uid}}</td>
-          <td><a ng-href="{{getProductURL(product.uid)}}">{{product.number}}</a></td>
-          <td>{{product.created | date:"yyyy-M-d"}}</td>
-           <td class="action">
-              <button class="btn  btn-link " ng-click="removeProduct(product.uid)">
-                {{"Delete" | i18n}}
-              </button>
-           </td>
-        </tr>
-      </tbody>
-    </table>
-    <pagination boundary-links="true" total-items="productsCount" items-per-page='pageStep' page="currentPage" class="pagination-small" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="refresh(page)"></pagination>
-  </div>
+  <productlist nav="false" options="listOptions"></productlist>
  </div>

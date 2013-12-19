@@ -5,7 +5,8 @@ define([
   'service/product/query',
   'service/product/imageOptions',
   'directive/upload',
-  'directive/field'
+  'directive/field',
+  'directive/productList'
 ],function(app){
 function handleError($scope,err){ $scope.errors=[err]; }
 
@@ -175,6 +176,9 @@ app
 				return type;
 			}
 		}
+    $scope.listOptions={
+      linkTarget:'_blank'
+    }
   }
 ])
 });
