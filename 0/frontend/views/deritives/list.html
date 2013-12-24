@@ -1,0 +1,32 @@
+<div class='list'>
+  <loading ng-if='loading'></loading>
+  <div ng-if='!loading'>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th><input type="checkbox"></th>
+          <th>{{"Picture" | i18n}}</th>
+          <th class='id'>{{"ID" | i18n}}</th>
+          <th>{{"Number" |i18n}}</th>
+          <th>{{"Created" | i18n}}</th>
+          <th class="action" ng-show="actions">{{"Action" | i18n}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="product in products">
+          <td><input type="checkbox"></td>
+          <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></td>
+          <td class='id'>{{product.uid}}</td>
+          <td><a ng-href="{{getProductURL(product.uid)}}" target="{{linkTarget}}">{{product.number}}</a></td>
+          <td>{{product.created | date:"yyyy-M-d"}}</td>
+          <td class="action" ng-show="actions">
+              <button class="btn  btn-link " ng-click="removeProduct(product.uid)" ng-show="actions.indexOf('delete')">
+                {{"Delete" | i18n}}
+              </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination boundary-links="true" total-items="productsCount" items-per-page='pageStep' page="currentPage" class="pagination-small" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="refresh(page)"></pagination>
+  </div>
+ </div>
