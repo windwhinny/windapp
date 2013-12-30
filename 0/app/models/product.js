@@ -40,8 +40,8 @@ var mongoose = require('mongoose'),
       imageInfo:'mixed'
     }],
     components:[{
-      uid:'string',
-      count:'number'
+      ref:'Product',
+      type:Schema.Types.ObjectId
     }],
     property:{
         default:{
@@ -87,6 +87,7 @@ var mongoose = require('mongoose'),
 var ProductSchema = new Schema(schemaData,{
     _id:false
 });
+
 ProductSchema.options.toObject={
   hide : '_id'
 };
@@ -202,130 +203,135 @@ ProductSchema.methods.checkAndSave=function(callback){
              next();
         })
     })
-},
+};
+
+ProductSchema.methods.build=function(done){
+  var self=this;
+
+  this.populate('components',function(err){
+    done(err); 
+  })
+};
 /*
  * Statics
  */
-ProductSchema.statics = {
-    load: function(uid, cb) {
-        var query;
-        query={
-          uid:uid
-        }
-        this.findOne(query,cb);
-    },
-    list:function(query,page,step,fields,sort,callback){
-      function varifyPageNumber(count,step,page){
-				var pageCount=Math.ceil(count/step);
-				if(page>pageCount){
-					page=pageCount;
-				}
-				return pageCount;
-			}
-      Product.find(query).count(function(err,count){
-				if(err){
-					callback(err);
-				}else{
-					var pageCount=varifyPageNumber(count,step,page);
-					var que=Product.find(query,fields,{
-						skip:(page-1)*step,	
-					}).sort(sort).limit(step);            
-          que.exec(function(err,docs){
-            callback(err,docs,{
-              page:page,
-              step:step,
-              pageCount:pageCount,
-              itemCount:count
-            })
-          })
-				}
-			});
-    },
-    getSchema: function(cb){
-        if(typeof(cb)=='function'){
-            cb(null,schemaData)
-        }
-        return schemaData;
-    },
-    getProperty:function(query,callback){
-        if(typeof(query)=='function'){
-            callback=query;
-            query={};
-        }
-        Product.mapReduce({
-                map:function(){
-                    this.property.custom.forEach(function(property){
-                        if(property.name){
-                            emit(property.name,1)
-                        }   
-                    })
-                },
-                reduce:function(key,values){
-                    return Array.sum(values);
-                },
-                query: query
-            },callback)
-    },
-    getCatalogs:function(callback){
-        Product.collection.group({
-                catalog:1
-            },{
-                catalog:{$gt:""}
-            },{
-                count:0
-            },function(curr,result){
-                result.count++;
-            },null,true,callback);
-    },
-    addImage:function(uid,image,callback){
-      Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
-        if(err){
-          callback(err)
-          return;
-        }
-        Product.findOne({uid:uid},function(err,doc){
-          callback(err,doc.images);
+
+ProductSchema.statics.list=function(query,page,step,fields,sort,callback){
+  function varifyPageNumber(count,step,page){
+    var pageCount=Math.ceil(count/step);
+    if(page>pageCount){
+      page=pageCount;
+    }
+    return pageCount;
+  }
+  Product.find(query).count(function(err,count){
+    if(err){
+      callback(err);
+    }else{
+      var pageCount=varifyPageNumber(count,step,page);
+      var que=Product.find(query,fields,{
+        skip:(page-1)*step,	
+      }).sort(sort).limit(step);            
+      que.exec(function(err,docs){
+        callback(err,docs,{
+          page:page,
+          step:step,
+          pageCount:pageCount,
+          itemCount:count
         })
       })
-    },
-  removeImage:function(uid,image,callback){
-    Product.update({uid:uid},{$pull:{images:{name:image}}},function(err){
-      if(err)return callback(err);
-      Product.find({images:{$elemMatch:{name:image}}},function(err,doc){
-        console.log(doc);
-        if(err){throw err;return};
-        if(!doc||doc&&(!doc.length)){
-          console.log('delete '+image);
-          imageBrucket.remove(image,function(err){
-            if(err)throw err;
+    }
+  });
+};
+
+ProductSchema.statics.getSchema=function(cb){
+  if(typeof(cb)=='function'){
+      cb(null,schemaData)
+  }
+  return schemaData;
+};
+
+ProductSchema.statics.getProperty=function(query,callback){
+  if(typeof(query)=='function'){
+      callback=query;
+      query={};
+  }
+  Product.mapReduce({
+          map:function(){
+              this.property.custom.forEach(function(property){
+                  if(property.name){
+                      emit(property.name,1)
+                  }   
+              })
+          },
+          reduce:function(key,values){
+              return Array.sum(values);
+          },
+          query: query
+      },callback)
+};
+
+ProductSchema.statics.getCatalogs=function(callback){
+  Product.collection.group({
+        catalog:1
+    },{
+        catalog:{$gt:""}
+    },{
+        count:0
+    },function(curr,result){
+        result.count++;
+    },null,true,callback);
+};
+ProductSchema.statics.addImage=function(uid,image,callback){
+  Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
+    if(err){
+      callback(err)
+      return;
+    }
+    Product.findOne({uid:uid},function(err,doc){
+      callback(err,doc.images);
+    })
+  })
+};
+ProductSchema.statics.removeImage=function(uid,image,callback){
+  Product.update({uid:uid},{$pull:{images:{name:image}}},function(err){
+    if(err)return callback(err);
+    Product.find({images:{$elemMatch:{name:image}}},function(err,doc){
+      console.log(doc);
+      if(err){throw err;return};
+      if(!doc||doc&&(!doc.length)){
+        console.log('delete '+image);
+        imageBrucket.remove(image,function(err){
+          if(err)throw err;
+        });
+      }
+    })
+    callback();
+  });
+};
+
+ProductSchema.statics.updateAndClean=function(uid,data,callback){
+  Product.findOneAndUpdate({uid:uid},data,{new:false},function(err,doc){
+    callback(err,data);
+    if(err)return;
+    var newImages=data.images;
+    var oldImages=doc.images;
+    process.nextTick(function(){
+      oldImages.forEach(function(image){
+        var found=false;
+        newImages.forEach(function(img){
+          if(img.name==image.name){
+            found=true; 
+          }
+        })
+        if(!found){
+          imageBrucket.remove(image.name,function(err){
+            if(err)console.log(err,err.stack);
           });
         }
       })
-      callback();
-    });
-  },
-  updateAndClean:function(uid,data,callback){
-    Product.findOneAndUpdate({uid:uid},data,{new:false},function(err,doc){
-      var newImages=data.images;
-      var oldImages=doc.images;
-      callback(err,data);
-      process.nextTick(function(){
-        oldImages.forEach(function(image){
-          var found=false;
-          newImages.forEach(function(img){
-            if(img.name==image.name){
-              found=true; 
-            }
-          })
-          if(!found){
-            imageBrucket.remove(image.name,function(err){
-              if(err)console.log(err,err.stack);
-            });
-          }
-        })
-      })
-    })  
-  },
+    })
+  })  
 };
 
 var Product = module.exports = mongoose.model('Product', ProductSchema);

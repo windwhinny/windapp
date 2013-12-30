@@ -11,25 +11,27 @@ define([
 function handleError($scope,err){ $scope.errors=[err]; }
 
 function getProduct(Product,uid,$scope,callback){
-  return Product.get(
+  var product= Product.get(
     {productUid:uid},
     function(resource){
+      product.components=product.components||[];
       $scope.product=resource;
       callback&&callback(resource);
   },function(resource,headers){
     handleError($scope,resource.data);
   });
+  product.components=[];
+  return product;
 }
 
-function getDefaultImage($scope){
-  if($scope.product&&$scope.imageHost){
-    var product=$scope.product;
+function getDefaultImage(product,$scope){
+  if(product&&$scope.imageHost){
     var defaultImage=product
       &&product.images
       &&product.images[0]
       &&product.images[0].name;
     if(defaultImage){
-      $scope.defaultImage=$scope.getImageURL(defaultImage,200);
+      return $scope.getImageURL(defaultImage,200);
     }
   }
 }
@@ -41,12 +43,12 @@ app
     var productUid=$state.params.productUid;
     $scope.schema = Product.getSchema();
 		var product = getProduct(Product,productUid,$scope,function(resource){
-      getDefaultImage($scope)
+      $scope.defaultImage=getDefaultImage(product,$scope)
     });
 
     ImageOptions.getHost(function(host){
       $scope.imageHost=host;
-      getDefaultImage($scope); 
+      $scope.defaultImage=getDefaultImage(product,$scope)
     })
     var getImageURL = $scope.getImageURL = ImageOptions.getImageURL;
 
@@ -88,12 +90,12 @@ app
     var productUid=$state.params.productUid;
     $scope.schema = Product.getSchema();
 		var product = getProduct(Product,productUid,$scope,function(resource){
-      getDefaultImage($scope)
+      $scope.defaultImage=getDefaultImage(product,$scope)
     });
 
     ImageOptions.getHost(function(host){
       $scope.imageHost=host;
-      getDefaultImage($scope); 
+      $scope.defaultImage=getDefaultImage(product,$scope)
     })
     var getImageURL = $scope.getImageURL = ImageOptions.getImageURL;
 
@@ -111,6 +113,13 @@ app
           custom.splice(i,1);
         }
       }
+      
+      var components=product.components||[];
+      components && components.forEach(function(v,k){
+        components[k]=v._id;
+      })
+      product.components=components;
+
       product.$save({productUid:productUid})
         .catch(function(response){
           handleError($scope,response.data);
@@ -135,6 +144,7 @@ app
 				handleError($scope,resource.data)
 			})
 		}
+
 		$scope.uploadOptions={
 			action:'http://up.qiniu.com/',
 			method:'post',
@@ -152,6 +162,7 @@ app
 				
 			}
 		}
+
     $scope.removeImage=function(index){
       ProductQuery.removeImage(
         {
@@ -176,9 +187,7 @@ app
 				return type;
 			}
 		}
-    $scope.listOptions={
-      linkTarget:'_blank'
-    }
+    $scope.selectorActions='check';
   }
 ])
 });

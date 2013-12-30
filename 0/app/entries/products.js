@@ -158,7 +158,6 @@ productsEntry.handlers={
     main:function(req,res,done){
       var uid=requireUid(req,done);
       if(!uid)return;
-
       Product.findOne({uid:uid},function(err,product){
         if(err)return done(err);
         product.getComponents(done)
@@ -219,15 +218,20 @@ productsEntry.handlers={
 		main:function(req,res,done){
 			var uid=requireUid(req,done);
 			if(!uid)return;
-      Product.load(uid,function(err,doc){
-				if(!doc){
+      Product.findOne({uid:uid},function(err,product){
+        if(err)return done(err);
+        if(!product){
 					var err = Errors.NotFound('product not found by id '+uid);
-					done(err,doc);
+					done(err,product);
 				}else{
-					done(err,doc)
+          product.build(function(err){
+
+            done(err,product)
+          }) 
 				}
-			});
-		}
+  
+      })
+    }
 	},
 	update: {
 		method:'post',

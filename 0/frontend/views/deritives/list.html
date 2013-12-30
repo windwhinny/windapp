@@ -4,7 +4,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
+          <th><input type="checkbox" ng-model="selectAll" /></th>
           <th>{{"Picture" | i18n}}</th>
           <th class='id'>{{"ID" | i18n}}</th>
           <th>{{"Number" |i18n}}</th>
@@ -13,8 +13,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="product in products">
-          <td><input type="checkbox"></td>
+        <tr ng-repeat="product in products" ng-hide="product.uid==hide">
+          <td><input type="checkbox" ng-model="product.selected" /></td>
           <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></td>
           <td class='id'>{{product.uid}}</td>
           <td><a ng-href="{{getProductURL(product.uid)}}" target="{{linkTarget}}">{{product.number}}</a></td>

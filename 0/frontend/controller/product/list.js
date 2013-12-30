@@ -8,13 +8,15 @@ app
 .controller('ProductListController',
   [    '$scope', 'ProductQueryService','ProductService','$state','$location','ImageOptions',
   function($scope,   ProductQuery,    Product,      $state,  $location,ImageOptions){
-    $scope.listOptions={
-      currentPage:$state.params.currentPage,
-      onRefresh:function(page){
-        page=(page>0)?page:1;
-        $location.path($state.href('products.list',{currentPage:page}));
-      },
-      actions:'delete'
+    $scope.currentPage=$state.params.currentPage;
+    $scope.onListRefresh=function(page){
+      page=(page>0)?page:1;
+      $location.path($state.href('products.list',{currentPage:page}));
+    };
+    $scope.listActions='delete';
+    
+    $scope.addProduct=function(){
+      $state.go('products.add');
     }
   }
   ]
