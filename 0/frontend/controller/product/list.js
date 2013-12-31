@@ -13,7 +13,10 @@ app
       page=(page>0)?page:1;
       $location.path($state.href('products.list',{currentPage:page}));
     };
-    $scope.listActions='delete';
+    $scope.listActions={
+      delete:true,
+      edit:true
+    };
     
     $scope.addProduct=function(){
       $state.go('products.add');

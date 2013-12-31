@@ -187,7 +187,9 @@ app
 				return type;
 			}
 		}
-    $scope.selectorActions='check';
+    $scope.selectorActions={
+      check:true
+    };
   }
 ])
 });

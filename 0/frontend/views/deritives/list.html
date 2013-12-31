@@ -4,7 +4,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th><input type="checkbox" ng-model="selectAll" /></th>
+          <th ng-show="actions.check"><input type="checkbox" ng-model="selectAll" /></th>
           <th>{{"Picture" | i18n}}</th>
           <th class='id'>{{"ID" | i18n}}</th>
           <th>{{"Number" |i18n}}</th>
@@ -14,13 +14,16 @@
       </thead>
       <tbody>
         <tr ng-repeat="product in products" ng-hide="product.uid==hide">
-          <td><input type="checkbox" ng-model="product.selected" /></td>
+          <td ng-show="actions.check" ><input type="checkbox" ng-model="product.selected" /></td>
           <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></td>
           <td class='id'>{{product.uid}}</td>
           <td><a ng-href="{{getProductURL(product.uid)}}" target="{{linkTarget}}">{{product.number}}</a></td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
-          <td class="action" ng-show="actions">
-              <button class="btn  btn-link " ng-click="removeProduct(product.uid)" ng-show="actions.indexOf('delete')">
+          <td class="action" ng-show="actions.delete||actions.edit">
+              <button class="btn  btn-link " ng-click="editProduct(product.uid)" ng-show="actions.edit">
+                {{"Edit" | i18n}}
+              </button>
+              <button class="btn  btn-link " ng-click="removeProduct(product.uid)" ng-show="actions.delete">
                 {{"Delete" | i18n}}
               </button>
           </td>

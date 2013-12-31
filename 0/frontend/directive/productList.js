@@ -80,8 +80,8 @@ app
             
             return ImageOptions.getImagePath(image.name,100);
           }
-          $scope.addProduct=function(){
-            $state.go('products.add')
+          $scope.editProduct=function(uid){
+            $state.go('products.item.edit',{productUid:uid});
           }
           $scope.removeProduct=function(uid){
           	Product.remove({productUid:uid},function(){
