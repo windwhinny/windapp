@@ -14,86 +14,81 @@ var mongoose = require('mongoose'),
  * Product Schema
  */
 
- var schemaData={
-    created: {
-        type: 'date',
-        default: Date.now
+var schemaData={
+  created: {
+    type: 'date',
+    default: Date.now
+  },
+  number: {
+    type: 'string',
+    default: '',
+    trim: true
+  },
+  uid: {
+    type: 'number',
+    default: '',
+    trim: true,
+    unique:true
+  },
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  images:[{
+    name:'string',
+    size:'number',
+    imageInfo:'mixed'
+  }],
+  components:[{
+    ref:'Product',
+    type:Schema.Types.ObjectId
+  }],
+  property:{
+    default:{
+      length:{
+        name:'length',
+        type:'number',
+        default:0,
+        unit:'cm'
+      },
+      width:{
+        name:'width',
+        type:'number',
+        default:0,
+        unit:'cm'
+      },
+      height:{
+        name:'height',
+        type:'number',
+        default:0,
+        unit:'cm'
+      },
+      weight:{
+        name:'weight',
+        type:'number',
+        default:0,
+        unit:'g'
+      },
     },
-    number: {
-        type: 'string',
-        default: '',
-        trim: true
-    },
-    uid: {
-        type: 'number',
-        default: '',
-        trim: true,
-        unique:true
-    },
-    user: {
-        type: Schema.ObjectId,
-        ref: 'User'
-    },
-    images:[{
-      name:'string',
-      size:'number',
-      imageInfo:'mixed'
-    }],
-    components:[{
-      ref:'Product',
-      type:Schema.Types.ObjectId
-    }],
-    property:{
-        default:{
-            length:{
-                name:'length',
-                type:'number',
-                default:0,
-                unit:'cm'
-            },
-            width:{
-                name:'width',
-                type:'number',
-                default:0,
-                unit:'cm'
-            },
-            height:{
-                name:'height',
-                type:'number',
-                default:0,
-                unit:'cm'
-            },
-            weight:{
-                name:'weight',
-                type:'number',
-                default:0,
-                unit:'g'
-            },
-        },
-        custom:[{
-            name:'string',
-            value:'string'
-        }]
-    },
-    catalog:{
-        type:'string',
-        name:'catalog'
-    },
-    similar:{
-      type:'number'
-    }
- }
+      custom:[{
+        name:'string',
+        value:'string'
+      }]
+  },
+  catalog:{
+    type:'string',
+    name:'catalog'
+  },
+  similar:{
+    type:'number'
+  }
+}
 
 var ProductSchema = new Schema(schemaData,{
-    _id:false
+  _id:false
 });
 
-ProductSchema.options.toObject={
-  hide : '_id'
-};
-ProductSchema.options.toJSON={
-  hide : '_id'
-};
+//generate index
 [
   {
     fields:{uid:1},
@@ -107,78 +102,77 @@ ProductSchema.options.toJSON={
   ProductSchema.index(index.fields,index.options);
 });
 
+//add the save task to queue, so the task can performed one by one
 function addToQueue(queue,cb){
-    queue.push(cb);
-    function runQueue(){
-        var callback=queue[0];
-        callback(function(){
-            queue.splice(0,1);
-            if(queue.length){
-                runQueue();
-            }
-        })
-    }
-    if(queue.length==1){
+  queue.push(cb);
+  function runQueue(){
+    var callback=queue[0];
+    callback(function(){
+      queue.splice(0,1);
+      if(queue.length){
         runQueue();
-    }
+      }
+    })
+  }
+  if(queue.length==1){
+    runQueue();
+  }
 }
 var saveQueue=[];
 
+//check similar product
 ProductSchema.pre('save', function(next) {
-    if (!this.isNew) return next();
-    var self=this;
-    function checkSimilarProduct(done){
-      if(self.similar&&self.isNew){
-        Product.findOne({uid:self.similar},function(err,doc){
-          if(err)return done(err);
-          doc=doc.toObject();
-          delete doc.uid;
-          delete doc._id;
-          delete doc.number;
-          delete doc.created;
-          utils.deepMegre(self._doc,doc);
-          done();
-        })
-      }else{
-        done();
-      }
-    }
-    function checkNumber(callback){
-        var number=self.number;
-        if(number){
-            Product.find({number:number}, function(err,docs){
-                if(docs.length){
-                    var err=Errors.BadRequest('number already exist');
-                    callback(err);
-                }else{
-                    callback();
-                }
-            })
-        }else{
-            callback();
-        }
-    }
-
-    function checkUid(callback){
-        Product
-            .find({uid:{$gt:0}},{uid:1})
-            .sort({uid:-1})
-            .limit(1)
-            .exec(function(err, product){
-                self.uid= (product[0]?product[0].uid:0)+1;
-                callback(err);
-            });
-    }
-
-    checkSimilarProduct(function(err){
+  if (!this.isNew) return next();
+  var self=this;
+  if(self.similar&&self.isNew){
+    Product.findOne({uid:self.similar},function(err,doc){
       if(err)return next(err);
-      checkUid(function(err){
-          if(err)return next(err);
-          checkNumber(function(err){
-              next(err);
-          })
-      })
-    }) 
+      doc=doc.toObject();
+      delete doc.uid;
+      delete doc._id;
+      delete doc.number;
+      delete doc.created;
+      utils.deepMegre(self._doc,doc);
+      //deepMegre cannot megre array, so we should add components property manualy
+      self.components=doc.components;
+      next()
+    })
+  }else{
+    next();
+  }
+})
+
+//generate uid
+ProductSchema.pre('save', function(next) {
+  if (!this.isNew) return next();
+  var self=this;
+  Product
+    .find({uid:{$gt:0}},{uid:1})
+    .sort({uid:-1})
+    .limit(1)
+    .exec(function(err, product){
+      self.uid= (product[0]?product[0].uid:0)+1;
+      next(err);
+    });
+});
+
+//check number
+ProductSchema.pre('save', function(next) {
+  if (!this.isNew) return next();
+  var self=this;
+  var number=self.number;
+  if(number){
+    Product.find({number:number}, function(err,docs){
+      if(docs.length){
+        var err=Errors.BadRequest('number already exist');
+        next(err);
+      }else{
+        next();
+      }
+    })
+  }else{
+    next();
+  }
 });
 
 ProductSchema.methods.getComponents=function(done){
@@ -195,23 +189,24 @@ ProductSchema.methods.getComponents=function(done){
   }
   return query.or(or).exec(done) 
 }
+
 ProductSchema.methods.checkAndSave=function(callback){
-    var self=this;
-    addToQueue(saveQueue,function(next){
-        self.save(function(err,doc){
-             callback&&callback(err,doc);
-             next();
-        })
+  var self=this;
+  addToQueue(saveQueue,function(next){
+    self.save(function(err,doc){
+      callback&&callback(err,doc);
+      next();
     })
+  })
 };
 
 ProductSchema.methods.build=function(done){
   var self=this;
-
   this.populate('components',function(err){
     done(err); 
   })
 };
+
 /*
  * Statics
  */

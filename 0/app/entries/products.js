@@ -35,7 +35,6 @@ productsEntry.handlers={
       var p=new Product(product);
 			p.checkAndSave(done);
 		},
-
 	},
 	
 	delte: {
@@ -225,7 +224,6 @@ productsEntry.handlers={
 					done(err,product);
 				}else{
           product.build(function(err){
-
             done(err,product)
           }) 
 				}
