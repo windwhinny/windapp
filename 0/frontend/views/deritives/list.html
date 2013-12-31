@@ -9,7 +9,7 @@
           <th class='id'>{{"ID" | i18n}}</th>
           <th>{{"Number" |i18n}}</th>
           <th>{{"Created" | i18n}}</th>
-          <th class="action" ng-show="actions">{{"Action" | i18n}}</th>
+          <th class="action" ng-show="showActions">{{"Action" | i18n}}</th>
         </tr>
       </thead>
       <tbody>
@@ -19,7 +19,7 @@
           <td class='id'>{{product.uid}}</td>
           <td><a ng-href="{{getProductURL(product.uid)}}" target="{{linkTarget}}">{{product.number}}</a></td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
-          <td class="action" ng-show="actions.delete||actions.edit">
+          <td class="action" ng-show="showActions">
               <button class="btn  btn-link " ng-click="editProduct(product.uid)" ng-show="actions.edit">
                 {{"Edit" | i18n}}
               </button>

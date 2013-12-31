@@ -13,11 +13,12 @@ app
         actions:'=?',
         selection:'=?',
         fixed:'=?',
-        onRefresh:'&',
-        hide:'=?'
+        hide:'=?',
+        refreshAtom:'=?'
       },
       controller:['$scope', 'ProductQueryService','ProductService','$state','$location','ImageOptions',
         function($scope,   ProductQuery,    Product,      $state,  $location,ImageOptions){
+          var refresh=false;
           if($scope.fixed&&$scope.fixedProducts){
             $scope.products=$scope.fixedProducts;
           }
@@ -25,7 +26,10 @@ app
             if($scope.fixed)return;
             page=page||$scope.currentPage||1;
             $scope.loading=true;
+
+            refreshing=true;
             $scope.products =  ProductQuery.find({currentPage:page},function(resource,headers){
+              refreshing=false;
               var products=resource;
               $scope.loading=false;
               $scope.pageCount=headers('Page-Count')||1;
@@ -33,25 +37,24 @@ app
               $scope.currentPage=headers('Page-Number')||1;
               $scope.productsCount=headers('Items-Count')||$scope.pageCount*$scope.pageStep;
               $scope.onRefresh&&$scope.onRefresh($scope.currentPage);
-
               var selection=$scope.selection;
               if(selection){
                 products.forEach(function(p){
                   selection.forEach(function(slec){
                     if(slec.uid==p.uid){
                       p.selected=true;
-                    }
-                  })
-                })
-              }
-
+                    };
+                  });
+                });
+              };
+              $scope.selection=selection;
             });
           };
           
           $scope.$watch('products',function(newVal,oldVal){
-            var selection=$scope.selection;
-            if(!selection)return;
-            selection.splice(0,selection.length);
+            if(!$scope.selection)return;
+            if(refreshing)return;
+            var selection=$scope.selection=[];
             $scope.products.forEach(function(product){
               if(product.selected){
                 selection.push(product);
@@ -66,6 +69,16 @@ app
             products.forEach(function(v,k){
               v.selected=selected;  
             })
+          });
+          
+          // as soon as refreshAtom change, no matter what it is, the table will be refreshed
+          $scope.$watch('refreshAtom',function(){
+            refreshTable(); 
+          });
+
+          $scope.$watch('actions',function(){
+            var actions=$scope.actions;
+            $scope.showActions= actions&&(actions.delete||actions.edit);
           });
 
           $scope.getProductURL=function(uid){
@@ -87,11 +100,10 @@ app
           	Product.remove({productUid:uid},function(){
           		refreshTable($scope.currentPage);
           	})
-          }
+          };
         }
         ],
       link:function($scope, element, attrs){
-        $scope.refresh($scope.currentPage);
       }
     }
     return directiveDefinitionObject;

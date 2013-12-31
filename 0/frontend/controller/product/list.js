@@ -17,10 +17,9 @@ app
       delete:true,
       edit:true
     };
-    
     $scope.addProduct=function(){
       $state.go('products.add');
-    }
+    };
   }
   ]
 )

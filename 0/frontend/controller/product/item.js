@@ -177,7 +177,7 @@ app
         }
       )
       
-    }
+    };
 		$scope.getInputType=function(type){
 			if(type==='string'){
 				return 'text'
@@ -186,7 +186,7 @@ app
 			}else{
 				return type;
 			}
-		}
+		};
     $scope.selectorActions={
       check:true
     };

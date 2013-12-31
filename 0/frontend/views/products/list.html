@@ -4,10 +4,10 @@
       <i class='icon-plus'></i>
       {{'Add' | i18n}}
     </button>
-		<button class='btn ' ng-click='refresh()'>
+		<button class='btn ' ng-click='refreshAtom=!refreshAtom'>
       <i class='icon-refresh'></i>
       {{'Refresh' | i18n}}
     </button>
 	</div>
-  <productlist page="currentPage" on-refresh="onRefresh()" actions="listActions" ></productlist>
+  <productlist page="currentPage" actions="listActions" refresh-atom="refreshAtom"></productlist>
  </div>
