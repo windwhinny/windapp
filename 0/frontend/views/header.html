@@ -1,13 +1,14 @@
-<div class="navbar-inner" ng-controller="HeaderController" ng-init="init()" >
-	<div class="container" >
-		<button class="btn btn-navbar" ng-click="isNavCollapse = !isNavCollapse">
+<nav class="navbar navbar-default" role="navigation" ng-controller="HeaderController" ng-init="init()" >
+	<div class="navbar-header" >
+		<button type="button" class="navbar-toggle" ng-click="isNavCollapse = !isNavCollapse">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="brand" ui-sref="home">Marktop</a>
-		<div class="nav-collapse" collapse="!isNavCollapse">
-			<ul class="nav" ng-if="user.isAuthed()">
+	</div>
+		<a class="navbar-brand" ui-sref="home">Marktop</a>
+		<div class="navbar-collapse collapse" collapse="!isNavCollapse">
+			<ul class="nav navbar-nav" ng-if="user.isAuthed()">
 				<li ng-repeat="item in menu"  ng-class="isSelected(item)"><a ui-sref="{{item.state}}">{{item.title | i18n}}</a></li>
 			</ul>
 			<div>
@@ -23,5 +24,4 @@
 				</ul>
 			</div>
 		</div>
-	</div>
-</div>
+</nav>

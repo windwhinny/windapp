@@ -1,11 +1,11 @@
-<div class="product" ng-controller="ProductItemController">
+<div class="product top-spacing" ng-controller="ProductItemController">
 	<errors></errors>
   <div class='pull-right btn-group'>
-    <button class="btn" ng-click="addSimilarProduct()">
+    <button class="btn btn-primary" ng-click="addSimilarProduct()">
       <i class="icon-file"></i>
       <span>{{"Create similar product" | i18n}}</span>
     </button>
-    <button ng-click="editModel()" class="btn">
+    <button ng-click="editModel()" class="btn btn-primary">
         <i class="icon-edit"></i>
         <span >{{"Edit" |i18n}}</span>
     </button>
@@ -18,33 +18,33 @@
       <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
-  <div class="row-fluid">	
-    <fieldset class="span6">
+  <div class="row">	
+    <fieldset class="span6 col-sm-6 top-spacing">
       <legend>{{'Property' | i18n}}</legend>
       <form class="form-horizontal">
-        <div class='control-group catalog'>
-          <label class="control-label">{{'catalog' | i18n}}</label>
-          <div class="controls">
+        <div class='form-group catalog row'>
+          <label class="col-xs-5 control-label">{{'catalog' | i18n}}</label>
+          <div class="controls col-xs-5">
             <span class='value'>{{product.catalog}}</span>
           </div>
         </div>
-        <div class='control-group' ng-repeat='field in schema.property.default'>
-          <label class="control-label">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-          <div class="controls">
+        <div class='form-group' ng-repeat='field in schema.property.default'>
+          <label class="control-label col-xs-5">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+          <div class="controls col-xs-5">
             <span class='value' name="field.name">{{product.property.default[field.name]}}</span>
           </div>
         </div>
       </form>
       <form class="form-horizontal">
         <div class='control-group' ng-repeat='field in product.property.custom'>
-          <label class="control-label">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-          <div class="controls">
+          <label class="control-label col-xs-5">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+          <div class="controls col-xs-5">
             <span class='value' name="field.value">{{field.value}}</span>
           </div>
         </div>
       </form>
     </fieldset>
-    <fieldset class="span6">
+    <fieldset class="col-sm-6 top-spacing">
       <legend>{{'Pictures' | i18n}}</legend>
       <div class="image-tab">
         <loading ng-if="!imageHost"></loading>
@@ -59,7 +59,7 @@
         </div>
     </fieldset>
   </div>
-  <fieldset class="span12">
+  <fieldset class="top-spacing">
     <legend>{{'Components' | i18n}}</legend>
     <p class="muted text-center" ng-if="!product.components.length">{{"No components" | i18n}}</p>
     <productlist ng-if="product.components.length" products="product.components" fixed="true"></productlist>

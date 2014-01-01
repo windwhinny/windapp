@@ -1,13 +1,11 @@
-<form class='add form' ng-submit='submit()' ng-controller='AddProductController' >
+<form class='add form top-spacing' ng-submit='submit()' ng-controller='AddProductController' >
 	<errors></errors>
-<div class='control-group'>
-	<div class="controls">
-	  <input class='productNumber' type='text' name='number' placeholder='{{"Product Number" | i18n}}' ng-model='product.number'>
-	</div>
-</div>
-<div class='control-group'>
-	<div class="controls">
+<div class='row'>
+  <div class="col-xs-6 col-sm-3">
+	  <input class='productNumber form-control' type='text' name='number' placeholder='{{"Product Number" | i18n}}' ng-model='product.number'>
+  </div>
+  <div class="col-xs-6 col-sm-9">
 	  <input class='btn btn-primary' type='submit'></input>
-	</div>
+  </div>
 </div>
 </form>

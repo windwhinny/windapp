@@ -85,7 +85,7 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 			onEnter: ['$state', function($state){
 				$state.go('products.list');
 			}],
-			template: '<div class="products span9" ui-view="@products"></div>'
+			template: '<div class="products" ui-view="@products"></div>'
 		})
 		.state('products.list', {
 			url:'/page/:currentPage',

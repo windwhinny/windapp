@@ -138,7 +138,7 @@ app
 			})
 		}
 		$scope.getCatalogs=function(){
-			ProductQuery.getCatalog(function(resource,headers){
+			ProductQuery.getCatalogs(function(resource,headers){
 				$scope.catalogs=resource;
 			},function(resource,headers){
 				handleError($scope,resource.data)

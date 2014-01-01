@@ -1,12 +1,12 @@
-<div class="company" ng-controller="CompanyController">
+<div class="company top-spacing" ng-controller="CompanyController">
 	<errors></errors>
   <div class='pull-right btn-group'>
-    <button ng-click="editModel()" class="btn">
+    <button ng-click="editModel()" class="btn btn-primary">
         <i class="icon-edit"></i>
         <span >{{"Edit" |i18n}}</span>
     </button>
   </div>
-  <div class='control-group head'>
+  <div class='head'>
 		<h2><span>{{company.name}}</span></h2>
 	</div>
 	
@@ -15,31 +15,30 @@
   <fieldset>
     <legend>{{"Employee" | i18n}}</legend>
     <div ng-repeat="employee in company.employees">
-
-      <div class="control-group">
-        <label class="control-label" >{{"Name" | i18n}}</label>
-        <div class="controls">
+      <div class="row">
+        <label class="control-label col-xs-6" >{{"Name" | i18n}}</label>
+        <div class="col-xs-6">
           <span class="value" >{{employee.name}}</span>
         </div>
       </div>
 
-      <div class="control-group">
-        <label class="control-label" >{{"Position" | i18n}}</label>
-        <div class="controls">
+      <div class="row">
+        <label class="control-label col-xs-6" >{{"Position" | i18n}}</label>
+        <div class="col-xs-6">
           <span class="value">{{employee.position}}</span>
         </div>
       </div>
 
-      <div class="control-group">
-        <label class="control-label" >{{"Phone" | i18n}}</label>
-        <div class="controls phones">
+      <div class="row">
+        <label class="control-label col-xs-6" >{{"Phone" | i18n}}</label>
+        <div class="col-xs-6 phones">
           <a class="value" ng-href="callto:{{phone.value}}" ng-repeat="phone in employee.phone track by $index">{{phone.value}}</a>
         </div>
 
       </div>
-      <div class="control-group">
-        <label class="control-label" >{{"Email" | i18n}}</label>
-        <div class="controls emails">
+      <div class="row">
+        <label class="control-label col-xs-6" >{{"Email" | i18n}}</label>
+        <div class="col-xs-6 emails">
           <a class="value" ng-href="{{'mailto://'+email.value}}" ng-repeat="email in employee.email track by $index">{{email.value}}</a>
         </div>
       </div>

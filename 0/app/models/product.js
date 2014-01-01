@@ -219,6 +219,7 @@ ProductSchema.statics.list=function(query,page,step,fields,sort,callback){
     }
     return pageCount;
   }
+  
   Product.find(query).count(function(err,count){
     if(err){
       callback(err);

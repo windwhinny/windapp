@@ -86,24 +86,23 @@ productsEntry.handlers={
 			}
 
 			Product.getProperty(query,function(err,result){
-                if(err){
-                    handleError(err,done);
-                }else{
-                    var properties=[];
-                    result.forEach(function(r){
-                        properties.push({
-                            name:r._id,
-                            count:r.value
-                        })
-                    })
+        if(err){
+          handleError(err,done);
+        }else{
+          var properties=[];
+          result.forEach(function(r){
+              properties.push({
+                  name:r._id,
+                  count:r.value
+              })
+          })
 
-                    properties.sort(function(a,b){
-                        return a.count<b.count;
-                    })
-                    done(err,properties)
-                }
-                
-            })
+          properties.sort(function(a,b){
+              return a.count<b.count;
+          })
+          done(err,properties)
+      }
+      })
 		}
 	},
 	query:{
@@ -115,6 +114,11 @@ productsEntry.handlers={
 			var step=req.query.step||20;
 			var fields=req.query.fields||"";
 			var sort=req.query.sort||"uid";
+
+      delete req.query.step;
+      delete req.query.fields;
+      delete req.query.sort;
+
 			Product.list(req.query,page,step,fields,sort,function(err,docs,pagination){
         if(err){
 			    handleError(err,done);

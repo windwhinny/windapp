@@ -1,10 +1,10 @@
-<div class='list' ng-controller='CompanyListController' ng-init='refresh(currentPage)'>
+<div class='list top-spacing' ng-controller='CompanyListController' ng-init='refresh(currentPage)'>
 	<div class='pull-right btn-group control-group'>
-    <button class="btn" ng-click="addNew()">
+    <button class="btn btn-primary" ng-click="addNew()">
       <i class='icon-plus'></i>
       {{'Add' | i18n}}
     </button>
-		<button class='btn ' ng-click='refresh()'>
+		<button class='btn btn-primary' ng-click='refresh()'>
       <i class='icon-refresh'></i>
       {{'Refresh' | i18n}}
     </button>

@@ -14,22 +14,27 @@ app
         selection:'=?',
         fixed:'=?',
         hide:'=?',
-        refreshAtom:'=?'
+        refreshAtom:'=?',
+        catalogSelector:'=?'
       },
       controller:['$scope', 'ProductQueryService','ProductService','$state','$location','ImageOptions',
         function($scope,   ProductQuery,    Product,      $state,  $location,ImageOptions){
-          var refresh=false;
           if($scope.fixed&&$scope.fixedProducts){
             $scope.products=$scope.fixedProducts;
           }
-          var refreshTable=$scope.refresh=function(page){
+          if($scope.catalogSelector){
+            $scope.catalogs=ProductQuery.getCatalogs()
+          }
+
+          var refreshTable=$scope.refresh=function(page,query){
             if($scope.fixed)return;
             page=page||$scope.currentPage||1;
             $scope.loading=true;
-
             refreshing=true;
-            $scope.products =  ProductQuery.find({currentPage:page},function(resource,headers){
-              refreshing=false;
+            query=query||{};
+            query.currentPage=page;
+            query.catalog=$scope.catalog;
+            $scope.products =  ProductQuery.find(query,function(resource,headers){
               var products=resource;
               $scope.loading=false;
               $scope.pageCount=headers('Page-Count')||1;
@@ -53,7 +58,7 @@ app
           
           $scope.$watch('products',function(newVal,oldVal){
             if(!$scope.selection)return;
-            if(refreshing)return;
+            if($scope.loading)return;
             var selection=$scope.selection=[];
             $scope.products.forEach(function(product){
               if(product.selected){

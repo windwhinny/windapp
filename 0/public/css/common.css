@@ -1,10 +1,9 @@
 body{
   font-family: "微软雅黑","黑体"，"Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-.navbar .nav>li>a.brand{
-  padding-left:20px;
-  margin-left:0;
-  }
+.top-spacing{
+  margin-top:20px;
+}
 .content{
   margin-top:50px;
   }
@@ -29,37 +28,11 @@ form.signup,form.signin{
   margin: 100px auto;
   max-width: 220px;
 }
-.content .row-fluid>div[ui-view]{
-  margin:auto;
-  float:none;
-}
 .products .list .id{
   width:40px;
 }
 .products .list td{
   vertical-align:middle;
-}
-.gridStyle {
-  border: 1px solid rgb(212,212,212);
-  height: 635px;
-}
-.ng-enter, .ng-leave,
- {
-  -webkit-transition:all linner 0.5s;
-  -moz-transition:all linner 0.5s;
-  -o-transition:all linner 0.5s;
-  transition:all linner 0.5s;
-}
-.ng-enter,
-.ng-leave.ng-leave-active,
- {
-  opacity:0;
-}
-
-.ng-enter.ng-enter-active,
-
-.page-leave {
-  opacity:1;
 }
 form .value{
   display: block;
@@ -69,8 +42,8 @@ form .value{
 .catalog label{
   display: inline-block;
 }
-.combobox{
-  position: relative;
+.combobox .dropdown-menu{
+  margin-left:15px;
 }
 .dropdown-pad{
 padding-bottom:10em;
@@ -137,4 +110,7 @@ img{
 .company form input{
   display: block;
   margin-bottom: 20px;
+}
+productlist select{
+  max-width:10em;
 }

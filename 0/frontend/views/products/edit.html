@@ -1,4 +1,4 @@
-<div class="product" ng-controller="EditProductItemController">
+<div class="product top-spacing" ng-controller="EditProductItemController">
 	<errors></errors>
   <div class='pull-right'>
     <button ng-click="save()" class="btn btn-primary">
@@ -11,64 +11,65 @@
       <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
-  <form class="form-horizontal">
+  <form class="form-horizontal top-spacing">
     <tabset  class='nav-pills nav-stacked' direction ="left">
-  		<tab heading="{{'Property' | i18n}}">
-        <fieldset>
-          <legend>{{"Basic" | i18n}}</legend>
-          <div class='control-group'>
-              <label class="control-label" for="number">{{'Product Number' |i18n}}</label>
-            <div class="controls">
-              <input type="{{getInputType(field.type)}}" name="number" ng-model="product.number" >
+  		<tab heading="{{'Property' | i18n}}" >
+        <div class="row top-spacing">
+          <fieldset class="col-md-6">
+            <legend>{{"Basic" | i18n}}</legend>
+            <div class='form-group row'>
+              <label class="control-label col-xs-5 col-sm-3" for="number">{{'Product Number' |i18n}}</label>
+              <div class="controls col-xs-7 col-sm-5">
+                <input type="{{getInputType(field.type)}}" class="form-control" name="number" ng-model="product.number" >
+              </div>
             </div>
-          </div>
 
-          <div class='control-group catalog'>
-            <form class='form-horizontal'>
-              <label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
-              <div  class='controls combobox'>
-                <input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
+            <div class='form-group'>
+              <label class="control-label col-xs-5 col-sm-3" for="catalog">{{"Catalog" | i18n}}</label>
+              <div class='col-xs-7 combobox col-sm-5'>
+                <input  class='dropdown-toggle form-control' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
                  <ul class="dropdown-menu">
                     <li ng-repeat="cg in catalogs">
                       <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
                     </li>
                   </ul>
               </div>
-            </form>
-          </div>
-
-          <div class='control-group' ng-repeat='field in schema.property.default'>
-              <label class="control-label" for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-            <div class="controls">
-              <input type="{{getInputType(field.type)}}" name="field.name" ng-model="product.property.default[field.name]" >
             </div>
-          </div>
-  		  </fieldset>	
-  		  <fieldset>	
-          <legend>{{"Custom" | i18n}}</legend>
-          <div class='control-group' ng-repeat='field in product.property.custom'>
-              <div class='combobox' ng-style="{float:'left'}" >
-                <input class='control-label dropdown-toggle' type="text" ng-model="field.name" ng-focus='getProperties()'>
+
+            <div class='form-group' ng-repeat='field in schema.property.default'>
+              <label class='control-label col-xs-5 col-sm-3' for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+              <div class="controls col-xs-7 col-sm-5">
+                <input class="form-control" type="{{getInputType(field.type)}}" name="field.name" ng-model="product.property.default[field.name]" >
+              </div>
+            </div>
+
+          </fieldset>	
+          <fieldset class="col-md-6">	
+            <legend>{{"Custom" | i18n}}</legend>
+            <div class='form-group' ng-repeat='field in product.property.custom'>
+              <div class='combobox col-xs-5 col-sm-3' ng-style="{float:'left'}" >
+                <input class='control-label form-control dropdown-toggle' type="text" ng-model="field.name" ng-focus='getProperties()'>
 
                 <ul class="dropdown-menu">
                   <li ng-repeat="pro in properties">
                     <a ng-click="field.name = pro.name">{{pro.name}}</a>
                   </li>
                 </ul>
-            </div>
-            <div class="controls">
-              <input type="{{getInputType(field.type)}}" name="field.name" ng-model="field.value" >
+              </div>
+              <div class="controls col-xs-5 col-sm-4">
+                <input class="form-control" type="{{getInputType(field.type)}}" name="field.name" ng-model="field.value" >
+              </div>
               <button class='btn btn-warning' ng-click='product.property.custom.splice($index,1)'>&minus;</button>
             </div>
-          </div>
-  		  </fieldset>	
-  			<button class='btn btn-primary' ng-click="product.property.custom.push({})">&plus;</button>
-        <div class="dropdown-pad"></div>
+            <button class='btn btn-primary' ng-click="product.property.custom.push({})">&plus;</button>
+          </fieldset>	
+          <div class="dropdown-pad"></div>
+        </div>
   		</tab>
   		<tab heading="{{'Pictures' | i18n}}">
         <div class="image-tab">
           <loading ng-if="!imageHost"></loading>
-          <div class="images span7" ng-if="imageHost">
+          <div class="images col-sm-6" ng-if="imageHost">
             <div class="box" ng-repeat="img in product.images">
               <div class="thumbnails-wapper" >
                 <img  ng-src="{{getImageURL(img.name,100)}}"/>
@@ -76,7 +77,7 @@
               <button class="btn btn-link delete" ng-click="removeImage($index)">Delete</button>
             </div>
           </div>
-          <div class='upload span5'>
+          <div class='upload col-sm-6'>
             <loading ng-if="!uploadAvailable"></loading>
             <div ng-if='uploadAvailable'>
             <upload options="uploadOptions"></upload>
@@ -85,14 +86,14 @@
         </div>
       </tab>
       <tab heading="{{'Components' | i18n}}">
-        <div>
+        <div class="top-spacing">
           <div class='pull-right btn-group control-group'>
             <button class='btn ' ng-click='refreshAtom=!refreshAtom'>
               <i class='icon-refresh'></i>
               {{'Refresh' | i18n}}
             </button>
           </div>
-          <productlist actions="selectorActions" hide="product.uid" refresh-atom="refreshAtom" selection="product.components"></productlist>
+          <productlist catalog-selector="true" actions="selectorActions" hide="product.uid" refresh-atom="refreshAtom" selection="product.components"></productlist>
         </div>
       </tab>
     </tabset>

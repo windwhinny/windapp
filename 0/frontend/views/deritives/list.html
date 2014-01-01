@@ -1,4 +1,7 @@
 <div class='list'>
+  <select class="form-control" ng-model="catalog" ng-change="refresh()" ng-if="catalogSelector" ng-options="ca.catalog for ca in catalogs">
+    <option value="">{{"All Products" | i18n}}</option>
+  </select>
   <loading ng-if='loading'></loading>
   <div ng-if='!loading'>
     <table class="table table-hover table-striped">

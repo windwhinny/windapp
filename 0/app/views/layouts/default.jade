@@ -2,32 +2,30 @@
 html(lang='zh')
   include ../includes/head
   body
-    header.navbar(ng-if='!hideHeader',ng-animate="'header'")
-        div.navbar-inner(ng-controller='HeaderController',ng-init='init()')
-            div.container
-                button.btn.btn-navbar(ng-click='isNavCollapse = !isNavCollapse')
+    nav.navbar.navbar-default(ng-if='!hideHeader',ng-animate="'header'",ng-controller='HeaderController',ng-init='init()')
+            div.navbar-header
+                button.navbar-toggle(type='button',ng-click='isNavCollapse = !isNavCollapse')
                     span.icon-bar
                     span.icon-bar
                     span.icon-bar
-                a.brand(ui-sref='home').
+                a.navbar-brand(ui-sref='home').
                     Marktop
-                div.nav-collapse(collapse='!isNavCollapse')
-                    ul.nav(ng-show='user.isAuthed()')
-                        li(ng-repeat='item in menu', ng-class='isSelected(item)')
-                            a(ui-sref='{{item.state}}').
-                                {{item.title | i18n}}
-                    div
-                        ul.nav.pull-right(ng-show='user.isAuthed()')
-                            li.dropdown
-                                a.dropdown-toggle(toggle='dropdown')
-                                    {{user.account}}
-                                    b.caret
-                                ul.dropdown-menu
-                                    li
-                                        a(ui-sref='signout').
-                                            {{'Signout' | i18n}}
+            div.collapse.navbar-collapse(collapse='!isNavCollapse')
+                ul.nav.navbar-nav(ng-show='user.isAuthed()')
+                    li(ng-repeat='item in menu', ng-class='isSelected(item)')
+                        a(ui-sref='{{item.state}}').
+                            {{item.title | i18n}}
+                ul.nav.navbar-nav.navbar-right
+                    li.dropdown.pull-right(ng-show='user.isAuthed()')
+                        a.dropdown-toggle(toggle='dropdown')
+                            {{user.account}}
+                            b.caret
+                        ul.dropdown-menu
+                            li
+                                a(ui-sref='signout').
+                                    {{'Signout' | i18n}}
 
-    div.container-fluid.content
+    div.container
         block content
     include ../includes/foot
     script(type="text/javascript").

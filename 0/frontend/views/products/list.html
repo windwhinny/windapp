@@ -1,13 +1,13 @@
-<div class='list' ng-controller='ProductListController'>
+<div class='list top-spacing' ng-controller='ProductListController'>
 	<div class='pull-right btn-group control-group'>
-    <button class="btn" ng-click="addProduct()">
+    <button class="btn btn-primary" ng-click="addProduct()">
       <i class='icon-plus'></i>
       {{'Add' | i18n}}
     </button>
-		<button class='btn ' ng-click='refreshAtom=!refreshAtom'>
+		<button class='btn btn-primary' ng-click='refreshAtom=!refreshAtom'>
       <i class='icon-refresh'></i>
       {{'Refresh' | i18n}}
     </button>
 	</div>
-  <productlist page="currentPage" actions="listActions" refresh-atom="refreshAtom"></productlist>
+  <productlist catalog-selector="true" page="currentPage" actions="listActions" refresh-atom="refreshAtom"></productlist>
  </div>

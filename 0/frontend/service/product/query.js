@@ -15,7 +15,7 @@ var Products=$resource('/products',
         isArray :true,
         responseType: 'json'
       },
-      getCatalog:{
+      getCatalogs:{
         url:'/products/catalog',
         method:"GET",
         responseType:'json',
