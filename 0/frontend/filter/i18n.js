@@ -53,6 +53,9 @@ var translation={
 	'DELETE':'删除',
 	'COMPONENT':'原件',
 	'COMPONENTS':'原件',
+  'NO_PICTURES':'',
+  'BASIC':'',
+  'CUSTOM':''
 }
 app
 .filter('i18n',

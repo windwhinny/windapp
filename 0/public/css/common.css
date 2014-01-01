@@ -29,9 +29,6 @@ form.signup,form.signin{
   margin: 100px auto;
   max-width: 220px;
 }
-table .action{
-  text-align: right;
-}
 .content .row-fluid>div[ui-view]{
   margin:auto;
   float:none;

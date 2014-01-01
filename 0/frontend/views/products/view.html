@@ -18,36 +18,38 @@
       <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
-	
-	
-  <tabset  class='nav-pills nav-stacked' direction ="left">
-		<tab heading="{{'Property' | i18n}}">
-      <div class='control-group catalog'>
-        <h3>{{product.catalog}}</h3>
-      </div>
-      
-			<form class="form-horizontal">
-				<div class='control-group' ng-repeat='field in schema.property.default'>
+  <div class="row-fluid">	
+    <fieldset class="span6">
+      <legend>{{'Property' | i18n}}</legend>
+      <form class="form-horizontal">
+        <div class='control-group catalog'>
+          <label class="control-label">{{'catalog' | i18n}}</label>
+          <div class="controls">
+            <span class='value'>{{product.catalog}}</span>
+          </div>
+        </div>
+        <div class='control-group' ng-repeat='field in schema.property.default'>
           <label class="control-label">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-					<div class="controls">
-						<span class='value' name="field.name">{{product.property.default[field.name]}}</span>
-					</div>
-				</div>
-			</form>
-    
-			<form class="form-horizontal">
-				<div class='control-group' ng-repeat='field in product.property.custom'>
+          <div class="controls">
+            <span class='value' name="field.name">{{product.property.default[field.name]}}</span>
+          </div>
+        </div>
+      </form>
+      <form class="form-horizontal">
+        <div class='control-group' ng-repeat='field in product.property.custom'>
           <label class="control-label">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-					<div class="controls">
+          <div class="controls">
             <span class='value' name="field.value">{{field.value}}</span>
-					</div>
-				</div>
-			</form>
-		</tab>
-		<tab heading="{{'Pictures' | i18n}}">
+          </div>
+        </div>
+      </form>
+    </fieldset>
+    <fieldset class="span6">
+      <legend>{{'Pictures' | i18n}}</legend>
       <div class="image-tab">
         <loading ng-if="!imageHost"></loading>
         <div class="images" ng-if="imageHost" ng-class="(edit)?'span7':''">
+          <p class="muted text-center" ng-if="!product.images.length">{{"No pictures" | i18n}}</p>
           <div class="box" ng-repeat="img in product.images">
             <div class="thumbnails-wapper" ng-click="viewImage($index)">
               <img  ng-src="{{getImageURL(img.name,100)}}"/>
@@ -55,11 +57,12 @@
             <button class="btn btn-link delete" ng-if="edit" ng-click="removeImage($index)">Delete</button>
           </div>
         </div>
-      </div>
-    </tab>
-    <tab heading="{{'Components' | i18n}}">
-      <productlist products="product.components" fixed="true"></productlist>
-    </tab>
-  </tabset>
+    </fieldset>
+  </div>
+  <fieldset class="span12">
+    <legend>{{'Components' | i18n}}</legend>
+    <p class="muted text-center" ng-if="!product.components.length">{{"No components" | i18n}}</p>
+    <productlist ng-if="product.components.length" products="product.components" fixed="true"></productlist>
+  </fieldset>
   <loading ng-if="!product.uid"></loading>
 </div>

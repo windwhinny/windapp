@@ -14,50 +14,54 @@
   <form class="form-horizontal">
     <tabset  class='nav-pills nav-stacked' direction ="left">
   		<tab heading="{{'Property' | i18n}}">
-        <div class='control-group'>
-            <label class="control-label" for="number">{{'Product Number' |i18n}}</label>
-          <div class="controls">
-            <input type="{{getInputType(field.type)}}" name="number" ng-model="product.number" >
+        <fieldset>
+          <legend>{{"Basic" | i18n}}</legend>
+          <div class='control-group'>
+              <label class="control-label" for="number">{{'Product Number' |i18n}}</label>
+            <div class="controls">
+              <input type="{{getInputType(field.type)}}" name="number" ng-model="product.number" >
+            </div>
           </div>
-        </div>
 
-        <div class='control-group catalog'>
-          <form class='form-horizontal'>
-            <label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
-            <div  class='controls combobox'>
-              <input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
-               <ul class="dropdown-menu">
-                  <li ng-repeat="cg in catalogs">
-                    <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
+          <div class='control-group catalog'>
+            <form class='form-horizontal'>
+              <label class="control-label" for="catalog">{{"Catalog" | i18n}}</label>
+              <div  class='controls combobox'>
+                <input  class='dropdown-toggle' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
+                 <ul class="dropdown-menu">
+                    <li ng-repeat="cg in catalogs">
+                      <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
+                    </li>
+                  </ul>
+              </div>
+            </form>
+          </div>
+
+          <div class='control-group' ng-repeat='field in schema.property.default'>
+              <label class="control-label" for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+            <div class="controls">
+              <input type="{{getInputType(field.type)}}" name="field.name" ng-model="product.property.default[field.name]" >
+            </div>
+          </div>
+  		  </fieldset>	
+  		  <fieldset>	
+          <legend>{{"Custom" | i18n}}</legend>
+          <div class='control-group' ng-repeat='field in product.property.custom'>
+              <div class='combobox' ng-style="{float:'left'}" >
+                <input class='control-label dropdown-toggle' type="text" ng-model="field.name" ng-focus='getProperties()'>
+
+                <ul class="dropdown-menu">
+                  <li ng-repeat="pro in properties">
+                    <a ng-click="field.name = pro.name">{{pro.name}}</a>
                   </li>
                 </ul>
             </div>
-          </form>
-        </div>
-
-				<div class='control-group' ng-repeat='field in schema.property.default'>
-				    <label class="control-label" for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-					<div class="controls">
-						<input type="{{getInputType(field.type)}}" name="field.name" ng-model="product.property.default[field.name]" >
-					</div>
-				</div>
-  			
-				<div class='control-group' ng-repeat='field in product.property.custom'>
-				    <label class="control-label" for="inputEmail">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-				    <div class='combobox' ng-style="{float:'left'}" >
-					    <input class='control-label dropdown-toggle' type="text" ng-model="field.name" ng-focus='getProperties()'>
-
-					    <ul class="dropdown-menu">
-						    <li ng-repeat="pro in properties">
-						      <a ng-click="field.name = pro.name">{{pro.name}}</a>
-						    </li>
-						  </ul>
-					</div>
-					<div class="controls">
-						<input type="{{getInputType(field.type)}}" name="field.name" ng-model="field.value" >
-						<button class='btn btn-warning' ng-click='product.property.custom.splice($index,1)'>&minus;</button>
-					</div>
-				</div>
+            <div class="controls">
+              <input type="{{getInputType(field.type)}}" name="field.name" ng-model="field.value" >
+              <button class='btn btn-warning' ng-click='product.property.custom.splice($index,1)'>&minus;</button>
+            </div>
+          </div>
+  		  </fieldset>	
   			<button class='btn btn-primary' ng-click="product.property.custom.push({})">&plus;</button>
         <div class="dropdown-pad"></div>
   		</tab>
