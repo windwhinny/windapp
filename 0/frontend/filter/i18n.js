@@ -53,9 +53,10 @@ var translation={
 	'DELETE':'删除',
 	'COMPONENT':'原件',
 	'COMPONENTS':'原件',
-  'NO_PICTURES':'',
-  'BASIC':'',
-  'CUSTOM':''
+  'NO_PICTURES':'没有图片',
+  'NO_COMPONENTS':'没有原件',
+  'BASIC':'基础',
+  'CUSTOM':'自定义'
 }
 app
 .filter('i18n',
