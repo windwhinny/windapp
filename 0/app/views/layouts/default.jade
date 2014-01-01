@@ -3,6 +3,7 @@ html(lang='zh')
   include ../includes/head
   body
     nav.navbar.navbar-default(ng-if='!hideHeader',ng-animate="'header'",ng-controller='HeaderController',ng-init='init()')
+        div.container
             div.navbar-header
                 button.navbar-toggle(type='button',ng-click='isNavCollapse = !isNavCollapse')
                     span.icon-bar
