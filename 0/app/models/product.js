@@ -202,6 +202,7 @@ ProductSchema.methods.checkAndSave=function(callback){
 
 ProductSchema.methods.build=function(done){
   var self=this;
+
   this.populate('components',function(err){
     done(err); 
   })

@@ -36,6 +36,19 @@ app
     }
     
     $scope.save=function(){
+      var employees=company.employees;
+      function isEmpty(arr){
+        return arr&&arr.length;
+      }
+      for(var i=employees.length-1;i>=0;i--){
+        if(!employees[i]||
+          !employees[i].name&&
+          !isEmpty(employees[i].phone)&&
+          !isEmpty(employees[i].email)){
+          employees.splice(i,1);
+        }
+      }
+
       company['$'+method](params)
         .catch(function(response){
           handleError($scope,response.data);

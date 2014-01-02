@@ -1,9 +1,19 @@
 <div class='list'>
-  <select class="form-control" ng-model="catalog" ng-change="refresh()" ng-if="catalogSelector" ng-options="ca.catalog for ca in catalogs">
-    <option value="">{{"All Products" | i18n}}</option>
-  </select>
+
+  <div class="dropdown row col-xs-3">
+    <button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
+      {{catalog?catalog:("All Products" | i18n)}}
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a ng-click="selectCatalog(null)" href="#">{{"All Products" | i18n}}</a></li>
+      <li ng-repeat="ca in catalogs">
+        <a ng-click="selectCatalog(ca.catalog)" href="#">{{ca.catalog}}</a>
+      </li>
+    </ul>
+  </div>
   <loading ng-if='loading'></loading>
-  <div ng-if='!loading'>
+  <div ng-if='!loading' class="top-spacing">
     <table class="table table-hover table-striped">
       <thead>
         <tr>

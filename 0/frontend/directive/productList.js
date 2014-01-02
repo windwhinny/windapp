@@ -106,6 +106,10 @@ app
           		refreshTable($scope.currentPage);
           	})
           };
+          $scope.selectCatalog=function(catalog){
+            $scope.catalog=catalog;
+            refreshTable();
+          }
         }
         ],
       link:function($scope, element, attrs){

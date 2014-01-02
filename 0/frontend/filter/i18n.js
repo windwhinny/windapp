@@ -24,6 +24,7 @@ var translation={
 	'WIDTH': '宽度',
 	'HEIGHT': '高度',
 	'WEIGHT': '重量',
+	'SIZE':'尺寸',
 	'EDIT': '编辑',
 	'SAVE': '保存',
 	'CATALOG': '类目',
@@ -56,7 +57,8 @@ var translation={
   'NO_PICTURES':'没有图片',
   'NO_COMPONENTS':'没有原件',
   'BASIC':'基础',
-  'CUSTOM':'自定义'
+  'CUSTOM':'自定义',
+  'ALL':'所有'
 }
 app
 .filter('i18n',

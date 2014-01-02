@@ -10,7 +10,7 @@
         <span >{{"Edit" |i18n}}</span>
     </button>
   </div>
-  <div class='control-group head'>
+  <div class='form-group head'>
 		<h2>{{'Number' |i18n}}
 			<span ng-if="!edit">{{product.number}}</span>
 		</h2>
@@ -18,38 +18,23 @@
       <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
-  <div class="row">	
+  <div class="row">
     <fieldset class="col-sm-8 top-spacing">
       <legend>{{'Property' | i18n}}</legend>
       <form class="form-horizontal">
-        <div class='form-group catalog row'>
-          <label class="col-xs-5 control-label">{{'catalog' | i18n}}</label>
-          <div class="controls col-xs-5">
-            <span class='value'>{{product.catalog}}</span>
-          </div>
-        </div>
-        <div class='form-group' ng-repeat='field in schema.property.default'>
+        <div class='form-group' ng-repeat='field in properties'>
           <label class="control-label col-xs-5">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-          <div class="controls col-xs-5">
-            <span class='value' name="field.name">{{product.property.default[field.name]}}</span>
-          </div>
-        </div>
-      </form>
-      <form class="form-horizontal">
-        <div class='control-group' ng-repeat='field in product.property.custom'>
-          <label class="control-label col-xs-5">{{field.name||'' | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
-          <div class="controls col-xs-5">
-            <span class='value' name="field.value">{{field.value}}</span>
+          <div class="col-xs-5">
+            <span class='value' name="field.name">{{field.value}}</span>
           </div>
         </div>
       </form>
     </fieldset>
-    <fieldset class="col-sm-4 top-spacing">
+    <fieldset class="col-sm-4 top-spacing" ng-if="product.images.length">
       <legend>{{'Pictures' | i18n}}</legend>
       <div class="image-tab">
         <loading ng-if="!imageHost"></loading>
         <div class="images" ng-if="imageHost" ng-class="(edit)?'span7':''">
-          <p class="muted text-center" ng-if="!product.images.length">{{"No pictures" | i18n}}</p>
           <div class="box" ng-repeat="img in product.images">
             <div class="thumbnails-wapper" ng-click="viewImage($index)">
               <img  ng-src="{{getImageURL(img.name,100)}}"/>
@@ -59,9 +44,9 @@
         </div>
     </fieldset>
   </div>
-  <fieldset class="top-spacing">
+  <fieldset class="top-spacing" ng-if="product.components.length">
     <legend>{{'Components' | i18n}}</legend>
-    <p class="muted text-center" ng-if="!product.components.length">{{"No components" | i18n}}</p>
+
     <productlist ng-if="product.components.length" products="product.components" fixed="true"></productlist>
   </fieldset>
   <loading ng-if="!product.uid"></loading>

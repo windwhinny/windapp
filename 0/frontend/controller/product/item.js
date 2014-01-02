@@ -41,9 +41,41 @@ app
           '$scope', 'ProductService', '$state','ProductQueryService','$modal','ImageOptions',
 	function($scope,   Product,		     $state,ProductQuery, $modal,ImageOptions){
     var productUid=$state.params.productUid;
-    $scope.schema = Product.getSchema();
+    
 		var product = getProduct(Product,productUid,$scope,function(resource){
-      $scope.defaultImage=getDefaultImage(product,$scope)
+      $scope.defaultImage=getDefaultImage(product,$scope);
+      $scope.properties=([{
+        name:'catalog',
+        value:function(){
+          return $scope.product.catalog;
+        }
+      },{
+        name:'size',
+        get value(){
+          function getSize(){
+            var width=product.property.default.width;
+            var height=product.property.default.height;
+            var length=product.property.default.length;
+
+            var size=[];
+            [length,width,height].forEach(function(v,k){
+              if(v){
+                size.push(v);
+              }
+            })
+            return size.length?size.join("×")+' cm':0;
+          };
+          return getSize();
+        },
+        unit:'cm'
+      },{
+        name:"weight",
+        get value (){
+          return $scope.product.property.default.weight;
+        },
+        unit:'g'
+      }]).concat(product.property.custom);
+
     });
 
     ImageOptions.getHost(function(host){
@@ -78,6 +110,8 @@ app
         }
       });
     }
+
+    
 		$scope.toggleEditModel=function(){
 		}
 
