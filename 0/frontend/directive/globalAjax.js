@@ -27,7 +27,6 @@ app
           },100)
         })
         $scope.$on('ajaxEnd',function(){
-        return;
           if(--ajaxCounter)return
 
           $scope.style={
