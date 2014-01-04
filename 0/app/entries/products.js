@@ -10,6 +10,10 @@ function handleError(err,done){
 	err.status=500;
 	done(err)
 }
+
+/*
+ * 从req中提取uid
+ */
 function requireUid(req,done){
 	var uid=null;
 	var container='';
@@ -26,6 +30,11 @@ function requireUid(req,done){
 }
 
 productsEntry.handlers={
+  /**
+   * 保存产品信息
+   * 
+   * @return {Object} 返回保存后的产品信息
+   */
 	save: {
 		method:'put',
 		type:'json',
@@ -36,7 +45,12 @@ productsEntry.handlers={
 			p.checkAndSave(done);
 		},
 	},
-	
+
+  /**
+   * 删除产品
+   * @param {Number} uid 产品的uid
+   * @return {Object} 返回删除结果
+   */
 	delte: {
 		method:'delete',
 		type:'json',
@@ -56,6 +70,11 @@ productsEntry.handlers={
 		}
 	},
 	
+  /**
+   * 获取Product数据结构
+   * 
+   * @return {Object} 返回Product数据结构
+   */
 	getSchema:{
 		method:'get',
 		type:'json',
@@ -64,6 +83,17 @@ productsEntry.handlers={
 			Product.getSchema(done);
 		}
 	},
+
+  /**
+   * 获取现有产品的目录
+   * 
+   * @return {Array} 返回产品的目录，并包含目录下产品的数量
+   *   格式:
+   *   [{
+   *     catalog: String,
+   *     count: Number
+   *   }]
+   */
 	getCatalogs: {
 		method:'get',
 		type:'json',
@@ -72,6 +102,19 @@ productsEntry.handlers={
 			Product.getCatalogs(done);
 		}
 	},
+
+  /**
+   * 获取产品的自定义属性
+   * 
+   * @param {Object} query 根据不同的要求进行查询
+   * 
+   * @return {Array} 返回所有产品的自定义属性
+   * 格式：
+   * [{
+   *   name: String,
+   *   count: Number
+   * }]
+   */
 	getProperty: {
 		method:'get',
 		type:'json',
@@ -105,6 +148,16 @@ productsEntry.handlers={
       })
 		}
 	},
+
+  /**
+   * 查询产品，并分页返回
+   * @param {Object} query 查询范围
+   * @param {String} query.fields 返回结果所包含的字段
+   * @param {Number} page 页数
+   * @param {Number} step 步长
+   * 
+   * @return {Array} 返回查询后的产品列表
+   */
 	query:{
 		method:'get',
 		type:'json',
@@ -132,6 +185,14 @@ productsEntry.handlers={
       })
 		}
 	},
+
+  /**
+   * 获取图床的域名
+   *
+   * @return {Object} 格式：{host:String}
+   *
+   * 
+   */
   getImageHost:{
     method:'get',
     type:'json',
@@ -140,6 +201,12 @@ productsEntry.handlers={
       done(null,{host:config.imageHost});
     }
   },
+
+  /**
+   * 获取上传图片的token
+   * @param {Number} uid 产品的uid
+   * @return {String}
+   */
   getImageUploadToken:{
     method:'get',
     type:'json',
@@ -154,6 +221,12 @@ productsEntry.handlers={
       });
     }
   },
+
+  /**
+   * 获取指定产品的原件
+   * @param {Number} uid 产品的uid
+   * @return {Array} 
+   */
   getComponents:{
     method:'get',
     type:'json',
@@ -167,6 +240,13 @@ productsEntry.handlers={
       })
     }
   },
+
+  /**
+   * 删除指定图片
+   * @param {Number} uid 产品的uid
+   * @param {String} imageName 图片名称
+   * @return {Object}
+   */
   removeImage:{
   	method:'delete',
     type:'json',
@@ -179,6 +259,13 @@ productsEntry.handlers={
       Product.removeImage(uid,image,done)
     }
   },
+
+  /**
+   * 添加产品图片
+   * @param {Number} uid 产品的uid
+   * @param {Objecy} image 图片信息
+   * @return {Objecy} 
+   */
   addImage:{
     method:'post',
     type:'.*',
@@ -188,10 +275,12 @@ productsEntry.handlers={
       var uid=requireUid(req,done);
       var image=req.body;
       if(image){
-        //BUG
+
+        // TODO: This is a BUG
         for(i in image){
           image=JSON.parse(i);
         }
+
         if(!uid){
           imageBrucket.remove( image.name, function(err, ret) {
             if (!err) {
@@ -214,6 +303,12 @@ productsEntry.handlers={
       res.end(JSON.stringify(result));      
     }
   },
+
+  /**
+   * 获取产品信息
+   * @param {Number} uid 产品的uid
+   * @return {Objecy}
+   */
 	get:{
 		method:'get',
 		type:'json',
@@ -235,6 +330,13 @@ productsEntry.handlers={
       })
     }
 	},
+  
+  /**
+   * 更新产品信息
+   * @param {Number} uid 产品的uid
+   * @param {Objecy} data 产品信息
+   * @return {Object}
+   */
 	update: {
 		method:'post',
 		type:'json',
@@ -247,6 +349,11 @@ productsEntry.handlers={
 	}
 }
 
+/**
+ * 产品入口
+ * @param  {String} url 入口的根地址
+ * @param  {Object} app Express实例
+ */
 module.exports = function(url,app){
 	productsEntry.rootUrl=url;
 	productsEntry.init(app);

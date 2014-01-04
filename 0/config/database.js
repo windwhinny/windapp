@@ -1,8 +1,13 @@
 var mongoose = require('mongoose'),
-	config = require('./config');
+	  config = require('./config');
 	
 //Bootstrap db connection
 
+/*
+ * 链接数据库
+ * 如果config.db是字符串的话，用mongoose.connect()链接
+ * 其它则采用mongoose.connection.open();
+ */
 module.exports = function(cb){
 	if(typeof(config.db)=='string'){
 		mongoose.connect(config.db);

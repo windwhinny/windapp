@@ -1,5 +1,7 @@
 //forked from https://github.com/nrf110/deepmerge
 var utils={};
+
+//深度合并
 utils.deepMegre=function merge(target, src){
   var array=Array.isArray(src)
   if(array){

@@ -93,7 +93,7 @@ text-aglign:center;
 .thumbnails-wapper{
   height:100px;
   width:100px;
-  cursor:pointer;
+  border: 1px solid #DDD;
 }
 img{
   max-height:100%;
@@ -107,11 +107,10 @@ img{
 }
 .product .head .default-img{
   display:inline-block;
-  border: 1px solid #DDD;
+  
   float:left;
   margin-right: 20px;
-  width:100px;
-  height:100px
+  
 }
 .company form input{
   display: block;

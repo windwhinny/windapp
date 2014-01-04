@@ -1,11 +1,17 @@
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
+    //判断是不是开发环境
     env = process.env.NODE_ENV || 'production';
-var mongodb='mongodb://localhost:27017/windapp-dev';
+
+/*
+ * 开发和测试环境的mongodb地址
+ */
+var mongodbDev='mongodb://localhost:27017/windapp-dev';
 var mongodbTest='mongodb://localhost:27017/windapp-test';
+
 var config = {
     development: {
-        db:mongodb,
+        db:mongodbDev,
         app: {
             name: 'WindApp - Development'
         },
@@ -23,6 +29,9 @@ var config = {
         port:4040
     },
     production: {
+        /*
+         *由于程序部署在BAE上，数据库连接需要下面的环境变量
+         */
         db: {
             url:process.env.BAE_ENV_ADDR_MONGO_IP,
             database:'zqZCsprmOaNetxiSoMcy',
@@ -53,6 +62,7 @@ var defaultConfig = {
     env:env
 };
 
+//与默认的配置合并后返回
 module.exports = (function(a,b){
     for(var i in b){
         a[i]=b[i];

@@ -18,8 +18,8 @@ if (process.env.BAE_ENV_APPID) {
  * Please note that the order of loading is important.
  */
 
-//Load configurations
-//if test env, load example file
+
+
 var auth = require(config.root+'/config/middlewares/authorization'),
     mongoose = require('mongoose'),
     database = require(config.root+'/config/database'),
@@ -34,10 +34,10 @@ function runServer(){
       }
 	    require(models_path + '/' + file);
 	});
-	//bootstrap passport config
+	//Bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
 
-	//express settings
+	//Express settings
 	require(config.root+'/config/express')(app, config, passport);
 	//Bootstrap routes
  
@@ -49,6 +49,7 @@ function runServer(){
 
 }
 
+//首先链接数据库，然后运行服务器
 database(function(err){
 	if(err){
 		console.error(err.message,err.stack);

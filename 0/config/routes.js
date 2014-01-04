@@ -3,9 +3,14 @@ var config = require('./config'),
   productsEntry = require('../app/entries/products'),
   companiesEntry = require('../app/entries/companies'),
   express = require('express');
+  
 module.exports = function(app, passport) {
-    //handle get json request
+    //用户请求入口
     userEntry('/user',app,passport);
+
+    //产品请求入口
     productsEntry('/products',app);
+
+    //公司请求入口
     companiesEntry('/companies',app);
 };

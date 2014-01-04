@@ -16,7 +16,6 @@ app
       		'<progress percent="progress" class="progress-striped "></progress>'+
       		'<errors></errors>'+
       	'</div>',
-
 	    scope:{},
 	    link:function($scope, element, attrs) {
 	    	options=$scope.$parent.$eval(attrs.options);
@@ -25,12 +24,18 @@ app
 	    		options=o;
 	    	});
 
+	    	/*
+	    		Set the show up text to default.
+	    	 */
 	    	function setDefault(){
 	    		$scope.dropText = 'Drop files here';
 			    $scope.status = '';
 			    $scope.progressing = false;
 	    	}
 
+	    	/*
+	    		Check the client whether is mobile. (Mobile cannot drag file~~)
+	    	 */
 	    	$scope.isTradition=window.isMobile();
 	    	if(!$scope.isTradition){
 	    		setDefault();
@@ -89,6 +94,10 @@ app
           upload();
 	    	}
 	    	
+
+	    	/*
+	    		The upoload task will processed one by one
+	    	 */
 	    	function upload(){
 	    		var i=0;
 	    		var count=$scope.files.length;
@@ -123,7 +132,6 @@ app
 		        
 		        xhr.send(fd);
 		        
-
 		        $scope.$apply(function(){
 		    		$scope.dropText = 'Uploading'+((count>1)?' ('+index+'/'+count+')':'');
 			        $scope.status='pending';

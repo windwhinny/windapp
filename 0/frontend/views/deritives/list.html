@@ -17,9 +17,8 @@
       <thead>
         <tr>
           <th ng-show="actions.check"><input type="checkbox" ng-model="selectAll" /></th>
-          <th>{{"Picture" | i18n}}</th>
-          <th class='id'>{{"ID" | i18n}}</th>
-          <th>{{"Number" |i18n}}</th>
+
+          <th>{{"Product" |i18n}}</th>
           <th>{{"Created" | i18n}}</th>
           <th class="action" ng-show="showActions">{{"Action" | i18n}}</th>
         </tr>
@@ -27,9 +26,11 @@
       <tbody>
         <tr ng-repeat="product in products" ng-hide="product.uid==hide" ng-class="product.selected?'success':''">
           <td ng-show="actions.check" ><input type="checkbox" ng-model="product.selected" /></td>
-          <td class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></td>
-          <td class='id'>{{product.uid}}</td>
-          <td><a ng-href="{{getProductURL(product.uid)}}" target="{{linkTarget}}">{{product.number}}</a></td>
+          <td> 
+            <a ng-href="{{getProductURL(product.uid)}}" target="{{linkTarget}}">
+              <div class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></div>
+              {{product.number}}</a>
+          </td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
           <td class="action" ng-show="showActions">
             <div class="btn-group">

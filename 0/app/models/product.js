@@ -88,7 +88,9 @@ var ProductSchema = new Schema(schemaData,{
   _id:false
 });
 
-//generate index
+/*
+  设置index
+ */
 [
   {
     fields:{uid:1},
@@ -102,7 +104,10 @@ var ProductSchema = new Schema(schemaData,{
   ProductSchema.index(index.fields,index.options);
 });
 
-//add the save task to queue, so the task can performed one by one
+/*
+  在保存产品的过程中需要用到队列
+  add the save task to queue, so the task can performed one by one
+ */
 function addToQueue(queue,cb){
   queue.push(cb);
   function runQueue(){
@@ -200,6 +205,9 @@ ProductSchema.methods.checkAndSave=function(callback){
   })
 };
 
+/*
+  构建产品信息
+ */
 ProductSchema.methods.build=function(done){
   var self=this;
 

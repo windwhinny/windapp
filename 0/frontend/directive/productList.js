@@ -8,12 +8,24 @@ app
     var directiveDefinitionObject = {
       templateUrl:'/views/deritives/list.html',
       restrict:'E',
+
+      /**
+       * @param {Object} products The product list data.
+       * @param {String} actions  Set how many actions the list will be use.
+       *                          Available actions:
+       *                          check, delete, edit
+       *                          
+       * @param {Array} selection Contain the products which the list select.
+       * @param {Boolean} fixed   Whether the list can be refreshed.
+       * @param {} refreshAtom    Can be anything. The list will refresh when it change.
+       * @param {String} catalogSelector Set which catalog of products the list will be load.
+       * @param {String} linkTarget Set what target the link will be open on.
+       */
       scope:{
         products:'=?',
         actions:'=?',
         selection:'=?',
         fixed:'=?',
-        hide:'=?',
         refreshAtom:'=?',
         catalogSelector:'=?',
         linkTarget:'=?'
@@ -27,6 +39,14 @@ app
             $scope.catalogs=ProductQuery.getCatalogs()
           }
 
+          /**
+           * Regresh list, if page<0, set page to 1.
+           * If {query} is set, it will use it as product search query.
+           * 
+           * @param  {Number} page
+           * @param  {Object} query The search query
+           * @return {[type]}
+           */
           var refreshTable=$scope.refresh=function(page,query){
             if($scope.fixed)return;
             page=page||$scope.currentPage||1;
@@ -38,6 +58,10 @@ app
             $scope.products =  ProductQuery.find(query,function(resource,headers){
               var products=resource;
               $scope.loading=false;
+              /*
+                Get the pagination info
+               */
+              
               $scope.pageCount=headers('Page-Count')||1;
               $scope.pageStep=headers('Page-Step')||20;
               $scope.currentPage=headers('Page-Number')||1;
@@ -57,6 +81,10 @@ app
             });
           };
           
+          /*
+            Because when a products is selected in the list. The {product.selected} will be 
+            set. So we will watch products property to catch select event.
+           */
           $scope.$watch('products',function(newVal,oldVal){
             if(!$scope.selection)return;
             if($scope.loading)return;
@@ -69,6 +97,10 @@ app
           },true)
           
           $scope.selectAll=false;
+
+          /*
+            When select all the products. Set their selected property to true.
+           */
           $scope.$watch('selectAll',function(selected,old){
             var products=$scope.products;
             if(!products)return;
@@ -77,7 +109,7 @@ app
             })
           });
           
-          // as soon as refreshAtom change, no matter what it is, the table will be refreshed
+          // as soon as refreshAtom change, no matter what it is, the table will be refresh.
           $scope.$watch('refreshAtom',function(){
             refreshTable(); 
           });
