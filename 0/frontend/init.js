@@ -31,11 +31,9 @@ define([
   'route',
   'directive/errors',
   'directive/loading',
+  'directive/globalAjax',
   'filter/i18n'
 ],function(angular){
-var bootstrap = function() {
-    angular.bootstrap(document, ['windapp']);
-    document.body.setAttribute('ng-app', 'windapp');
-}
-bootstrap();
+  angular.bootstrap(document, ['windapp']);
+  document.body.setAttribute('ng-app', 'windapp');
 })
