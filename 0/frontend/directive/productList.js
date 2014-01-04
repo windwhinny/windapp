@@ -15,7 +15,8 @@ app
         fixed:'=?',
         hide:'=?',
         refreshAtom:'=?',
-        catalogSelector:'=?'
+        catalogSelector:'=?',
+        linkTarget:'=?'
       },
       controller:['$scope', 'ProductQueryService','ProductService','$state','$location','ImageOptions',
         function($scope,   ProductQuery,    Product,      $state,  $location,ImageOptions){
