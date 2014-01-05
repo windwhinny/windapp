@@ -10,12 +10,12 @@ body{
 .clickable{
   pointer:cursor;
 }
-globalajax p{
-  width: 20%;
+globalajax span{
   height: 1px;
   position: absolute;
   background: #3276b1;
   box-shadow: 0 0 10px #aaa;
+  width: 20%;
 }
 footer{
   position:fixed;

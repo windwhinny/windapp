@@ -8,7 +8,7 @@ app
     return {
       restrict:'E',
       scope:{},
-      template:'<p ng-style="style"></p>',
+      template:'<span ng-style="style"></span>',
       controller:['$scope',function($scope){
         var ajaxCounter=0;
         var timer;
