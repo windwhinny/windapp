@@ -7,11 +7,22 @@ app
   [    '$scope', 'CompanyQueryService','CompanyService','$state','$location',
   function($scope,   CompanyQuery,     Company,     $state,  $location){
     $scope.currentPage=$state.params.currentPage;
+
+    /**
+     * Regresh list, if page<0, set page to 1
+     * 
+     * @param  {Number} page
+     * @return {}
+     */
     var refreshTable=$scope.refresh=function(page){
-      page=page||1;
+      page=(page>0)page||1;
       $scope.loading=true;
       $scope.companies =  CompanyQuery.find({currentPage:page},function(resource,headers){
       	$scope.loading=false;
+
+        /*
+          Get the pagination info
+         */
       	$scope.pageCount=headers('Page-Count')||1;
       	$scope.pageStep=headers('Page-Step')||20;
       	$scope.currentPage=headers('Page-Number')||1;

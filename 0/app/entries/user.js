@@ -7,6 +7,10 @@ var Entry = require('./entry'),
 
 
 userEntry.handlers={
+  /**
+   * 登陆接口
+   * @return {Object} 请求结果
+   */
   signin:{
    method:'post',
    url:'/signin',
@@ -29,6 +33,11 @@ userEntry.handlers={
       })(req);
    }
   },
+
+  /**
+   * 注册接口
+   * @return {Object} 注册结果
+   */
   signup:{
     method:'put',
     type:'json',
@@ -44,6 +53,10 @@ userEntry.handlers={
 	    })
     }
   },
+
+  /**
+   * 注销
+   */
   signout:{
     method:'post',
     type:'json',
@@ -54,6 +67,13 @@ userEntry.handlers={
     }
   }
 }
+
+/**
+ * 用户入口
+ * @param {String} url 入口的根地址
+ * @param {Object} app Express实例
+ * @param {Object} ps  Passport实例
+ */
 module.exports = function(url,app,ps){
 	if(!ps){
    throw new Error('passport must be set'); 

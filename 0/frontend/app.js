@@ -9,6 +9,10 @@ var app = angular.module('windapp',
 	'ui.bootstrap',
 	'ui.router']);
 
+/*
+  When there is XMLHttprequest opend, $rootScope will broadcast a message "ajaxStart",
+  and when it ends, there is also a message "ajaxEnd". Used for globalAjax directive.
+ */
 app.config(["$httpProvider","$rootScopeProvider",function($http,$rootScope) {
   function getRootScope(){
     $injector = angular.element(document).injector();

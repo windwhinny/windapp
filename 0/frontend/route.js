@@ -11,7 +11,14 @@ define([
 ],function(app){
 app.config(['$stateProvider' , '$urlRouterProvider' ,
     function($stateProvider,$urlRouterProvider) {
+
+
 		$urlRouterProvider
+
+			/**
+			 * check wether user is authed, 
+			 * if not , then switch to signin page
+			 */
 			.rule( function($injector,$location) {
 				var auth=$injector.get('UserService');
 				var $state=$injector.get('$state');

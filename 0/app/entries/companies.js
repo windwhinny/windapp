@@ -8,6 +8,10 @@ function handleError(err,done){
   err.status=500;
   done(err)
 }
+
+/*
+ * 从req中提取uid
+ */
 function requireUid(req,done){
   var uid=null;
   var container='';
@@ -24,6 +28,12 @@ function requireUid(req,done){
 }
 
 companyEntry.handlers={
+
+  /**
+   * 保存公司信息
+   * 
+   * @return {Object} 返回保存后的公司信息
+   */
   save: {
     method:'put',
     type:'json',
@@ -35,6 +45,11 @@ companyEntry.handlers={
     },
   },
   
+  /**
+   * 删除公司
+   * @param {Number} uid 公司的uid
+   * @return {Object} 返回删除结果
+   */
   delte: {
     method:'delete',
     type:'json',
@@ -51,6 +66,16 @@ companyEntry.handlers={
       });
     }
   },
+
+  /**
+   * 查询公司，并分页返回
+   * @param {Object} query 查询范围
+   * @param {String} query.fields 返回结果所包含的字段
+   * @param {Number} page 页数
+   * @param {Number} step 步长
+   * 
+   * @return {Array} 返回查询后的公司列表
+   */
   query:{
     method:'get',
     type:'json',
@@ -73,6 +98,12 @@ companyEntry.handlers={
       })
     }
   },
+
+  /**
+   * 获取公司信息
+   * @param {Number} uid 公司的uid
+   * @return {Objecy}
+   */
   get:{
     method:'get',
     type:'json',
@@ -90,6 +121,13 @@ companyEntry.handlers={
       });
     }
   },
+
+  /**
+   * 更新公司信息
+   * @param {Number} uid 公司的uid
+   * @param {Objecy} data 公司信息
+   * @return {Object}
+   */
   update: {
     method:'post',
     type:'json',
@@ -102,6 +140,11 @@ companyEntry.handlers={
   }
 }
 
+/**
+ * 公司入口
+ * @param  {String} url 入口的根地址
+ * @param  {Object} app Express实例
+ */
 module.exports = function(url,app){
   companyEntry.rootUrl=url;
   companyEntry.init(app);

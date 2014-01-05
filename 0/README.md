@@ -1,7 +1,7 @@
 # Windapp
   Winapp is a webapp for manigement of products. It use angularjs as front-end framework, and nodejs as back-end, mongodb as database. It also supports product image view via Qiniu image hosting.
 
-### Tools & framework used by
+### Powered By
 * nodejs
 * npm
 * grunt

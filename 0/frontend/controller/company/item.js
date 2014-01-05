@@ -17,6 +17,10 @@ function getCompany(Company,uid,$scope,callback){
   });
 }
 app
+
+/*
+  Create new company and edit a company page use the same controller;
+ */
 .controller('EditCompanyController',[
           '$scope', 'CompanyService', '$state','CompanyQueryService','ProductQueryService',
 	function($scope,   Company,		        $state,ProductQuery,ProductQuery){
@@ -40,6 +44,10 @@ app
       function isEmpty(arr){
         return arr&&arr.length;
       }
+
+      /*
+        If all of a empliyee's property is empty, delete it.
+       */
       for(var i=employees.length-1;i>=0;i--){
         if(!employees[i]||
           !employees[i].name&&
@@ -49,6 +57,7 @@ app
         }
       }
 
+      // save or add
       company['$'+method](params)
         .catch(function(response){
           handleError($scope,response.data);

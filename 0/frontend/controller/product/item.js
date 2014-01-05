@@ -10,6 +10,16 @@ define([
 ],function(app){
 function handleError($scope,err){ $scope.errors=[err]; }
 
+/**
+ * Get the product info with uid, if error occured, set 
+ * it on $scope, if no error ,callback.
+ * 
+ * @param  {Object}   Product Product service
+ * @param  {Number}   uid     uid of product
+ * @param  {Object}   $scope  controller scope
+ * @param  {Function} callback
+ * @return 
+ */
 function getProduct(Product,uid,$scope,callback){
   var product= Product.get(
     {productUid:uid},
@@ -24,6 +34,13 @@ function getProduct(Product,uid,$scope,callback){
   return product;
 }
 
+/**
+ * Get default image of the product, 
+ * general the url for it, return the url.
+ * @param  {[type]} product
+ * @param  {[type]} $scope
+ * @return {[type]}
+ */
 function getDefaultImage(product,$scope){
   if(product&&$scope.imageHost){
     var defaultImage=product
@@ -36,14 +53,25 @@ function getDefaultImage(product,$scope){
   }
 }
 
+/*
+  ProductItemController is the controller for product view page
+ */
 app
 .controller('ProductItemController',[	
           '$scope', 'ProductService', '$state','ProductQueryService','$modal','ImageOptions',
 	function($scope,   Product,		     $state,ProductQuery, $modal,ImageOptions){
+    
+    /*
+      We get the product's uid from $state.params
+     */
     var productUid=$state.params.productUid;
     
 		var product = getProduct(Product,productUid,$scope,function(resource){
+
+      //general default image of the product url
       $scope.defaultImage=getDefaultImage(product,$scope);
+
+      // The default product property we will show up on view page
       $scope.properties=([{
         name:'catalog',
         value:function(){
@@ -82,6 +110,8 @@ app
       $scope.imageHost=host;
       $scope.defaultImage=getDefaultImage(product,$scope)
     })
+
+    //This function can general a url by image name
     var getImageURL = $scope.getImageURL = ImageOptions.getImageURL;
 
     $scope.editModel=function(){
@@ -92,6 +122,7 @@ app
       $state.go('products.add',{similar:product.uid});   
     }
 
+    //show up a modal for viewing image
     $scope.viewImage=function(index){
       var image=product.images[index]; 
       if(!image||$scope.edit)return;      
@@ -110,14 +141,13 @@ app
         }
       });
     }
-
-    
-		$scope.toggleEditModel=function(){
-		}
-
 	}
 ]
 )
+
+/*
+  EditProductItemController is the controller for product edit page
+ */
 .controller('EditProductItemController',[
           '$scope', 'ProductService', '$state','ProductQueryService','ImageOptions',
 	function($scope,   Product,		        $state,ProductQuery, ImageOptions){
@@ -141,6 +171,8 @@ app
     })
 
     $scope.save=function(){
+
+      //if the custom property is empty, delete it
       var custom=product.property.custom;
       for(var i=custom.length-1;i>=0;i--){
         if(!custom[i]||!custom[i].name||!custom[i].value){
@@ -148,10 +180,11 @@ app
         }
       }
       
+      //we only set the component's uid to product.components for saving
       var components=product.components||[];
       components && components.forEach(function(v,k){
         components[k]=v._id;
-      })
+      });
       product.components=components;
 
       product.$save({productUid:productUid})
@@ -159,6 +192,8 @@ app
           handleError($scope,response.data);
         })
         .then(function(){
+
+          // go to view page
           $state.go('products.item',{
             productUid:productUid
           })
@@ -210,7 +245,6 @@ app
           	handleError($scope,response.data);
         }
       )
-      
     };
 		$scope.getInputType=function(type){
 			if(type==='string'){
@@ -221,6 +255,8 @@ app
 				return type;
 			}
 		};
+
+    
     $scope.selectorActions={
       check:true
     };
