@@ -119,6 +119,9 @@ img{
 productlist select{
   max-width:10em;
 }
+productlist table .picture{
+  width:116px;
+}
 .errors {
     position: relative;
     z-index: 99;
@@ -131,8 +134,4 @@ productlist select{
 }
 nav .errors{
     margin-top:-24px;
-}
-.signin .errors,
-.signup .errors{
-  
 }
