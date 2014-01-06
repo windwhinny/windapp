@@ -18,7 +18,7 @@
 							{{user.account}} <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
-							<li ><a ui-sref="signout">{{'Signout' | i18n}}</a></li>
+							<li ><a ng-click="errorHandler.clear()" ui-sref="signout">{{'Signout' | i18n}}</a></li>
 						</ul>
 					</li>
 				</ul>

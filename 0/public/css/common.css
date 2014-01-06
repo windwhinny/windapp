@@ -119,3 +119,20 @@ img{
 productlist select{
   max-width:10em;
 }
+.errors {
+    position: relative;
+    z-index: 99;
+    text-align: center;
+}
+.errors .alert {
+    position: absolute;
+    width: 100%;
+    left:0;
+}
+nav .errors{
+    margin-top:-24px;
+}
+.signin .errors,
+.signup .errors{
+  
+}

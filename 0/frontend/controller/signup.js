@@ -1,11 +1,12 @@
 define([
   'app',
-  'service/auth'
+  'service/auth',
+  'service/errorHandler'
 ],function(app){
 app
 .controller('SignupController',
-	[		'$scope', '$rootScope', '$state', 'AuthService',
-	function($scope,   $rootScope,   $state,   Auth) {
+	[		'$scope', '$rootScope', '$state', 'AuthService','ErrorHandler',
+	function($scope,   $rootScope,   $state,   Auth, ErrorHandler) {
 		$scope.type='signup';
 		$scope.title='Signup';
 		$scope.errors=[];
@@ -15,9 +16,10 @@ app
 				for (i in user) {
 					$rootScope.uer[i]=user[i];
 				};
+        ErrorHandler.clear();
 				$state.go('home');
 			},function(resource,headers) {
-				handleError(resource,$scope);
+        ErrorHandler.push(resource.data);
 			})		
 		}
 	}

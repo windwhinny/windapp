@@ -1,13 +1,13 @@
 define([
   'app',
-  'service/user'
+  'service/user',
+  'service/errorHandler'
 ],function(app){
 app
 .controller('SigninController', 
-	[		'$scope', '$rootScope', '$state', '$location', 'UserService',
-	function($scope,   $rootScope,   $state,   $location,   user) {
+	[		'$scope', '$rootScope', '$state', '$location', 'UserService','ErrorHandler',
+	function($scope,   $rootScope,   $state,   $location,   user, ErrorHandler) {
 		$scope.type='signin';
-		$scope.errors=[];
 		$scope.title='Login';
 		function cnt(){
 			var cnt=$state.params.continue||'/';
@@ -16,9 +16,10 @@ app
 
 		$scope.signin=function(){
 			$rootScope.user.$signin(function(resource,headers) {
+        ErrorHandler.clear();
 				cnt();
 			},function(resource,headers) {
-				handleError(resource,$scope);
+        ErrorHandler.push(resource.data)
 			})
 		}
 
@@ -27,10 +28,4 @@ app
 		}
 	}]
 )
-function handleError(resource,$scope){
-	$scope.errors=[];
-	var error=resource.data;
-	$scope.errors.push(error);
-}
-
 })

@@ -1,10 +1,11 @@
 define([
-  'app'
+  'app',
+  'service/errorHandler'
 ],function(app){
 app
 .factory('UserService',
-	[		 'AuthService','$window', '$location', '$rootScope', '$state',
-	function (Auth,			$window,   $location,	$rootScope,	  $state) {
+	[		 'AuthService','$window', '$location', '$rootScope', '$state','ErrorHandler',
+	function (Auth,			$window,   $location,	$rootScope,	  $state, ErrorHandler) {
 		var u={};
 		for(i in $window.user){
 			u[i]=$window.user[i];
@@ -22,17 +23,10 @@ app
 			this.$signout(function(resource,headers) {
 				$state.go('home');
 			},function(resource,headers) {
-			  handleError(resource,$scope);	
+        ErrorHandler.push(resource.data)
 			})
 		};
 		return user;
 	}]
 )
-
-function handleError(resource,$scope){
-	$scope.errors=[];
-	var error=resource.data;
-	$scope.errors.push(error);
-}
-
 });
