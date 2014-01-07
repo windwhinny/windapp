@@ -123,15 +123,27 @@ productlist table .picture{
   width:116px;
 }
 .errors {
-    position: relative;
+    position: absolute;
     z-index: 99;
     text-align: center;
 }
 .errors .alert {
-    position: absolute;
     width: 100%;
     left:0;
+    margin-top:-40px;
 }
 nav .errors{
     margin-top:-24px;
+}
+.alert.error>* {
+    display: none;
+}
+.alert.error:last-child * {
+    display: initial;
+}
+.errors:hover .alert.error>* {
+    display: initial;
+}
+.errors:hover .alert.error {
+    margin-top: auto;
 }

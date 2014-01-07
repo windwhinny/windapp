@@ -15,19 +15,19 @@ app
         return this.errors.splice(index,1);
       },
       push:function(err){
-        
-        /*
-         * At first, it is designed as a array to contain all the errors.
-         * But now, it seams a little complex
-         * So errors will reset to an empty array, only contain one error
-         * for one time.
-         */
-
-        this.clear();
         var errors=this.errors;
 
         err=err||{};
         err.showupText=function(){
+          if(this.status&&!this.message){
+            var m;
+            switch(status){
+              case 500:
+                m='Server error';
+                break;
+            }
+            this.message=m;
+          }
           return this.message||this.msg||"unknown error";
         }
         /*
