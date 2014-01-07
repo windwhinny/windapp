@@ -1,11 +1,12 @@
 define([
   'app',
-  'service/product/item'
+  'service/product/item',
+  'service/errorHandler'
 ],function(app){
 app
 .controller('AddProductController',
-	[		'$scope', 'ProductService', '$state',
-	function($scope,   Product,			  $state){
+	[		'$scope', 'ProductService', '$state','ErrorHandler',
+	function($scope,   Product,			  $state,ErrorHandler){
 		var product=$scope.product=new (Product);
     var params={};
 
@@ -24,7 +25,7 @@ app
 					productUid:product.uid
 				})
 			},function(resource,headers){
-				$scope.errors=[resource.data];
+        ErrorHandler.push(resource.data);
 			})
 		}
 	}]

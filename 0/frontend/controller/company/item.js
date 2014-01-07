@@ -1,19 +1,20 @@
 define([
   'app',
   'service/company/query',
+  'service/errorHandler',
   'directive/upload',
   'directive/field'
 ],function(app){
 function handleError($scope,err){ $scope.errors=[err]; }
 
-function getCompany(Company,uid,$scope,callback){
+function getCompany(Company,uid,$scope,ErrorHandler,callback){
   return Company.get(
     {companyUid:uid},
     function(resource){
       $scope.company=resource;
       callback&&callback(resource);
   },function(resource,headers){
-    handleError($scope,resource.data);
+    ErrorHandler.push(resource.data);
   });
 }
 app
@@ -22,8 +23,8 @@ app
   Create new company and edit a company page use the same controller;
  */
 .controller('EditCompanyController',[
-          '$scope', 'CompanyService', '$state','CompanyQueryService','ProductQueryService',
-	function($scope,   Company,		        $state,ProductQuery,ProductQuery){
+          '$scope', 'CompanyService', '$state','CompanyQueryService','ProductQueryService','ErrorHandler',
+	function($scope,   Company,		        $state,ProductQuery,ProductQuery,ErrorHandler){
     var isNew=$state.params.new,
       method='save',
       params={};
@@ -34,7 +35,7 @@ app
       $scope.loaded=true;
     }else{
       var companyUid=$state.params.companyUid,
-        company = getCompany(Company,companyUid,$scope),
+        company = getCompany(Company,companyUid,$scope,ErrorHandler),
         params={companyUid:companyUid};
       $scope.loaded=true;
     }
@@ -60,7 +61,7 @@ app
       // save or add
       company['$'+method](params)
         .catch(function(response){
-          handleError($scope,response.data);
+          ErrorHandler.push(resource.data);
         })
         .then(function(){
           $state.go('company.item.view',{
@@ -84,7 +85,7 @@ app
       ProductQuery.getCatalog(function(resource,headers){
         $scope.productCatalogs=resource;
       },function(resource,headers){
-        handleError($scope,resource.data)
+        ErrorHandler.push(resource.data);
       })
     }
   }

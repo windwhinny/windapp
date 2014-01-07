@@ -82,8 +82,8 @@ app
           };
           
           /*
-            Because when a products is selected in the list. The {product.selected} will be 
-            set. So we will watch products property to catch select event.
+            Because when a product is select. The {product.selected} will be 
+            set to true. So we will watch {products} to catch all select event.
            */
           $scope.$watch('products',function(newVal,oldVal){
             if(!$scope.selection)return;
@@ -99,7 +99,7 @@ app
           $scope.selectAll=false;
 
           /*
-            When select all the products. Set their selected property to true.
+            When select all the products set their selected property to true.
            */
           $scope.$watch('selectAll',function(selected,old){
             var products=$scope.products;

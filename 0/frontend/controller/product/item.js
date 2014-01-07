@@ -4,11 +4,11 @@ define([
   'service/product/item',
   'service/product/query',
   'service/product/imageOptions',
+  'service/errorHandler',
   'directive/upload',
   'directive/field',
   'directive/productList'
 ],function(app){
-function handleError($scope,err){ $scope.errors=[err]; }
 
 /**
  * Get the product info with uid, if error occured, set 
@@ -17,10 +17,11 @@ function handleError($scope,err){ $scope.errors=[err]; }
  * @param  {Object}   Product Product service
  * @param  {Number}   uid     uid of product
  * @param  {Object}   $scope  controller scope
+ * @param  {Object}   ErrorHandler The ErrorHandler instance
  * @param  {Function} callback
  * @return 
  */
-function getProduct(Product,uid,$scope,callback){
+function getProduct(Product,uid,$scope,ErrorHandler,callback){
   var product= Product.get(
     {productUid:uid},
     function(resource){
@@ -28,7 +29,7 @@ function getProduct(Product,uid,$scope,callback){
       $scope.product=resource;
       callback&&callback(resource);
   },function(resource,headers){
-    handleError($scope,resource.data);
+    ErrorHandler.push(resource.data)
   });
   product.components=[];
   return product;
@@ -58,15 +59,15 @@ function getDefaultImage(product,$scope){
  */
 app
 .controller('ProductItemController',[	
-          '$scope', 'ProductService', '$state','ProductQueryService','$modal','ImageOptions',
-	function($scope,   Product,		     $state,ProductQuery, $modal,ImageOptions){
+          '$scope', 'ProductService', '$state','ProductQueryService','$modal','ImageOptions','ErrorHandler',
+	function($scope,   Product,		     $state,ProductQuery, $modal,ImageOptions,ErrorHandler){
     
     /*
       We get the product's uid from $state.params
      */
     var productUid=$state.params.productUid;
     
-		var product = getProduct(Product,productUid,$scope,function(resource){
+		var product = getProduct(Product,productUid,$scope,ErrorHandler,function(resource){
 
       //general default image of the product url
       $scope.defaultImage=getDefaultImage(product,$scope);
@@ -149,11 +150,11 @@ app
   EditProductItemController is the controller for product edit page
  */
 .controller('EditProductItemController',[
-          '$scope', 'ProductService', '$state','ProductQueryService','ImageOptions',
-	function($scope,   Product,		        $state,ProductQuery, ImageOptions){
+          '$scope', 'ProductService', '$state','ProductQueryService','ImageOptions','ErrorHandler',
+	function($scope,   Product,		        $state,ProductQuery, ImageOptions,ErrorHandler){
     var productUid=$state.params.productUid;
     $scope.schema = Product.getSchema();
-		var product = getProduct(Product,productUid,$scope,function(resource){
+		var product = getProduct(Product,productUid,$scope,ErrorHandler,function(resource){
       $scope.defaultImage=getDefaultImage(product,$scope)
     });
 
@@ -167,7 +168,7 @@ app
       $scope.uploadOptions.data.token=resource.token;
       $scope.uploadAvailable=true;
     },function(resource,headers){
-      handleError($scope,resource.data)
+      ErrorHandler.push(resource.data)
     })
 
     $scope.save=function(){
@@ -189,7 +190,7 @@ app
 
       product.$save({productUid:productUid})
         .catch(function(response){
-          handleError($scope,response.data);
+          ErrorHandler.push(resource.data)
         })
         .then(function(){
 
@@ -203,14 +204,14 @@ app
 			ProductQuery.getProperties({catalog:product.catalog},function(resource,headers){
 				$scope.properties=resource;
 			},function(resource,headers){
-				handleError($scope,resource.data)
+				ErrorHandler.push(resource.data)
 			})
 		}
 		$scope.getCatalogs=function(){
 			ProductQuery.getCatalogs(function(resource,headers){
 				$scope.catalogs=resource;
 			},function(resource,headers){
-				handleError($scope,resource.data)
+				ErrorHandler.push(resource.data)
 			})
 		}
 
@@ -242,7 +243,7 @@ app
         	product.images.splice(index,1);
         },
         function(resource,headers){
-          	handleError($scope,response.data);
+          	ErrorHandler.push(resource.data)
         }
       )
     };

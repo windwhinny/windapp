@@ -15,7 +15,7 @@ app
      * @return {}
      */
     var refreshTable=$scope.refresh=function(page){
-      page=(page>0)page||1;
+      page=(page>0)?page:1;
       $scope.loading=true;
       $scope.companies =  CompanyQuery.find({currentPage:page},function(resource,headers){
       	$scope.loading=false;

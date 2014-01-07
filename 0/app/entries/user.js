@@ -24,7 +24,8 @@ userEntry.handlers={
           return done(err);
         }
         if (!user) {
-          return done(new Errors.BadRequest(info));
+          var err=new Errors.BadRequest(info.message)
+          return done(err);
         }
         req.login(user, function(err) {
             done(err,user);

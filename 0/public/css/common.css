@@ -10,12 +10,12 @@ body{
 .clickable{
   pointer:cursor;
 }
-globalajax p{
-  width: 20%;
+globalajax span{
   height: 1px;
   position: absolute;
   background: #3276b1;
   box-shadow: 0 0 10px #aaa;
+  width: 20%;
 }
 footer{
   position:fixed;
@@ -118,4 +118,32 @@ img{
 }
 productlist select{
   max-width:10em;
+}
+productlist table .picture{
+  width:116px;
+}
+.errors {
+    position: absolute;
+    z-index: 99;
+    text-align: center;
+}
+.errors .alert {
+    width: 100%;
+    left:0;
+    margin-top:-40px;
+}
+nav .errors{
+    margin-top:-24px;
+}
+.alert.error>* {
+    display: none;
+}
+.alert.error:last-child * {
+    display: initial;
+}
+.errors:hover .alert.error>* {
+    display: initial;
+}
+.errors:hover .alert.error {
+    margin-top: auto;
 }

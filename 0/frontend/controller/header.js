@@ -1,9 +1,10 @@
 define([
-  'app'
+  'app',
+  'service/errorHandler'
 ],function(app){
 app.controller('HeaderController', 
-    [       '$scope', '$location', '$state',
-    function($scope,   $location,   $state) {
+    [       '$scope', '$location', '$state','ErrorHandler',
+    function($scope,   $location,   $state, ErrorHandler) {
     $scope.menu = [{
         "title": "Products",
         "state": "products.list"
@@ -16,5 +17,6 @@ app.controller('HeaderController',
             return "active"
         } else return ""
     };
+    $scope.errorHandler=ErrorHandler;
 }]);
 });
