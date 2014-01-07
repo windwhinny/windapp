@@ -15,13 +15,13 @@ var imageBrucket = {
     var callbackMethod =  ( host.match (/( localhost|127\.0\.0\.1 ) /))  ? 'return' : 'callback';
     putPolicy [ callbackMethod+'Url' ]   =  host+'/products/'+uid+'/image';
     putPolicy [ callbackMethod+'Body' ]  =  '{"size": $ ( fsize ) ,"name":"$ ( etag ) ","type":"$ ( mimeType ) ","imageInfo":$ ( imageInfo ) }';
-    return putPolicy.token()) ;
+    return putPolicy.token() ;
   },
   remove:function ( name,callback )  {
     var client =  imageBrucket.client;
     client.remove ( brucketName,name,callback ) ;
   },
-  client:new qiniu.rs.Client()) 
+  client:new qiniu.rs.Client()
 }
 
 module.exports = imageBrucket;
