@@ -82,6 +82,9 @@ text-aglign:center;
   height:5px; 
 }
 
+/*
+ * Product
+ */
 .product .images .box{
   width: 100px;
   display: inline-block;
@@ -107,21 +110,28 @@ img{
 }
 .product .head .default-img{
   display:inline-block;
-  
   float:left;
   margin-right: 20px;
-  
 }
+
+/*
+ * Company
+ */
 .company form input{
   display: block;
   margin-bottom: 20px;
 }
+
+/*
+ * Productlist
+ */
 productlist select{
   max-width:10em;
 }
 productlist table .picture{
   width:116px;
 }
+
 .errors {
     position: absolute;
     z-index: 99;
@@ -146,4 +156,14 @@ nav .errors{
 }
 .errors:hover .alert.error {
     margin-top: auto;
+}
+.ng-enter
+{
+  -webkit-animation: fadeInUp 0.5s ; /* Safari/Chrome */
+  animation: fadeInUp 0.5s ; /* IE10+ and Future Browsers */
+}
+.ng-leave
+{
+  -webkit-animation: fadeOutDown 0.5s ; /* Safari/Chrome */
+  animation: fadeOutDown 0.5s ; /* IE10+ and Future Browsers */
 }

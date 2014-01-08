@@ -2,10 +2,12 @@ define([
   'angular',
   'angular-bootstrap',
   'angular-ui-router',
-  'angular-resource'
+  'angular-resource',
+  'angular-animate'
 ],function(angular){
 var app = angular.module('windapp', 
 	['ngResource', 
+  'ngAnimate',
 	'ui.bootstrap',
 	'ui.router']);
 
