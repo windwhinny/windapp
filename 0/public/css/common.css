@@ -97,6 +97,8 @@ text-aglign:center;
   height:100px;
   width:100px;
   border: 1px solid #DDD;
+  display:inline-block;
+  vertical-align: middle;
 }
 img{
   max-height:100%;
