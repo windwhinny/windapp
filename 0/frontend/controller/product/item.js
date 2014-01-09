@@ -75,7 +75,7 @@ app
       // The default product property we will show up on view page
       $scope.properties=([{
         name:'catalog',
-        value:function(){
+        get value(){
           return $scope.product.catalog;
         }
       },{
