@@ -67,7 +67,6 @@
   		</tab>
   		<tab heading="{{'Pictures' | i18n}}">
         <div class="image-tab">
-          <loading ng-if="!imageHost"></loading>
           <div class="images col-sm-6" ng-if="imageHost">
             <div class="box" ng-repeat="img in product.images">
               <div class="thumbnails-wapper" >
@@ -77,7 +76,6 @@
             </div>
           </div>
           <div class='upload col-sm-6'>
-            <loading ng-if="!uploadAvailable"></loading>
             <div ng-if='uploadAvailable'>
             <upload options="uploadOptions"></upload>
             </div>
@@ -97,5 +95,4 @@
       </tab>
     </tabset>
   </form>
-  <loading ng-if="!product.uid"></loading>
 </div>
