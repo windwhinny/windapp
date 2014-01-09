@@ -34,7 +34,6 @@ define([
   'app',
   'route',
   'directive/errors',
-  'directive/loading',
   'directive/globalAjax',
   'filter/i18n'
 ],function(angular){

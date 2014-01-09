@@ -275,12 +275,6 @@ productsEntry.handlers={
       var uid=requireUid(req,done);
       var image=req.body;
       if(image){
-
-        // TODO: This is a BUG
-        for(i in image){
-          image=JSON.parse(i);
-        }
-
         if(!uid){
           imageBrucket.remove( image.name, function(err, ret) {
             if (!err) {
@@ -291,10 +285,13 @@ productsEntry.handlers={
           })
           return;
         }
-        
-        Product.addImage(uid,image,function(err,doc){
-          done(err,doc); 
-        })
+        Product.findOne({uid:uid},function(err,product){
+          console.log(product);
+          if(err)return done(err);
+          product.addImage(image,function(err){
+            done(err,product.images);
+          })  
+        });
       }else{
         done();
       }

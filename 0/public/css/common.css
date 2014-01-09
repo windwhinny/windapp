@@ -8,7 +8,7 @@ body{
   margin-top:50px;
   }
 .clickable{
-  pointer:cursor;
+  cursor:pointer;
 }
 globalajax span{
   height: 1px;
@@ -67,7 +67,7 @@ border-radius: 1em;
 #dropbox h1{
 margin-top: 60px;
 color: #C4C4C4;
-text-aglign:center;
+text-align:center;
 }
 .upload.success #dropbox{
   box-shadow: 0 2px 10px #1A941C;
@@ -97,7 +97,7 @@ text-aglign:center;
   height:100px;
   width:100px;
   border: 1px solid #DDD;
-  display:inline-block;
+  display:table-cell;
   vertical-align: middle;
 }
 img{

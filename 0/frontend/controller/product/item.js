@@ -243,10 +243,16 @@ app
         	product.images.splice(index,1);
         },
         function(resource,headers){
-          	ErrorHandler.push(resource.data)
+          ErrorHandler.push(resource.data)
         }
       )
     };
+    $scope.setAsFirstImage=function(index){
+      var image=product.images.splice(index,1)[0];
+      if(image){
+        product.images.unshift(image);
+      }
+    }
 		$scope.getInputType=function(type){
 			if(type==='string'){
 				return 'text'
