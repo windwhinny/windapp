@@ -209,13 +209,16 @@ ProductSchema.methods.checkAndSave=function(callback){
   构建产品信息
  */
 ProductSchema.methods.build=function(done){
-  var self=this;
-
   this.populate('components',function(err){
     done(err); 
   })
 };
 
+ProductSchema.methods.addImage=function(image,callback){
+  console.log(this.images);
+  this.images.push(image);
+  this.save(callback);
+};
 /*
  * Statics
  */
@@ -287,17 +290,7 @@ ProductSchema.statics.getCatalogs=function(callback){
         result.count++;
     },null,true,callback);
 };
-ProductSchema.statics.addImage=function(uid,image,callback){
-  Product.update({uid:uid},{$push:{images:image}},{multi:false},function(err){
-    if(err){
-      callback(err)
-      return;
-    }
-    Product.findOne({uid:uid},function(err,doc){
-      callback(err,doc.images);
-    })
-  })
-};
+
 ProductSchema.statics.removeImage=function(uid,image,callback){
   Product.update({uid:uid},{$pull:{images:{name:image}}},function(err){
     if(err)return callback(err);

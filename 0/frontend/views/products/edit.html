@@ -6,7 +6,7 @@
     </button>
   </div>
   <div class='control-group head'>
-    <div class='default-img wapper'>
+    <div class='default-img thumbnails-wapper'>
       <img ng-if="imageHost" ng-src='{{defaultImage}}'>
     </div>
 	</div>
@@ -67,17 +67,16 @@
   		</tab>
   		<tab heading="{{'Pictures' | i18n}}">
         <div class="image-tab">
-          <loading ng-if="!imageHost"></loading>
           <div class="images col-sm-6" ng-if="imageHost">
             <div class="box" ng-repeat="img in product.images">
               <div class="thumbnails-wapper" >
                 <img  ng-src="{{getImageURL(img.name,100)}}"/>
               </div>
-              <button class="btn btn-link delete" ng-click="removeImage($index)">Delete</button>
+              <button class="btn btn-link delete" ng-click="removeImage($index)">{{"Delete" | i18n}}</button>
+              <button class="btn btn-link" ng-click="setAsFirstImage($index)">{{"Set as cover" | i18n}}</button>
             </div>
           </div>
           <div class='upload col-sm-6'>
-            <loading ng-if="!uploadAvailable"></loading>
             <div ng-if='uploadAvailable'>
             <upload options="uploadOptions"></upload>
             </div>
@@ -97,5 +96,4 @@
       </tab>
     </tabset>
   </form>
-  <loading ng-if="!product.uid"></loading>
 </div>

@@ -5,6 +5,7 @@ require.config({
     'angular-resource':'lib/angular-resource',
     'angular-bootstrap':'lib/ui-bootstrap-tpls',
     'angular-ui-router':'lib/angular-ui-router',
+    'angular-animate':'lib/angular-animate',
     jquery:'lib/jquery'
   },
   shim:{
@@ -20,6 +21,9 @@ require.config({
     'angular-ui-router':{
       deps:['angular'] 
     },
+    'angular-animate':{
+      deps:['angular'] 
+    },
     jquery:{
       exports:['jQuery']
     }
@@ -30,7 +34,6 @@ define([
   'app',
   'route',
   'directive/errors',
-  'directive/loading',
   'directive/globalAjax',
   'filter/i18n'
 ],function(angular){

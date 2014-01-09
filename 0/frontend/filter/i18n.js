@@ -58,7 +58,8 @@ var translation={
   'NO_COMPONENTS':'没有原件',
   'BASIC':'基础',
   'CUSTOM':'自定义',
-  'ALL':'所有'
+  'ALL':'所有',
+  'SET_AS_COVER':'设置为封面'
 }
 app
 .filter('i18n',

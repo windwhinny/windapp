@@ -14,7 +14,7 @@ var imageBrucket = {
   token:function ( host,uid ) {
     var callbackMethod =  ( host.match (/( localhost|127\.0\.0\.1 ) /))  ? 'return' : 'callback';
     putPolicy [ callbackMethod+'Url' ]   =  host+'/products/'+uid+'/image';
-    putPolicy [ callbackMethod+'Body' ]  =  '{"size": $ ( fsize ) ,"name":"$ ( etag ) ","type":"$ ( mimeType ) ","imageInfo":$ ( imageInfo ) }';
+    putPolicy [ callbackMethod+'Body' ]  =  'size=$(fsize)&name=$(etag)&type=$(mimeType)&imageInfo=$(imageInfo)';
     return putPolicy.token();
   },
   remove:function ( name,callback )  {

@@ -18,7 +18,7 @@
     </div>
 	</div>
   <div class="row">
-    <fieldset class="col-sm-8 top-spacing">
+    <fieldset class="col-sm-8 top-spacing properties">
       <legend>{{'Property' | i18n}}</legend>
       <form class="form-horizontal">
         <div class='form-group' ng-repeat='field in properties'>
@@ -29,7 +29,7 @@
         </div>
       </form>
     </fieldset>
-    <fieldset class="col-sm-4 top-spacing" ng-if="product.images.length">
+    <fieldset class="col-sm-4 top-spacing pictures" ng-if="product.images.length">
       <legend>{{'Pictures' | i18n}}</legend>
       <div class="image-tab">
         <loading ng-if="!imageHost"></loading>
@@ -43,10 +43,9 @@
         </div>
     </fieldset>
   </div>
-  <fieldset class="top-spacing" ng-if="product.components.length">
+  <fieldset class="top-spacing components" ng-if="product.components.length">
     <legend>{{'Components' | i18n}}</legend>
 
     <productlist ng-if="product.components.length" products="product.components" fixed="true"></productlist>
   </fieldset>
-  <loading ng-if="!product.uid"></loading>
 </div>

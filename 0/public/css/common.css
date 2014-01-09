@@ -8,7 +8,7 @@ body{
   margin-top:50px;
   }
 .clickable{
-  pointer:cursor;
+  cursor:pointer;
 }
 globalajax span{
   height: 1px;
@@ -67,7 +67,7 @@ border-radius: 1em;
 #dropbox h1{
 margin-top: 60px;
 color: #C4C4C4;
-text-aglign:center;
+text-align:center;
 }
 .upload.success #dropbox{
   box-shadow: 0 2px 10px #1A941C;
@@ -82,6 +82,9 @@ text-aglign:center;
   height:5px; 
 }
 
+/*
+ * Product
+ */
 .product .images .box{
   width: 100px;
   display: inline-block;
@@ -94,6 +97,8 @@ text-aglign:center;
   height:100px;
   width:100px;
   border: 1px solid #DDD;
+  display:table-cell;
+  vertical-align: middle;
 }
 img{
   max-height:100%;
@@ -107,21 +112,28 @@ img{
 }
 .product .head .default-img{
   display:inline-block;
-  
   float:left;
   margin-right: 20px;
-  
 }
+
+/*
+ * Company
+ */
 .company form input{
   display: block;
   margin-bottom: 20px;
 }
+
+/*
+ * Productlist
+ */
 productlist select{
   max-width:10em;
 }
 productlist table .picture{
   width:116px;
 }
+
 .errors {
     position: absolute;
     z-index: 99;
@@ -146,4 +158,14 @@ nav .errors{
 }
 .errors:hover .alert.error {
     margin-top: auto;
+}
+.ng-enter
+{
+  -webkit-animation: fadeInUp 0.5s ; /* Safari/Chrome */
+  animation: fadeInUp 0.5s ; /* IE10+ and Future Browsers */
+}
+.ng-leave
+{
+  -webkit-animation: fadeOutDown 0.5s ; /* Safari/Chrome */
+  animation: fadeOutDown 0.5s ; /* IE10+ and Future Browsers */
 }

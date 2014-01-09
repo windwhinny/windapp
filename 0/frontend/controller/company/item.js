@@ -91,10 +91,10 @@ app
   }
 ])
 .controller('CompanyController',[  
-          '$scope', 'CompanyService', '$state',
-  function($scope,   Company,        $state){
+          '$scope', 'CompanyService', '$state','ErrorHandler',
+  function($scope,   Company,        $state,ErrorHandler){
     var companyUid=$state.params.companyUid;
-    var company = getCompany(Company,companyUid,$scope,function(){
+    var company = getCompany(Company,companyUid,$scope,ErrorHandler,function(){
       $scope.loaded=true;
     });
 

@@ -45,6 +45,7 @@ module.exports = function(grunt) {
                       'angular-resource':'lib/angular-resource',
                       'angular-bootstrap':'lib/ui-bootstrap-tpls',
                       'angular-ui-router':'lib/angular-ui-router',
+                      'angular-animate':'lib/angular-animate',
                       jquery:'lib/jquery'
                     },
                     shim:{
@@ -58,6 +59,9 @@ module.exports = function(grunt) {
                         deps:['angular','jquery'] 
                       },
                       'angular-ui-router':{
+                        deps:['angular'] 
+                      },
+                      'angular-animate':{
                         deps:['angular'] 
                       },
                       jquery:{
