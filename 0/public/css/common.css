@@ -135,29 +135,23 @@ productlist table .picture{
 }
 
 .errors {
+    width:100%;
     position: absolute;
     z-index: 99;
     text-align: center;
 }
 .errors .alert {
+    word-wrap: break-word;
+    padding: 5px;
     width: 100%;
     left:0;
-    margin-top:-40px;
-}
-nav .errors{
-    margin-top:-24px;
+    margin-top:-20px;
 }
 .alert.error>* {
     display: none;
 }
 .alert.error:last-child * {
     display: initial;
-}
-.errors:hover .alert.error>* {
-    display: initial;
-}
-.errors:hover .alert.error {
-    margin-top: auto;
 }
 .ng-enter
 {

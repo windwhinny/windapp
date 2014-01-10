@@ -26,6 +26,8 @@ app
 		if(user.isAuthed()){
 			cnt();
 		}
+
+    ErrorHandler.clear();
 	}]
 )
 })

@@ -8,7 +8,6 @@ app
 		return {
 			template:'<div class="errors "><alert ng-repeat="err in errors" class="alert-error error" close="closeAlert($index)">{{err.showupText() | i18n}}</alert></div>',
 			restrict:'EA',
-      replace:true,
       $scope:{
       },
       controller:[
