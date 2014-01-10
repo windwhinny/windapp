@@ -147,12 +147,6 @@ productlist table .picture{
     left:0;
     margin-top:-20px;
 }
-.alert.error>* {
-    display: none;
-}
-.alert.error:last-child * {
-    display: initial;
-}
 .ng-enter
 {
   -webkit-animation: fadeInUp 0.5s ; /* Safari/Chrome */
