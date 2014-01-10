@@ -10,7 +10,7 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "node node_modules/grunt-cli/bin/grunt",
+    "start": "node server.js",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "postinstall": "grunt install"
   },
@@ -33,8 +33,7 @@
     "supertest": "~0.8.1",
     "should": "latest",
     "requirejs": "~2.1.9",
-    "grunt": "~0.4.1",
-    "grunt":"lastest",
+    "grunt": "lastest",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-nodemon": "0.0.8",
@@ -49,6 +48,7 @@
     "karma-chrome-launcher": "latest",
     "karma-ng-scenario": "~0.1.0",
     "karma-mocha": "latest",
-    "grunt-karma": "latest"
+    "grunt-karma": "latest",
+    "less": "~1.6.0"
   }
 }

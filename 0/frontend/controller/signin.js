@@ -15,7 +15,25 @@ app
 		}
 
 		$scope.signin=function(){
-			$rootScope.user.$signin(function(resource,headers) {
+      var user=$rootScope.user;
+
+      /*
+        For firefox and IE, if you set "remember the password", next time you
+        when login the account and password will show upon the input, but 
+        the value  will not set to $rootScope.user. So we should get the DOM's
+        value by ourself.
+       */
+      if(!user.account&&!user.password){
+        var accountInput=document.getElementById('userAccount');
+        var passwordInput=document.getElementById('userPassword');
+
+        if(accountInput&&passwordInput){
+          user.account=accountInput.value;
+          user.password=passwordInput.value;
+        }
+      }
+
+			user.$signin(function(resource,headers) {
         ErrorHandler.clear();
 				cnt();
 			},function(resource,headers) {
