@@ -71,6 +71,16 @@ module.exports = function(grunt) {
                 }
             }
         },
+        less:{
+          build:{
+            files:{
+              'public/css/build.css':'frontend/less/init.less'
+            }
+          },
+          options:{
+            cleancss:true
+          }
+        },
         nodemon: {
             dev: {
                 options: {
@@ -123,28 +133,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
-    grunt.loadNpmTasks('grunt-git');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
     //task(s).
     grunt.registerTask('default', ['concurrent:target']);
     grunt.registerTask('test', ['mochaTest']);
-    grunt.registerTask('push','auto push',function(arg1,arg2){
-      var exec=require('child_process').exec;
-      exec('git push',function(err,stdout,stderr){
-        console.log(111);
-        console.log(err);
-        console.log(stdout);
-        console.error(stderr);
-      })
-    })
-    grunt.registerTask('commit','auto commit',function(arg1,arg2){
-       var message;
-       if(arguments.length>=0){
-        message=arg1;
-       }else{
-        message='auto commit';
-       }
-       grunt.config.set('gitcommit.task.options.message',message);
-       grunt.task.run('requirejs','gitcommit','push');
-    })
+    grunt.registerTask('build',['requirejs','less'])
 };

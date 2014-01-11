@@ -49,6 +49,7 @@
     "karma-ng-scenario": "~0.1.0",
     "karma-mocha": "latest",
     "grunt-karma": "latest",
-    "less": "~1.6.0"
+    "less": "~1.6.0",
+    "grunt-contrib-less": "~0.9.0"
   }
 }

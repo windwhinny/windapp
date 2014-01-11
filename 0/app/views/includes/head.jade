@@ -5,7 +5,10 @@ head
   title= appName
   meta(http-equiv='Content-type', content='text/html;charset=UTF-8')
   link(href='/img/icons/fav.png', rel='shortcut icon', type='image/x-icon')
-  link(rel='stylesheet', href='/css/bootstrap.css')
-  link(rel='stylesheet', href='/css/animate.css')
-  link(rel='stylesheet', href='/css/common.css')
-  script(type='text/javascript', data-main='/js/init.js',src=script)
+  if env=='production'
+    link(rel='stylesheet', href='/css/build.css')
+    script(src='/js/build.js')
+  else
+    link(rel='stylesheet/less', href='/less/init.less')
+    script(src='/js/lib/less.js')
+    script(data-main='/js/init.js',src='/js/lib/require.js')

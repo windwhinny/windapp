@@ -27,7 +27,7 @@ module.exports = function(app, config, passport) {
     var staticFileHandler=express.static(config.root+'/public');
     var scriptHandler=express.static(config.root+'/frontend');
     var viewsHandler=express.static(config.root+'/frontend/views');
-
+    var lessHandler=express.static(config.root+'/frontend/less');
     app.use(function(req,res,next) {
         if(staticFileExtReg.test(req.url)){
         //if not in production env, browser will revice script file store in frontend folder directly
@@ -43,6 +43,7 @@ module.exports = function(app, config, passport) {
     });
 
     app.use('/views',viewsHandler);
+    app.use('/less',lessHandler);
 
     //Don't use logger for test env
     if (process.env.NODE_ENV !== 'test') {
@@ -125,11 +126,13 @@ module.exports = function(app, config, passport) {
                     message: 'Can not handle this request'
                 }
             if(req.acceptType('html')){
+
                //go to index
-               res.render('index',{
-                  user: req.user ? JSON.stringify(req.user) : "null",
-                  script: (config.env=='production')?'/js/build.js':'/js/lib/require.js'
-               });   
+               var params={
+                env:config.env,
+                user:req.user ? JSON.stringify(req.user) : "null"
+               }
+               res.render('index',params);   
             }else if(req.acceptType('json')){
                 res.status(400).json(err);
             }else{

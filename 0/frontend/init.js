@@ -29,6 +29,7 @@ require.config({
     }
   }
 })
+
 define([
   'angular',
   'app',
