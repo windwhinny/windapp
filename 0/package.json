@@ -42,7 +42,7 @@
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-concat": "latest",
     "grunt-bower-task": "latest",
-    "grunt-contrib-cssmin ": "latest",
+    "grunt-contrib-less ": "latest",
     "grunt-contrib-requirejs": "~0.4.1",
     "karma": "latest",
     "karma-chrome-launcher": "latest",

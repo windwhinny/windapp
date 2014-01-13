@@ -1,15 +1,18 @@
 <div class='list'>
-  <div class="dropdown">
-    <button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
-      {{catalog?catalog:("All Products" | i18n)}}
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a ng-click="selectCatalog(null)" href="#">{{"All Products" | i18n}}</a></li>
-      <li ng-repeat="ca in catalogs">
-        <a ng-click="selectCatalog(ca.catalog)" href="#">{{ca.catalog}}</a>
-      </li>
-    </ul>
+  <div class="tools">
+    <div class="dropdown">
+      <button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
+        {{catalog?catalog:("All Products" | i18n)}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a ng-click="selectCatalog(null)" href="#">{{"All Products" | i18n}}</a></li>
+        <li ng-repeat="ca in catalogs">
+          <a ng-click="selectCatalog(ca.catalog)" href="#">{{ca.catalog}}</a>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-link"  ng-click="closeSearch()"ng-if="search">{{search}} <i class="glyphicon glyphicon-remove"></i></button>
   </div>
   <div ng-if='!loading' class="top-spacing">
     <table class="table table-hover table-striped">

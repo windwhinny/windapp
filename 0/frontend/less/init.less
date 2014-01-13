@@ -20,6 +20,9 @@ globalajax span{
   box-shadow: 0 0 10px #aaa;
   width: 20%;
 }
+nav form.search .input-group{
+  width:300px;
+}
 footer{
   position:fixed;
   left:0px;
@@ -47,15 +50,6 @@ form{
   }
 
 }
-
-.products{
-  .list .id{
-    width:40px;
-  }
-  .list td{
-    vertical-align:middle;
-  }
-}
 .catalog label{
   display: inline-block;
 }
@@ -65,9 +59,7 @@ form{
 .dropdown-pad{
   padding-bottom:10em;
 }
-.upload{
-  max-width: 400px;
-}
+
 #dropbox{
   box-shadow: 0 2px 2px #DFDFDF;
   border: 1px solid #C5C5C5;
@@ -83,6 +75,7 @@ form{
 }
 
 .upload{
+  max-width: 400px;
   &.success #dropbox{
     box-shadow: 0 2px 10px #1A941C;
   }
@@ -111,6 +104,12 @@ form{
   }
   .catalog h3{
     text-align:center;
+  }
+  .list .id{
+    width:40px;
+  }
+  .list td{
+    vertical-align:middle;
   }
   .head{
     overflow:auto;
@@ -150,10 +149,16 @@ img{
 /*
  * Productlist
  */
-productlist select{
-  max-width:10em;
-  table .picture{
-    width:116px;
+productlist{
+  select{
+    max-width:10em;
+    table .picture{
+      width:116px;
+    }
+  }
+  .tools >*{
+    float:left;
+    margin-right:1em;
   }
 }
 

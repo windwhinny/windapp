@@ -95,7 +95,7 @@ app.config(['$stateProvider' , '$urlRouterProvider' ,
 			template: '<div class="products" ui-view="@products"></div>'
 		})
 		.state('products.list', {
-			url:'/page/:currentPage',
+			url:'/page/:currentPag?search',
 			onEnter:['$state',function($state){
 				$state.params.currentPage=$state.params.currentPage||1;
 			}],

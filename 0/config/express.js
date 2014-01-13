@@ -23,7 +23,7 @@ module.exports = function(app, config, passport) {
     app.use(express.favicon());
 
     //处理静态文件请求
-    var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico)$/;
+    var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico|woff|ttf|svg)$/;
     var staticFileHandler=express.static(config.root+'/public');
     var scriptHandler=express.static(config.root+'/frontend');
     var viewsHandler=express.static(config.root+'/frontend/views');

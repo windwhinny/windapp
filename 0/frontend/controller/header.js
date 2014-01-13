@@ -17,6 +17,10 @@ app.controller('HeaderController',
             return "active"
         } else return ""
     };
+    $scope.search=function(searchText){
+        $state.go('products.list',{search:searchText});
+        $scope.searchText='';
+    };
     $scope.errorHandler=ErrorHandler;
 }]);
 });

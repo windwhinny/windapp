@@ -9,6 +9,8 @@ app
   [    '$scope', 'ProductQueryService','ProductService','$state','$location','ImageOptions',
   function($scope,   ProductQuery,    Product,      $state,  $location,ImageOptions){
     $scope.currentPage=$state.params.currentPage;
+    $scope.search=$state.params.search;
+
     /**
      * Regresh list, if page<0, set page to 1
      * 

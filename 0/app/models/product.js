@@ -222,7 +222,50 @@ ProductSchema.methods.addImage=function(image,callback){
 /*
  * Statics
  */
+ProductSchema.statics.search=function(searchText,query,page,step,fields,sort,callback){
+  if(searchText&&typeof searchText === 'string'){
+    var or=[];
+    var match=[];
 
+    searchText=searchText.split(' ');
+
+    var reg="";
+    if(searchText.length>1){
+      reg="("+searchText.join('|')+")";
+    }else{
+      reg=searchText[0];
+    }
+
+    match={ '$regex': reg, '$options': 'i' };
+    or.push({
+      number:match
+    })
+
+    or.push({
+      catalog:match
+    })
+
+    or.push({
+      'property.custom':{
+        '$elemMatch':{
+          name:match
+        }
+      }
+    })
+
+    or.push({
+      'property.custom':{
+        '$elemMatch':{
+          value:match
+        }
+      }
+    })
+
+    query['$or']=or;
+  }
+
+  this.list(query,page,step,fields,sort,callback);
+}
 ProductSchema.statics.list=function(query,page,step,fields,sort,callback){
   function varifyPageNumber(count,step,page){
     var pageCount=Math.ceil(count/step);
@@ -231,7 +274,7 @@ ProductSchema.statics.list=function(query,page,step,fields,sort,callback){
     }
     return pageCount;
   }
-  
+
   Product.find(query).count(function(err,count){
     if(err){
       callback(err);

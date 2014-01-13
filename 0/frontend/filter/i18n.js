@@ -59,7 +59,8 @@ var translation={
   'BASIC':'基础',
   'CUSTOM':'自定义',
   'ALL':'所有',
-  'SET_AS_COVER':'设置为封面'
+  'SET_AS_COVER':'设置为封面',
+  'SEARCH':'搜索'
 }
 app
 .filter('i18n',

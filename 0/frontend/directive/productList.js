@@ -28,7 +28,8 @@ app
         fixed:'=?',
         refreshAtom:'=?',
         catalogSelector:'=?',
-        linkTarget:'=?'
+        linkTarget:'=?',
+        search:'='
       },
       controller:['$scope', 'ProductQueryService','ProductService','$state','$location','ImageOptions',
         function($scope,   ProductQuery,    Product,      $state,  $location,ImageOptions){
@@ -52,10 +53,19 @@ app
             page=page||$scope.currentPage||1;
             $scope.loading=true;
             refreshing=true;
+
+            var params={};
             query=query||{};
-            query.currentPage=page;
-            query.catalog=$scope.catalog;
-            $scope.products =  ProductQuery.find(query,function(resource,headers){
+            if($scope.catalog){
+              query.catalog=$scope.catalog;
+            }
+            params.query=query;
+            params.currentPage=page;
+            if($scope.search){
+              params.search=$scope.search;
+            }
+
+            $scope.products =  ProductQuery.find(params,function(resource,headers){
               var products=resource;
               $scope.loading=false;
               /*
@@ -142,6 +152,11 @@ app
           $scope.selectCatalog=function(catalog){
             $scope.catalog=catalog;
             refreshTable();
+          };
+          $scope.closeSearch=function(){
+            $scope.search=null;
+            refreshTable();
+            $state.params.search="";
           }
         }
         ],

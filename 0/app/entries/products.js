@@ -168,11 +168,15 @@ productsEntry.handlers={
 			var fields=req.query.fields||"";
 			var sort=req.query.sort||"uid";
 
-      delete req.query.step;
-      delete req.query.fields;
-      delete req.query.sort;
+      try{
+        var query=JSON.parse(req.query.query)||{};
+      }catch(e){
+        return done(e);
+      }
 
-			Product.list(req.query,page,step,fields,sort,function(err,docs,pagination){
+      var searchText=req.query.search;
+
+			Product.search(searchText,query,page,step,fields,sort,function(err,docs,pagination){
         if(err){
 			    handleError(err,done);
 			  }else{
