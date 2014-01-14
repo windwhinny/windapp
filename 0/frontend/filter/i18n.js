@@ -60,7 +60,15 @@ var translation={
   'CUSTOM':'自定义',
   'ALL':'所有',
   'SET_AS_COVER':'设置为封面',
-  'SEARCH':'搜索'
+  'SEARCH':'搜索',
+  'ITEM':'项目',
+  'QUOTE':'报价',
+  'NEW':'新',
+  'COST':'成本',
+  'SELECT_A_SUPPLIER':'选择供应商',
+  'ENTER':'输入',
+  'PRICE':'价格',
+  'VALUE':'值'
 }
 app
 .filter('i18n',

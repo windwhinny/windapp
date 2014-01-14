@@ -1,6 +1,6 @@
 <div class="product top-spacing" ng-controller="EditProductItemController">
   <div class='pull-right'>
-    <button ng-click="save()" class="btn btn-primary">
+    <button ng-click="save()" class="btn btn-success">
       <i class="icon-edit"></i>
       <span >{{"Save" | i18n}}</span>
     </button>
@@ -12,9 +12,11 @@
 	</div>
   <form class="form-horizontal top-spacing">
     <tabset  class='nav-pills nav-stacked' direction ="left">
+      <!-- Property -->
   		<tab heading="{{'Property' | i18n}}" >
         <div class="row top-spacing">
           <fieldset class="col-md-6">
+            <!-- Basic Property -->
             <legend>{{"Basic" | i18n}}</legend>
             <div class='form-group row'>
               <label class="control-label col-xs-5 col-sm-3" for="number">{{'Product Number' |i18n}}</label>
@@ -22,7 +24,7 @@
                 <input type="{{getInputType(field.type)}}" class="form-control" name="number" ng-model="product.number" >
               </div>
             </div>
-
+            <!-- Catalog -->
             <div class='form-group'>
               <label class="control-label col-xs-5 col-sm-3" for="catalog">{{"Catalog" | i18n}}</label>
               <div class='col-xs-7 combobox col-sm-5'>
@@ -34,20 +36,20 @@
                   </ul>
               </div>
             </div>
-
             <div class='form-group' ng-repeat='field in schema.property.default'>
               <label class='control-label col-xs-5 col-sm-3' for="inputEmail">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
               <div class="controls col-xs-7 col-sm-5">
                 <input class="form-control" type="{{getInputType(field.type)}}" name="field.name" ng-model="product.property.default[field.name]" >
               </div>
             </div>
-
           </fieldset>	
+
+          <!-- Custom Property -->
           <fieldset class="col-md-6">	
             <legend>{{"Custom" | i18n}}</legend>
             <div class='form-group' ng-repeat='field in product.property.custom'>
               <div class='combobox col-xs-5 col-sm-3' ng-style="{float:'left'}" >
-                <input class='control-label form-control dropdown-toggle' type="text" ng-model="field.name" ng-focus='getProperties()'>
+                <input class='control-label form-control dropdown-toggle' type="text" ng-model="field.name" ng-focus='getProperties()' placeholder="{{'Enter Property Name' | i18n}}">
                 <ul class="dropdown-menu">
                   <li ng-repeat="pro in properties">
                     <a class="clickable" ng-click="field.name = pro.name">{{pro.name}}</a>
@@ -55,7 +57,7 @@
                 </ul>
               </div>
               <div class="controls col-xs-5 col-sm-4">
-                <input class="form-control" type="{{getInputType(field.type)}}" name="field.name" ng-model="field.value" >
+                <input class="form-control" type="{{getInputType(field.type)}}" name="field.name" ng-model="field.value" placeholder="{{'Enter Property Value' | i18n}}">
               </div>
               <button class='btn btn-warning' ng-click='product.property.custom.splice($index,1)'>&minus;</button>
             </div>
@@ -64,6 +66,8 @@
           <div class="dropdown-pad"></div>
         </div>
   		</tab>
+
+      <!-- Pictures -->
   		<tab heading="{{'Pictures' | i18n}}">
         <div class="image-tab">
           <div class="images col-sm-6" ng-if="imageHost">
@@ -82,6 +86,8 @@
           </div>
         </div>
       </tab>
+
+      <!-- Components -->
       <tab heading="{{'Components' | i18n}}">
         <div class="top-spacing">
           <div class='pull-right btn-group' ng-style="{'z-index':99}">
@@ -91,6 +97,60 @@
             </button>
           </div>
           <productlist catalog-selector="true" actions="selectorActions" hide="product.uid" refresh-atom="refreshAtom" selection="product.components" link-target="'_blank'"></productlist>
+        </div>
+      </tab>
+
+      <!-- Cost -->
+      <tab heading="{{'Cost' | i18n}}">
+        <div class="top-spacing cost">
+          <div class="row">
+            <p class="col-xs-4 filed">{{'Item' | i18n}}</p>
+            <p class="col-xs-8 filed">{{'Quote' | i18n}}</p>
+          </div>
+          <div ng-repeat="cost in product.cost" class="item">
+            <div class='form-group' >
+              <div class="col-xs-4 top-spacing">
+                
+                
+                <div class='col-xs-7 combobox col-sm-5'>
+                  <input class="form-control dropdown-toggle" ng-focus='getCostItems()' ng-model="cost.item" placeholder="{{'Enter Item Name' | i18n}}">
+                   <ul class="dropdown-menu">
+                      <li ng-repeat="item in costItems">
+                        <a class="clickable" ng-click="cost.item = item.name">{{item.name}}</a>
+                      </li>
+                    </ul>
+                </div>
+              </div>
+
+              <div class="col-xs-8 " >
+                <div ng-repeat="quote in cost.quotes">
+                  <div class="col-sm-4 col-xs-12 top-spacing">
+                    <div class="dropdown">
+                      <button ng-focus='getComponies()' class="btn dropdown-toggle btn-default" data-toggle="dropdown">
+                        {{quote.company.name||('Select a Supplier' | i18n)}}
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li ng-repeat="company in companies">
+                          <a ng-click="quote.company=company" href="#">{{company.name}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 col-xs-8 top-spacing">
+                    <input class="form-control col-sm-5" ng-model="quote.price" type="number" placeholder="{{'Enter Price' | i18n}}"/ >
+                  </div>
+                  <div class="col-sm-4 col-xs-4 top-spacing">
+                    <button class='btn btn-warning' ng-click="cost.quotes.splice($index,1)">&minus;</button>
+                  </div>
+                </div>
+                <div class="add col-xs-12">
+                  <button class='btn btn-primary top-spacing' ng-click="cost.quotes.push({})">&plus;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-link" ng-click="product.cost.push({item:'',quotes:[{}]})">{{"New Cost" | i18n}}</button>
         </div>
       </tab>
     </tabset>

@@ -104,6 +104,42 @@ productsEntry.handlers={
 	},
 
   /**
+   * 获取现有产品的成本
+   * 
+   * @return {Array} 
+   */
+  getCostItem: {
+    method:'get',
+    type:'json',
+    url:'/costItem',
+    main:function(req,res,done){
+      var query=req.query;
+      var defaultQuery={
+        'cost.item':{$exists:true},
+      };
+      for(i in defaultQuery){
+        query[i]=defaultQuery[i];
+      }
+
+      Product.getCostItem(query,function(err,result){
+        if(err)return handleError(err,done);
+        var cosetItem=[];
+        result.forEach(function(r){
+          cosetItem.push({
+            name:r._id,
+            count:r.value
+          })
+        })
+
+        cosetItem.sort(function(a,b){
+          return a.count<b.count;
+        })
+        done(err,cosetItem);
+      })
+    }
+  },
+
+  /**
    * 获取产品的自定义属性
    * 
    * @param {Object} query 根据不同的要求进行查询
@@ -122,8 +158,8 @@ productsEntry.handlers={
 		main:function(req,res,done){
 			var query=req.query;
 			var defaultQuery={
-					'property.custom':{$exists:true},
-				};
+				'property.custom':{$exists:true},
+			};
 			for(i in defaultQuery){
 				query[i]=defaultQuery[i];
 			}
@@ -134,14 +170,14 @@ productsEntry.handlers={
         }else{
           var properties=[];
           result.forEach(function(r){
-              properties.push({
-                  name:r._id,
-                  count:r.value
-              })
+            properties.push({
+              name:r._id,
+              count:r.value
+            })
           })
 
           properties.sort(function(a,b){
-              return a.count<b.count;
+            return a.count<b.count;
           })
           done(err,properties)
       }

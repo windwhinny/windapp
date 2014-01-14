@@ -1,10 +1,11 @@
 define([
-  'app'
+  'app',
+  'service/dbObject'
 ],function(app){
 app
 .factory('CompanyQueryService',
-[		'$resource',
-function($resource){
+[		'$resource','DBObject',
+function($resource,DBObject){
 var Company=$resource('/companies',
     {},
     {
@@ -13,7 +14,8 @@ var Company=$resource('/companies',
         method: 'GET',
         params:{currentPage:1},
         isArray :true,
-        responseType: 'json'
+        responseType: 'json',
+        transformResponse:DBObject.transformResponse
       },
       getCatalog:{
         url:'/companies/catalog',
@@ -32,19 +34,23 @@ return Company;
 }]
 )
 .factory('CompanyService',
-  [   "$resource",
-  function($resource){
+  [   "$resource",'DBObject',
+  function($resource,DBObject){
     var Company=$resource('/companies/:companyUid',
       {companyUid:'@uid'},
       {
         add:{
           method:'PUT',
           responseType:'json',
-          url:'/companies'
+          url:'/companies',
+          transformRequest:DBObject.transformRequest,
+          transformResponse:DBObject.transformResponse
         },
         save:{
           method:'POST',
-          responseType:'json'
+          responseType:'json',
+          transformRequest:DBObject.transformRequest,
+          transformResponse:DBObject.transformResponse
         },
         delete:{
           method:'DELETE',
@@ -52,7 +58,8 @@ return Company;
         },
         get:{
           method:'GET',
-          responseType:'json'
+          responseType:'json',
+          transformResponse:DBObject.transformResponse
         }
       })
     return Company;

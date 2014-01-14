@@ -70,11 +70,22 @@ var schemaData={
         unit:'g'
       },
     },
-      custom:[{
-        name:'string',
-        value:'string'
-      }]
+    custom:[{
+      name:'string',
+      value:'string'
+    }]
   },
+  cost:[{
+    item:"string",
+    quotes:[{
+      company:{
+        ref:'Company',
+        type:Schema.Types.ObjectId
+      },
+      price:'number'
+    }]
+  }],
+  price:'number',
   catalog:{
     type:'string',
     name:'catalog'
@@ -84,9 +95,7 @@ var schemaData={
   }
 }
 
-var ProductSchema = new Schema(schemaData,{
-  _id:false
-});
+var ProductSchema = new Schema(schemaData);
 
 /*
   设置index
@@ -209,9 +218,18 @@ ProductSchema.methods.checkAndSave=function(callback){
   构建产品信息
  */
 ProductSchema.methods.build=function(done){
-  this.populate('components',function(err){
-    done(err); 
-  })
+  this
+    .populate({
+      path:'components',
+      select:"number  uid images"
+    })
+    .populate({
+      path:'cost.quotes.company',
+      select:'name _id uid'
+    })
+    .populate(function(err){
+      done(err); 
+    })
 };
 
 ProductSchema.methods.addImage=function(image,callback){
@@ -302,24 +320,44 @@ ProductSchema.statics.getSchema=function(cb){
   return schemaData;
 };
 
-ProductSchema.statics.getProperty=function(query,callback){
+ProductSchema.statics.getCostItem=function(query,callback){
   if(typeof(query)=='function'){
-      callback=query;
-      query={};
+    callback=query;
+    query={};
   }
   Product.mapReduce({
-          map:function(){
-              this.property.custom.forEach(function(property){
-                  if(property.name){
-                      emit(property.name,1)
-                  }   
-              })
-          },
-          reduce:function(key,values){
-              return Array.sum(values);
-          },
-          query: query
-      },callback)
+    map:function(){
+      this.cost.forEach(function(cost){
+        if(cost.item){
+          emit(cost.item,1)
+        }
+      })
+    },
+    reduce:function(key,values){
+      return Array.sum(values);
+    },
+    query:query
+  },callback)
+};
+
+ProductSchema.statics.getProperty=function(query,callback){
+  if(typeof(query)=='function'){
+    callback=query;
+    query={};
+  }
+  Product.mapReduce({
+    map:function(){
+      this.property.custom.forEach(function(property){
+        if(property.name){
+          emit(property.name,1)
+        }   
+      })
+    },
+    reduce:function(key,values){
+      return Array.sum(values);
+    },
+    query: query
+  },callback)
 };
 
 ProductSchema.statics.getCatalogs=function(callback){
@@ -352,6 +390,8 @@ ProductSchema.statics.removeImage=function(uid,image,callback){
 };
 
 ProductSchema.statics.updateAndClean=function(uid,data,callback){
+  delete data._id;
+  delete data.__v;
   Product.findOneAndUpdate({uid:uid},data,{new:false},function(err,doc){
     callback(err,data);
     if(err)return;

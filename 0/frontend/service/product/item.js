@@ -1,21 +1,26 @@
 define([
-  'app'
+  'app',
+  'service/dbObject'
 ],function(app){
 app
 .factory('ProductService',
-	[		"$resource",
-	function($resource){
+	[		"$resource","DBObject",
+	function($resource,DBObject){
 		var Product=$resource('/products/:productUid',
 			{productUid:'@uid'},
 			{
 				add:{
 					method:'PUT',
 					responseType:'json',
-					url:'/products'
+					url:'/products',
+					transformRequest:DBObject.transformRequest,
+        	transformResponse:DBObject.transformResponse
 				},
 				save:{
 					method:'POST',
-					responseType:'json'
+					responseType:'json',
+					transformRequest:DBObject.transformRequest,
+        	transformResponse:DBObject.transformResponse
 				},
 				delete:{
 					method:'DELETE',
@@ -23,7 +28,8 @@ app
 				},
 				get:{
 					method:'GET',
-					responseType:'json'
+					responseType:'json',
+        	transformResponse:DBObject.transformResponse
 				},
 				getSchema:{
 					url:'/products/schema',

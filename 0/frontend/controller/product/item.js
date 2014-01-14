@@ -150,8 +150,8 @@ app
   EditProductItemController is the controller for product edit page
  */
 .controller('EditProductItemController',[
-          '$scope', 'ProductService', '$state','ProductQueryService','ImageOptions','ErrorHandler',
-	function($scope,   Product,		        $state,ProductQuery, ImageOptions,ErrorHandler){
+          '$scope', 'ProductService', '$state','ProductQueryService','ImageOptions','ErrorHandler','CompanyQueryService',
+	function($scope,   Product,		        $state,ProductQuery, ImageOptions,ErrorHandler,CompanyQueryService){
     var productUid=$state.params.productUid;
     $scope.schema = Product.getSchema();
 		var product = getProduct(Product,productUid,$scope,ErrorHandler,function(resource){
@@ -180,11 +180,28 @@ app
           custom.splice(i,1);
         }
       }
+
+      //if any quote in cost is empty, delete it
       
+      product.cost.forEach(function(cost,i){
+        cost.quotes.forEach(function(quote,i){
+          if(!quote.company||!quote.price){
+            cost.quotes.splice(i,1);
+            return;
+          }
+          var company=quote.company
+          quote.company=company.id||company._id;
+        })
+
+        if(!cost.quotes.length){
+          product.cost.splice(i,1);
+        }
+      })
+
       //we only set the component's uid to product.components for saving
       var components=product.components||[];
       components && components.forEach(function(v,k){
-        components[k]=v._id;
+        components[k]=v.id;
       });
       product.components=components;
 
@@ -200,18 +217,40 @@ app
           })
         });
     }
+    $scope.getComponies=function(){
+      CompanyQueryService.find({},function(resource,headers){
+        $scope.companies=resource;
+      },function(resource,headers){
+        var err=resource.data;
+        err.status=resource.status;
+        ErrorHandler.push(err)
+      })
+    }
+    $scope.getCostItems=function(){
+      ProductQuery.getCostItems({catalog:product.catalog},function(resource,headers){
+        $scope.costItems=resource;
+      },function(resource,headers){
+        var err=resource.data;
+        err.status=resource.status;
+        ErrorHandler.push(err)
+      })
+    }
 		$scope.getProperties=function(){
 			ProductQuery.getProperties({catalog:product.catalog},function(resource,headers){
 				$scope.properties=resource;
 			},function(resource,headers){
-				ErrorHandler.push(resource.data)
+				var err=resource.data;
+        err.status=resource.status;
+        ErrorHandler.push(err)
 			})
 		}
 		$scope.getCatalogs=function(){
 			ProductQuery.getCatalogs(function(resource,headers){
 				$scope.catalogs=resource;
 			},function(resource,headers){
-				ErrorHandler.push(resource.data)
+				var err=resource.data;
+        err.status=resource.status;
+        ErrorHandler.push(err)
 			})
 		}
 
@@ -247,12 +286,14 @@ app
         }
       )
     };
+
     $scope.setAsFirstImage=function(index){
       var image=product.images.splice(index,1)[0];
       if(image){
         product.images.unshift(image);
       }
-    }
+    };
+
 		$scope.getInputType=function(type){
 			if(type==='string'){
 				return 'text'
@@ -267,6 +308,8 @@ app
     $scope.selectorActions={
       check:true
     };
+
+
   }
 ])
 });

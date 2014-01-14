@@ -49,14 +49,17 @@ app
       /*
         If all of a empliyee's property is empty, delete it.
        */
-      for(var i=employees.length-1;i>=0;i--){
-        if(!employees[i]||
-          !employees[i].name&&
-          !isEmpty(employees[i].phone)&&
-          !isEmpty(employees[i].email)){
-          employees.splice(i,1);
+      if(employees&&employees.length>0){
+        for(var i=employees.length-1;i>=0;i--){
+          if(!employees[i]||
+            !employees[i].name&&
+            !isEmpty(employees[i].phone)&&
+            !isEmpty(employees[i].email)){
+            employees.splice(i,1);
+          }
         }
       }
+      
 
       // save or add
       company['$'+method](params)

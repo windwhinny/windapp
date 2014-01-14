@@ -1,10 +1,11 @@
 define([
-  'app'
+  'app',
+  'service/dbObject'
 ],function(app){
 app
 .factory('ProductQueryService',
-[		'$resource','$location',
-function($resource,$location){
+[		'$resource','$location',"DBObject",
+function($resource,$location,DBObject){
 var Products=$resource('/products',
     {},
     {
@@ -13,7 +14,9 @@ var Products=$resource('/products',
         method: 'GET',
         params:{currentPage:1},
         isArray :true,
-        responseType: 'json'
+        responseType: 'json',
+        transformRequest:DBObject.transformRequest,
+        transformResponse:DBObject.transformResponse
       },
       getCatalogs:{
         url:'/products/catalog',
@@ -23,6 +26,12 @@ var Products=$resource('/products',
       },
       getProperties:{
         url:'/products/property',
+        method:'GET',
+        isArray:true,
+        responseType:'json'
+      },
+      getCostItems:{
+        url:'/products/costItem',
         method:'GET',
         isArray:true,
         responseType:'json'
