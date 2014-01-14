@@ -12,10 +12,8 @@ app
 		$scope.errors=[];
 		var user=$scope.user=new Auth();
 		$scope.signup=function(){
-			$rootScope.user.signup(function(resource,headers) {
-				for (i in user) {
-					$rootScope.uer[i]=user[i];
-				};
+			user.$signup(function(resource,headers) {
+        $rootScope.user=user;
         ErrorHandler.clear();
 				$state.go('home');
 			},function(resource,headers) {

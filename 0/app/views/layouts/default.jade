@@ -27,12 +27,12 @@ html(lang='zh')
                                         button.btn.btn-default(type="submit")
                                             i.glyphicon.glyphicon-search
                         li.dropdown(ng-show='user.isAuthed()')
-                            a.dropdown-toggle(toggle='dropdown')
+                            a.clickable.dropdown-toggle(toggle='dropdown')
                                 {{user.account}}
                                 b.caret
                             ul.dropdown-menu
                                 li
-                                    a(ui-sref='signout').
+                                    a(ui-sref='signout')
                                         {{'Signout' | i18n}}
             globalajax
             errors.col-xs-8.col-xs-offset-2.col-sm-2.col-sm-offset-5 

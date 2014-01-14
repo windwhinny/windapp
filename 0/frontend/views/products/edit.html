@@ -29,7 +29,7 @@
                 <input  class='dropdown-toggle form-control' type="{{getInputType(schema.catalog.type)}}" name="catalog" ng-model="product.catalog" ng-focus='getCatalogs()'>
                  <ul class="dropdown-menu">
                     <li ng-repeat="cg in catalogs">
-                      <a ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
+                      <a class="clickable" ng-click="product.catalog = cg.catalog">{{cg.catalog}}</a>
                     </li>
                   </ul>
               </div>
@@ -48,10 +48,9 @@
             <div class='form-group' ng-repeat='field in product.property.custom'>
               <div class='combobox col-xs-5 col-sm-3' ng-style="{float:'left'}" >
                 <input class='control-label form-control dropdown-toggle' type="text" ng-model="field.name" ng-focus='getProperties()'>
-
                 <ul class="dropdown-menu">
                   <li ng-repeat="pro in properties">
-                    <a ng-click="field.name = pro.name">{{pro.name}}</a>
+                    <a class="clickable" ng-click="field.name = pro.name">{{pro.name}}</a>
                   </li>
                 </ul>
               </div>

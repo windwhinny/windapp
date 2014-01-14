@@ -12,9 +12,9 @@
 				<li ng-repeat="item in menu"  ng-class="isSelected(item)"><a ui-sref="{{item.state}}">{{item.title | i18n}}</a></li>
 			</ul>
 			<div>
-				<ul class="nav pull-right" ng-show="user.isAuthed()">
+				<ul class="nav pull-right clickable" ng-show="user.isAuthed()">
 					<li class="dropdown">
-						<a class="dropdown-toggle clickable" toggle="dropdown">
+						<a class="dropdown-toggle " toggle="dropdown">
 							{{user.account}} <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
