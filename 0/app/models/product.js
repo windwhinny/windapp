@@ -9,7 +9,6 @@ var mongoose = require('mongoose'),
     Errors = require('../errors'),
     utils = require('../utils');
 
-
 /**
  * Product Schema
  */
@@ -86,6 +85,10 @@ var schemaData={
     }]
   }],
   price:'number',
+  totlePrice:{
+    type:'number',
+    default:0
+  },
   catalog:{
     type:'string',
     name:'catalog'
@@ -221,7 +224,7 @@ ProductSchema.methods.build=function(done){
   this
     .populate({
       path:'components',
-      select:"number  uid images"
+      select:"number uid images totlePrice"
     })
     .populate({
       path:'cost.quotes.company',
@@ -237,6 +240,89 @@ ProductSchema.methods.addImage=function(image,callback){
   this.images.push(image);
   this.save(callback);
 };
+
+ProductSchema.methods.calcuPriceDown=function(callback){
+  var self=this;
+  function calcuComsPrice(product){
+    var totlePrice=product.price;
+    try{
+      product.components.forEach(function(com){
+        if(com&&typeof(com.totlePrice)){
+          totlePrice+=com.totlePrice;
+        }
+      })
+    }catch(e){
+      return callback(e);
+    }
+    
+    product.totlePrice=totlePrice;
+    product.save(callback);
+  }
+
+  if(!this.populated('components')){
+    this.populate({
+      path:'components',
+      select:'totlePrice'
+    },function(err,product){
+      
+      if(err)return callback(err);
+      calcuComsPrice(product);
+    })
+  }else{
+    calcuComsPrice(self);
+  }
+}
+
+ProductSchema.methods.calcuPriceUp=function(diff,callback){
+  Product.find({components:this._id},function(err,docs){
+    if(err)return callback(err);
+
+    if(docs&&docs.length){
+      var count=0;
+      docs.forEach(function(doc){
+        count++;
+        doc.totlePrice+=diff;
+        doc.calcuPriceUp(diff,function(err){
+          count--;
+          if(err)console.error(err);
+          if(!count){
+            callback(err);
+          }
+        })
+        doc.save(function(err,doc){
+          if(err)console.error(err);
+        })
+      })
+    }else{
+      callback();
+    }
+  })
+}
+
+ProductSchema.methods.calcuPrice=function(callback){
+  var newPrice=0;
+  var self=this;
+  self.cost.forEach(function(cost){
+    var lowest=false;
+    cost.quotes.forEach(function(quote){
+      var p=quote.price;
+      if(lowest===false){
+        lowest=p;
+      }else if(lowest>p){
+        lowest=p;
+      }
+    })
+    newPrice+=lowest;
+  })
+  var oldPrice=self.price;
+  self.price=newPrice;
+  self.calcuPriceDown(function(err,product){
+    callback(err,product);
+    product.calcuPriceUp(newPrice-oldPrice,function(err){
+      if(err)console.error(err);
+    })
+  })
+}
 /*
  * Statics
  */
@@ -389,14 +475,24 @@ ProductSchema.statics.removeImage=function(uid,image,callback){
   });
 };
 
-ProductSchema.statics.updateAndClean=function(uid,data,callback){
-  delete data._id;
-  delete data.__v;
-  Product.findOneAndUpdate({uid:uid},data,{new:false},function(err,doc){
-    callback(err,data);
-    if(err)return;
-    var newImages=data.images;
-    var oldImages=doc.images;
+ProductSchema.statics.updateAndClean=function(uid,newDoc,callback){
+  delete newDoc._id;
+  delete newDoc.__v;
+  
+  Product.findOneAndUpdate({uid:uid},newDoc,{new:false},function(err,oldDoc,a){
+    if(err)return callback(err);
+    Product.findOne({uid:uid},function(err,product){
+      if(err)return console.log(err);
+      product.calcuPrice(function(err,doc){
+        callback(err,doc);
+      })
+    })
+    
+    /*
+      remove unused image from qiniu
+     */
+    var newImages=newDoc.images;
+    var oldImages=oldDoc.images;
     process.nextTick(function(){
       oldImages.forEach(function(image){
         var found=false;

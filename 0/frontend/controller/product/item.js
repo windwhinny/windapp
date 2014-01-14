@@ -232,7 +232,7 @@ app
       },function(resource,headers){
         var err=resource.data;
         err.status=resource.status;
-        ErrorHandler.push(err)
+        ErrorHandler.push(err);
       })
     }
 		$scope.getProperties=function(){
@@ -282,7 +282,9 @@ app
         	product.images.splice(index,1);
         },
         function(resource,headers){
-          ErrorHandler.push(resource.data)
+          var err=resource.data;
+          err.status=resource.status;
+          ErrorHandler.push(err)
         }
       )
     };
