@@ -19,8 +19,9 @@
       <thead>
         <tr>
           <th ng-show="actions.check"><input type="checkbox" ng-model="selectAll" /></th>
-          <th class="picture">{{"Picture" |i18n}}</th>
-          <th>{{"Product" |i18n}}</th>
+          <th class="picture">{{"Picture" | i18n}}</th>
+          <th>{{"Product" | i18n}}</th>
+          <th>{{"Price" | i18n}}</th>
           <th>{{"Created" | i18n}}</th>
           <th class="action" ng-show="showActions">{{"Action" | i18n}}</th>
         </tr>
@@ -36,6 +37,7 @@
              <span> {{product.number}}</span>
             </a>
           </td>
+          <td>{{product.totlePrice | currency:"￥"}}</td>
           <td>{{product.created | date:"yyyy-M-d"}}</td>
           <td class="action" ng-show="showActions">
             <div class="btn-group">

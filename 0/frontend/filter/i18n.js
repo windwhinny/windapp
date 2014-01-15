@@ -68,7 +68,8 @@ var translation={
   'SELECT_A_SUPPLIER':'选择供应商',
   'ENTER':'输入',
   'PRICE':'价格',
-  'VALUE':'值'
+  'VALUE':'值',
+  'TOTLE':'总计'
 }
 app
 .filter('i18n',

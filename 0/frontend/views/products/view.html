@@ -45,8 +45,37 @@
         </div>
     </fieldset>
   </div>
-  <fieldset class="top-spacing components" ng-if="product.components.length">
-    <legend>{{'Components' | i18n}}</legend>
-    <productlist ng-if="product.components.length" products="product.components" fixed="true"></productlist>
+  <fieldset class="top-spacing cost" ng-if="showCost()">
+    <legend>{{'Cost' | i18n}}</legend>
+    <table class="table">
+      <thead>
+        <tr>
+          <td class="picture">{{"Picture" | i18n}}</td>
+          <td>{{'Item' | i18n}}</td>
+          <td></td>
+          <td>{{'Price' | i18n}}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="comp in product.components">
+          <td class="picture"><div class="thumbnails-wapper" ng-if="comp.images[0]"><img ng-src="{{getImageURL(comp.images[0].name)}}"></div></td>
+          <td>
+            <a ng-href="{{getProductURL(comp.uid)}}">{{comp.number}}</a>
+          </td>
+          <td>
+            <span class="catalog">{{comp.catalog}}</span>
+          </td>
+          <td class="price">{{comp.totlePrice | currency:"￥"}}</td>
+        </tr>
+        <tr ng-repeat="cost in product.cost">
+          <td class="picture"></td>
+          <td>{{cost.item}}</td>
+          <td>{{getBestQuote(cost.quotes).company.name}}</td>
+          <td class="price">{{getBestQuote(cost.quotes).price | currency:"￥"}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>{{"Totle" | i18n}}: {{getTotlePrice() | currency:"￥"}}</h2>
   </fieldset>
 </div>

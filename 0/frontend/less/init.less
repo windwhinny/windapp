@@ -38,7 +38,9 @@ footer{
     padding:5px 0 12px 10px
   }
 }
-
+table.table td.picture{
+  width:70px;
+}
 form{
   &.signup,&.signin{
     margin-top:5em;
@@ -108,33 +110,37 @@ form{
   .list .id{
     width:40px;
   }
-  
+  .images{
+    .thumbnails-wapper{
+      height:100px;
+      width:100px;
+    }
+  }
   .head{
     overflow:auto;
     h2{
       display:inline;
     }
-
     .default-img{
+      margin-right: 20px;
       display:inline-block;
       float:left;
       .thumbnails-wapper{
-        margin-right: 20px;
         height:100px;
         width:100px;
       }
     }
-
-
   }
-  .cost{
-    .filed{
-      font-weight: bold;
-      text-align: center;
-      font-size: 1.5em;
-    }
-    .item{
-      border-top: 1px solid #DDD;
+  &.edit{
+    .cost{
+      .filed{
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.5em;
+      }
+      .item{
+        border-top: 1px solid #DDD;
+      }
     }
   }
 }
@@ -166,9 +172,6 @@ img{
 productlist{
   select{
     max-width:10em;
-    table .picture{
-      width:116px;
-    }
   }
   .tools >*{
     display: inline-block;

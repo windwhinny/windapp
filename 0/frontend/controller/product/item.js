@@ -115,6 +115,10 @@ app
     //This function can general a url by image name
     var getImageURL = $scope.getImageURL = ImageOptions.getImageURL;
 
+    $scope.getProductURL=function(uid){
+      return $state.href('products.item',{productUid:uid});
+    };
+    
     $scope.editModel=function(){
       $state.go('products.item.edit',{productUid:productUid});
     }
@@ -141,6 +145,42 @@ app
           }
         }
       });
+    }
+
+    $scope.showCost=function(){
+      return (
+        (product.components&&
+        product.components.length)||
+        (product.cost&&product.cost.length)
+      )
+    }
+
+    $scope.getBestQuote=function(quotes){
+      var bestQuote=false;
+      quotes.forEach(function(v){
+        if(bestQuote===false){
+          bestQuote=v;
+        }else if(v.price<bestQuote.price){
+          bestQuote=v;
+        }
+      })
+      return bestQuote;
+    }
+
+    $scope.getTotlePrice=function(){
+      var totlePrice=0;
+
+      product.components.forEach(function(comp){
+        totlePrice+=comp.totlePrice;
+      })
+
+      product.cost.forEach(function(cost){
+        var quote=$scope.getBestQuote(cost.quotes);
+
+        totlePrice+=quote.price;
+      })
+
+      return totlePrice;
     }
 	}
 ]

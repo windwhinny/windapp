@@ -224,7 +224,7 @@ ProductSchema.methods.build=function(done){
   this
     .populate({
       path:'components',
-      select:"number uid images totlePrice"
+      select:"number uid images totlePrice catalog"
     })
     .populate({
       path:'cost.quotes.company',
