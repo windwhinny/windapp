@@ -123,8 +123,8 @@ module.exports = function(app, config, passport) {
         //如果不能处理请求，且请求类型为html，则返回主页
         app.use(function(req, res, next) {
             var err={
-                    message: 'Can not handle this request'
-                }
+              message: 'Can not handle this request'
+            }
             if(req.acceptType('html')){
 
                //go to index
