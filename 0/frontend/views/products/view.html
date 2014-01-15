@@ -13,8 +13,10 @@
 		<h2>{{'Number' |i18n}}
 			<span ng-if="!edit">{{product.number}}</span>
 		</h2>
-    <div class='default-img thumbnails-wapper '>
-      <img ng-if="imageHost" ng-src='{{defaultImage}}'>
+    <div class="default-img">
+      <div class='thumbnails-wapper '>
+        <img ng-if="imageHost" ng-src='{{defaultImage}}'>
+      </div>
     </div>
 	</div>
   <div class="row">
