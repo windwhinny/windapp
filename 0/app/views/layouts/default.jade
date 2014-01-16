@@ -1,0 +1,44 @@
+!!! 5
+html(lang='zh')
+    include ../includes/head
+    body
+        nav.navbar.navbar-default(ng-if='!hideHeader',ng-animate="'header'",ng-controller='HeaderController',ng-init='init()')
+            div.container
+                div.navbar-header
+                    button.navbar-toggle(type='button',ng-click='isNavCollapse = !isNavCollapse')
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.navbar-brand(ui-sref='home').
+                        Marktop
+                    
+                div.collapse.navbar-collapse(collapse='!isNavCollapse')
+                    ul.nav.navbar-nav(ng-show='user.isAuthed()')
+                        li(ng-repeat='item in menu', ng-class='isSelected(item)')
+                            a(ui-sref='{{item.state}}').
+                                {{item.title | i18n}}
+                    
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            form.navbar-form.navbar-left.search(ng-submit="search(searchText)")
+                                div.input-group
+                                    input.form-control(placeholder="{{'Search' | i18n}}",ng-model="searchText")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="submit")
+                                            i.glyphicon.glyphicon-search
+                        li.dropdown(ng-show='user.isAuthed()')
+                            a.clickable.dropdown-toggle(toggle='dropdown')
+                                {{user.account}}
+                                b.caret
+                            ul.dropdown-menu
+                                li
+                                    a(ui-sref='signout')
+                                        {{'Signout' | i18n}}
+            globalajax
+            errors.col-xs-8.col-xs-offset-2.col-sm-2.col-sm-offset-5 
+        div.container.eee
+            block content
+        include ../includes/foot
+        script(type="text/javascript").
+            window.user = !{user};
+ 

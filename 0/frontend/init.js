@@ -1,0 +1,43 @@
+require.config({
+  baseUrl:'/js',
+  paths:{
+    angular:'lib/angular',
+    'angular-resource':'lib/angular-resource',
+    'angular-bootstrap':'lib/ui-bootstrap-tpls',
+    'angular-ui-router':'lib/angular-ui-router',
+    'angular-animate':'lib/angular-animate',
+    jquery:'lib/jquery'
+  },
+  shim:{
+    angular:{
+      exports:'angular'
+    },
+    'angular-resource':{
+      deps:['angular']
+    },
+    'angular-bootstrap':{
+      deps:['angular','jquery'] 
+    },
+    'angular-ui-router':{
+      deps:['angular'] 
+    },
+    'angular-animate':{
+      deps:['angular'] 
+    },
+    jquery:{
+      exports:['jQuery']
+    }
+  }
+})
+
+define([
+  'angular',
+  'app',
+  'route',
+  'directive/errors',
+  'directive/globalAjax',
+  'filter/i18n'
+],function(angular){
+  angular.bootstrap(document, ['windapp']);
+  document.body.setAttribute('ng-app', 'windapp');
+})

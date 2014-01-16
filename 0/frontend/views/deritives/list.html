@@ -1,0 +1,62 @@
+<div class='list'>
+  <div class="tools">
+    <div class="dropdown">
+      <button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
+        {{catalog?catalog:("All Products" | i18n)}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a ng-click="selectCatalog(null)" href="#">{{"All Products" | i18n}}</a></li>
+        <li ng-repeat="ca in catalogs">
+          <a ng-click="selectCatalog(ca.catalog)" href="#">{{ca.catalog}}</a>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-link"  ng-click="closeSearch()"ng-if="search">{{search}} <i class="glyphicon glyphicon-remove"></i></button>
+  </div>
+  <div ng-if='!loading' class="top-spacing">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th ng-show="actions.check"><input type="checkbox" ng-model="selectAll" /></th>
+          <th class="picture">{{"Picture" | i18n}}</th>
+          <th>{{"Product" | i18n}}</th>
+          <th>{{"Price" | i18n}}</th>
+          <th>{{"Created" | i18n}}</th>
+          <th class="action" ng-show="showActions">{{"Action" | i18n}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="product in products" ng-hide="product.uid==hide" ng-class="product.selected?'success':''">
+          <td ng-show="actions.check" ><input type="checkbox" ng-model="product.selected" /></td>
+          <td class="picture">
+              <div class="thumbnails-wapper"><img ng-if="imageHost" ng-src="{{(product.images.length)?imageHost+getCover(product):''}}"></div>
+          </td>
+          <td> 
+            <a ng-href="{{getProductURL(product.uid)}}" target="{{linkTarget}}">
+             <span> {{product.number}}</span>
+            </a>
+          </td>
+          <td>{{product.totlePrice | currency:"￥"}}</td>
+          <td>{{product.created | date:"yyyy-M-d"}}</td>
+          <td class="action" ng-show="showActions">
+            <div class="btn-group">
+              <button class="btn dropdown-toggle btn-link" >
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#" ng-click="editProduct(product.uid)" ng-show="actions.edit">
+                  {{"Edit" | i18n}}
+                </a></li>
+                <li><a href="#" ng-click="removeProduct(product.uid)" ng-show="actions.delete">
+                  {{"Delete" | i18n}}
+                </a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination boundary-links="true" total-items="productsCount" items-per-page='pageStep' page="currentPage" class="pagination-small" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" on-select-page="refresh(page)"></pagination>
+  </div>
+ </div>

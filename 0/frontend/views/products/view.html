@@ -1,0 +1,81 @@
+<div class="product top-spacing" ng-controller="ProductItemController">
+  <div class='pull-right btn-group'>
+    <button class="btn btn-primary" ng-click="addSimilarProduct()">
+      <i class="icon-file"></i>
+      <span>{{"Create similar product" | i18n}}</span>
+    </button>
+    <button ng-click="editModel()" class="btn btn-primary">
+        <i class="icon-edit"></i>
+        <span >{{"Edit" |i18n}}</span>
+    </button>
+  </div>
+  <div class='form-group head'>
+		<h2>{{'Number' |i18n}}
+			<span ng-if="!edit">{{product.number}}</span>
+		</h2>
+    <div class="default-img">
+      <div class='thumbnails-wapper '>
+        <img ng-if="imageHost" ng-src='{{defaultImage}}'>
+      </div>
+    </div>
+	</div>
+  <div class="row">
+    <fieldset class="col-sm-8 top-spacing properties">
+      <legend>{{'Property' | i18n}}</legend>
+      <form class="form-horizontal">
+        <div class='form-group' ng-repeat='field in properties'>
+          <label class="control-label col-xs-5">{{field.name | i18n}} {{field.unit?"("+field.unit+")":""}}</label>
+          <div class="col-xs-5">
+            <span class='value' name="field.name">{{field.value}}</span>
+          </div>
+        </div>
+      </form>
+    </fieldset>
+    <fieldset class="col-sm-4 top-spacing pictures" ng-if="product.images.length">
+      <legend>{{'Pictures' | i18n}}</legend>
+      <div class="image-tab">
+        <loading ng-if="!imageHost"></loading>
+        <div class="images" ng-if="imageHost" ng-class="(edit)?'span7':''">
+          <div class="box" ng-repeat="img in product.images">
+            <div class="thumbnails-wapper clickable" ng-click="viewImage($index)">
+              <img  ng-src="{{getImageURL(img.name,100)}}"/>
+            </div>
+            <button class="btn btn-link delete" ng-if="edit" ng-click="removeImage($index)">Delete</button>
+          </div>
+        </div>
+    </fieldset>
+  </div>
+  <fieldset class="top-spacing cost" ng-if="showCost()">
+    <legend>{{'Cost' | i18n}}</legend>
+    <table class="table">
+      <thead>
+        <tr>
+          <td class="picture">{{"Picture" | i18n}}</td>
+          <td>{{'Item' | i18n}}</td>
+          <td></td>
+          <td>{{'Price' | i18n}}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="comp in product.components">
+          <td class="picture"><div class="thumbnails-wapper" ng-if="comp.images[0]"><img ng-src="{{getImageURL(comp.images[0].name)}}"></div></td>
+          <td>
+            <a ng-href="{{getProductURL(comp.uid)}}">{{comp.number}}</a>
+          </td>
+          <td>
+            <span class="catalog">{{comp.catalog}}</span>
+          </td>
+          <td class="price">{{comp.totlePrice | currency:"￥"}}</td>
+        </tr>
+        <tr ng-repeat="cost in product.cost">
+          <td class="picture"></td>
+          <td>{{cost.item}}</td>
+          <td>{{getBestQuote(cost.quotes).company.name}}</td>
+          <td class="price">{{getBestQuote(cost.quotes).price | currency:"￥"}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>{{"Totle" | i18n}}: {{getTotlePrice() | currency:"￥"}}</h2>
+  </fieldset>
+</div>

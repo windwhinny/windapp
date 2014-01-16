@@ -1,0 +1,73 @@
+<form class="company form-horizontal top-spacing" ng-controller="EditCompanyController">
+  <div ng-style="{overflow:'auto'}">
+    <button ng-click="save()" class="btn btn-primary pull-right">
+      <i class="icon-edit"></i>
+      <span >{{"Save" | i18n}}</span>
+    </button>
+  </div>
+  
+  <div class="row">
+    <fieldset class="col-sm-6 top-spacing container">
+      <legend>{{"Basic" | i18n}}</legend>
+      <div class="form-group row">
+        <label class="control-label col-sm-3 col-xs-5" for="name" >{{"Company Name" | i18n}}</label>
+        <div class=" col-sm-5 col-xs-7">
+          <input class="form-control" name="name" ng-model="company.name" type="text">
+        </div>
+      </div>
+
+      <div>
+        <div class="form-group row">
+          <label class="control-label col-sm-3 col-xs-5" for="catalog" >{{"Catalog" | i18n}}</label>
+          <div class=" col-sm-5 col-xs-7">
+            <div class="combobox " ng-repeat="catalog in company.productCatalogs track by $index">
+              <input class="dropdown-toggle form-control"  name="catalog" ng-model="catalog.value" type="text" ng-focus='getCatalogs()'>
+              <ul class="dropdown-menu">
+                <li ng-repeat="cg in productCatalogs">
+                  <a ng-click="catalog.value = cg.catalog">{{cg.catalog}}</a>
+                </li>
+             </ul>
+           </div>
+            <button class="btn btn-link" ng-click="addEmptyProductCatalog()"><i class="icon-plus"></i> {{"Add Catalog" | i18n}}</button>
+          </div>
+       </div>
+      </div>
+    </fieldset>
+   
+    <fieldset class="col-sm-6 top-spacing container">
+      <legend>{{"Employee" | i18n}}</legend>
+      <div ng-repeat="employee in company.employees">
+        <div class="form-group row">
+          <label class="control-label col-sm-3 col-xs-5" for="name" >{{"Name" | i18n}}</label>
+          <div class=" col-sm-5 col-xs-7">
+            <input class="form-control" name="name" ng-model="employee.name" type="text">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-sm-3 col-xs-5" for="position" >{{"Position" | i18n}}</label>
+          <div class=" col-sm-5 col-xs-7">
+            <input class="form-control" name="position" ng-model="employee.position" type="text">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-sm-3 col-xs-5" for="phone">{{"Phone" | i18n}}</label>
+          <div class=" phones col-sm-5 col-xs-7" name="phone">
+            <input class="form-control" ng-repeat="phone in employee.phone track by $index" ng-model="phone.value" type="tel">
+            <button class="btn btn-link" ng-click="employee.phone.push({})"><i class="icon-plus"></i> {{"Add Phone" | i18n}}</button>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-3 col-xs-5" for="email">{{"Email" | i18n}}</label>
+          <div class=" emails col-sm-5 col-xs-7" name="email">
+            <input class="form-control" ng-repeat="email in employee.email track by $index" ng-model="email.value" type="email">
+            <button class="btn btn-link" ng-click="employee.email.push({})"><i class="icon-plus"></i> {{"Add Email" | i18n}}</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-link" ng-click="addEmptyEmployee()"><i class="icon-plus"></i> {{"Add Employee" | i18n}}</button>
+    </fieldset>
+  </div>
+</form>
