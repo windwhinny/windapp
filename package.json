@@ -8,9 +8,9 @@
     "node": "0.10.x",
     "npm": "1.2.x"
   },
-  "repository" :{
-    "type" : "git",
-    "url" : "http://github.com/windwhinny/windapp.git"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/windwhinny/windapp.git"
   },
   "main": "server.js",
   "scripts": {
@@ -35,9 +35,9 @@
   },
   "devDependencies": {
     "supertest": "~0.8.1",
-    "should": "latest",
+    "should": "~2.1.1",
     "requirejs": "~2.1.9",
-    "grunt": "lastest",
+    "grunt": "~0.4.2",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-nodemon": "0.0.8",
