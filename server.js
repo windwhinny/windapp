@@ -18,8 +18,6 @@ if (process.env.BAE_ENV_APPID) {
  * Please note that the order of loading is important.
  */
 
-
-
 var auth = require(config.root+'/config/middlewares/authorization'),
     mongoose = require('mongoose'),
     database = require(config.root+'/config/database'),
