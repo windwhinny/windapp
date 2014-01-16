@@ -34,7 +34,7 @@ var config = {
         db: {
             url:secret.mongoURL,
             database:secret.mongoName,
-            port:secret.Port,
+            port:secret.mongoPort,
             options:{
                 user:secret.baeAK,
                 pass:secret.baeSK
