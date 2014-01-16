@@ -15,8 +15,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node node_modules/grunt-cli/bin/grunt test",
-    "postinstall": "grunt install"
+    "test": "node node_modules/grunt-cli/bin/grunt test"
   },
   "dependencies": {
     "express": "~3.0.6",
@@ -24,13 +23,9 @@
     "Base64": "~0.2.0",
     "mongoose": "~3.6.20",
     "connect-mongo": "~0.4.0",
-    "connect-flash": "latest",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
-    "underscore": "latest",
-    "async": "latest",
     "view-helpers": "~0.1.3",
-    "forever": "latest",
     "qiniu": "~6.1.0"
   },
   "devDependencies": {
