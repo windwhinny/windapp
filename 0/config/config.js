@@ -1,8 +1,8 @@
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
     //判断是不是开发环境
-    env = process.env.NODE_ENV || 'production';
-
+    env = process.env.NODE_ENV || 'production',
+    secret=require('./secret.js');
 /*
  * 开发和测试环境的mongodb地址
  */
@@ -16,7 +16,6 @@ var config = {
             name: 'WindApp - Development'
         },
         imageBrucketName:'products-dev',
-        port:3000,
         imageHost:'http://products-dev.u.qiniudn.com'
     },
     test: {
@@ -33,15 +32,15 @@ var config = {
          *由于程序部署在BAE上，数据库连接需要下面的环境变量
          */
         db: {
-            url:process.env.BAE_ENV_ADDR_MONGO_IP,
-            database:'zqZCsprmOaNetxiSoMcy',
-            port:process.env.BAE_ENV_ADDR_MONGO_PORT,
+            url:secret.mongoURL,
+            database:secret.mongoName,
+            port:secret.Port,
             options:{
-                user:process.env.BAE_ENV_AK,
-                pass:process.env.BAE_ENV_SK
+                user:secret.baeAK,
+                pass:secret.baeSK
             }
         },
-        //'mongodb://'+username+':'+password+'@'+db_host+':'+db_port+'/'+db_name,
+        port:18080,
         app: {
             name: 'WindApp'
         },
@@ -53,8 +52,8 @@ var config = {
 var defaultConfig = {
     db: 'mongodb://localhost/mean',
     root: rootPath,
-    imageBrucketAK:'1hiE4FNoplKf9OnmVEg3Sr6KXp3nBa2wDOIYv5f1',
-    imageBrucketSK:'2QtaTVv7z9yZQOGkKvLJqGWLHSKsI4eO-J5CI5rM',
+    imageBrucketAK:secret.imageAK,
+    imageBrucketSK:secret.imagePK,
     app: {
         name: 'WindApp'
     },
