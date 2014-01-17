@@ -1,17 +1,15 @@
 /**
  * Module dependencies.
  */
- 
+console.error(1111111111111)
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
     path=require('path');
 
-if (process.env.BAE_ENV_APPID) {
- 	config = require('./config/config.js');
- }else{
- 	config = require('./config/config.js');
- }
+
+config = require('./config/config.js');
+ 
 
 /**
  * Main application entry file.
