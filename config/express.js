@@ -2,12 +2,15 @@
  * Module dependencies.
  */
 console.error('express depences');
-var express = require('express'),
-    mongoStore = require('connect-mongo')(express),
-    mongoose = require('mongoose'),
-    flash = require('connect-flash'),
-    helpers = require('view-helpers'),
-    url = require('url');
+var express = require('express');
+console.error('mongoStore');
+var    mongoStore = require('connect-mongo')(express);
+console.error('mongoose');
+var    mongoose = require('mongoose');
+console.error('view-helpers');
+var    helpers = require('view-helpers');
+console.error('url');
+var    url = require('url');
 console.error('express depences done');
 module.exports = function(app, config, passport) {
     app.set('showStackError', true);
@@ -74,9 +77,6 @@ console.error(8);
                 collection: 'sessions'
             })
         }));
-console.error(9);
-        //connect flash for flash messages
-        app.use(flash());
 console.error(10);
         //dynamic helpers
         app.use(helpers(config.app.name));
