@@ -26,7 +26,7 @@ function runServer(){
   console.error(6);
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
-    console.error(7);
+    console.error(7,file);
       if(file.match(/^\..*/)){
         return;
       }
