@@ -53,7 +53,7 @@ var defaultConfig = {
     db: 'mongodb://localhost/mean',
     root: rootPath,
     imageBrucketAK:secret.imageAK,
-    imageBrucketSK:secret.imagePK,
+    imageBrucketSK:secret.imageSK,
     app: {
         name: 'WindApp'
     },
