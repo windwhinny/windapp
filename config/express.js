@@ -1,20 +1,13 @@
 /**
  * Module dependencies.
  */
-console.error('express depences');
 var express = require('express');
-console.error('mongoStore');
 var    mongoStore = require('connect-mongo')(express);
-console.error('mongoose');
 var    mongoose = require('mongoose');
-console.error('view-helpers');
 var    helpers = require('view-helpers');
-console.error('url');
 var    url = require('url');
-console.error('express depences done');
 module.exports = function(app, config, passport) {
     app.set('showStackError', true);
-    console.error(1);
     //Should be placed before express.static
     app.use(express.compress({
         filter: function(req, res) {
@@ -22,10 +15,8 @@ module.exports = function(app, config, passport) {
         },
         level: 9
     }));
-console.error(1);
     //Setting the fav icon
     app.use(express.favicon());
-console.error(2);
     //处理静态文件请求
     var staticFileExtReg=/.(js|css|jpg|png|html|htm|ico|woff|ttf|svg)$/;
     var staticFileHandler=express.static(config.root+'/public');
@@ -45,30 +36,23 @@ console.error(2);
           next();
         }
     });
-console.error(3);
     app.use('/views',viewsHandler);
     app.use('/less',lessHandler);
-console.error(4);
     //Don't use logger for test env
     if (process.env.NODE_ENV !== 'test') {
         app.use(express.logger('dev'));
     }
-console.error(5);
     //Set views path, template engine and default layout
     app.set('views', config.root + '/app/views');
     app.set('view engine', 'jade');
-console.error(6);
     //Enable jsonp
     app.enable("jsonp callback");
-console.error(7);
     app.configure(function() {
         //cookieParser should be above session
         app.use(express.cookieParser());
-console.error(1);
         //bodyParser should be above methodOverride
         app.use(express.bodyParser());
         app.use(express.methodOverride());
-console.error(8);
         //express/mongo session storage
         app.use(express.session({
             secret: 'MEAN',
@@ -77,14 +61,11 @@ console.error(8);
                 collection: 'sessions'
             })
         }));
-console.error(10);
         //dynamic helpers
         app.use(helpers(config.app.name));
-console.error(11);
         //use passport session
         app.use(passport.initialize());
         app.use(passport.session());
-console.error(12);
         //detected the request type
         app.use(function(req,res,next) {
             req.acceptType = function(type){
@@ -103,10 +84,8 @@ console.error(12);
             }
             next();
         });
-console.error(13);
         //routes should be at the last
         app.use(app.router);
-console.error(14);
         //Assume "not found" in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
         app.use(function(err, req, res, next) {
             //Treat as 404

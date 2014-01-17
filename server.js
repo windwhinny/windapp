@@ -26,25 +26,18 @@ function runServer(){
 
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
-    console.error('load model: ',file);
       if(file.match(/^\..*/)){
         return;
       }
 	    require(models_path + '/' + file);
-      console.error(file,' done')
 	});
-  console.error('load models done');
-	console.error('passport');
   //Bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
-  console.error('express');
 	//Express settings
 	require(config.root+'/config/express')(app, config, passport);
 	//Bootstrap routes
-  console.error('routes');
 	require(config.root+'/config/routes')(app, passport, auth);
 	//Start the app by listening on <port>
-  console.error('server done');
 	app.listen(config.port);
 	console.log('Express app started on port ' + config.port);
 
