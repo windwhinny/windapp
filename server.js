@@ -26,12 +26,14 @@ function runServer(){
 
 	var models_path = config.root + '/app/models';
 	fs.readdirSync(models_path).forEach(function(file) {
+    console.log(file);
       if(file.match(/^\..*/)){
         return;
       }
 	    require(models_path + '/' + file);
+      console.log(file,' done')
 	});
-
+  console.error('load models done');
 	//Bootstrap passport config
 	require(config.root+'/config/passport')(passport, config);
 

@@ -5,7 +5,7 @@ console.error(1);
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
-   console.error(2);
+
 /**
  * User Schema
  */
@@ -15,7 +15,6 @@ var UserSchema = new Schema({
     hashed_password: String,
     salt: String
 });
-console.error(3);
 UserSchema.index({account:1},{ unique: true });
 UserSchema.index({uid:1},{ unique: true });
 /**
@@ -28,7 +27,6 @@ UserSchema.virtual('password').set(function(password) {
 }).get(function() {
     return this._password;
 });
-console.error(4);
 /**
  * Validations
  */
@@ -44,7 +42,6 @@ UserSchema.path('hashed_password').validate(function(hashed_password) {
     return hashed_password.length;
 }, 'Password cannot be blank');
 
-console.error(5);
 /**
  * Pre-save hook
  */
@@ -66,7 +63,6 @@ UserSchema.pre('save', function(next) {
             next(err);
         });
 });
-console.error(6);
 /**
  * Methods
  */
@@ -104,5 +100,4 @@ UserSchema.methods = {
         return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
     }
 };
-console.error(7);
 var User = module.exports = mongoose.model('User', UserSchema);
