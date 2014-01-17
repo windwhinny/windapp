@@ -1,7 +1,6 @@
 /**
  * Module dependencies.
  */
-console.error(1);
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
